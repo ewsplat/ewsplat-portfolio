@@ -1,0 +1,51 @@
+{
+  "slug": "digital-spagetti",
+  "title": "Digital Spagetti",
+  "composition": "graphic-sequence",
+  "collection": "Digital Spagetti",
+  "archiveOrder": 3,
+  "thumbnail": {
+    "type": "image",
+    "src": "/images/portfolio/web/DigitalSpagetti/1-x2.webp",
+    "alt": "First image in the Digital Spagetti sequence"
+  },
+  "hero": {
+    "type": "image",
+    "src": "/images/portfolio/web/DigitalSpagetti/1-x2.webp",
+    "alt": "First image in the Digital Spagetti sequence"
+  },
+  "sections": [
+    {
+      "type": "media",
+      "media": {
+        "type": "image",
+        "src": "/images/portfolio/web/DigitalSpagetti/2-x2.webp",
+        "alt": "Second image in the Digital Spagetti sequence"
+      },
+      "layout": "half",
+      "alignment": "right"
+    },
+    {
+      "type": "media",
+      "media": {
+        "type": "image",
+        "src": "/images/portfolio/web/DigitalSpagetti/3-x2.webp",
+        "alt": "Third image in the Digital Spagetti sequence"
+      },
+      "layout": "full",
+      "alignment": "left"
+    },
+    {
+      "type": "media",
+      "media": {
+        "type": "image",
+        "src": "/images/portfolio/web/DigitalSpagetti/4-x2.webp",
+        "alt": "Fourth image in the Digital Spagetti sequence"
+      },
+      "layout": "half",
+      "alignment": "right"
+    }
+  ],
+  "featured": true,
+  "featuredOrder": 3
+}

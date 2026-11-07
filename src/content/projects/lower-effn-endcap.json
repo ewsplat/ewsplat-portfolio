@@ -1,0 +1,31 @@
+{
+  "slug": "lower-effn-endcap",
+  "title": "Lower × Effn — 3D Logo End-Cap",
+  "composition": "motion",
+  "client": "Lower",
+  "collection": "Lower",
+  "archiveOrder": 43,
+  "description": "A 3D animated logo end-card for Lower × Effn collaboration launch videos. This is not a redesign of Lower’s original identity.",
+  "roles": [
+    "3D animation"
+  ],
+  "thumbnail": {
+    "type": "image",
+    "src": "/images/portfolio/web/Lower/Lower-Still.webp",
+    "alt": "Still from the Lower and Effn 3D logo end-cap"
+  },
+  "hero": {
+    "type": "video",
+    "src": "/media/portfolio/lower-effn-endcap.mp4",
+    "poster": "/images/portfolio/web/Lower/Lower-Still.webp",
+    "aspect": "16/9",
+    "alt": "Lower and Effn 3D animated logo end-cap"
+  },
+  "gallery": [
+    {
+      "type": "image",
+      "src": "/images/portfolio/web/Lower/Effn-Still.webp",
+      "alt": "Effn end-cap still"
+    }
+  ]
+}

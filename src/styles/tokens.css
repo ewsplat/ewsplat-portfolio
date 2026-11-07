@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+
+:root {
+  color-scheme: dark;
+  --color-bg: #191a19;
+  --color-surface: #242723;
+  --color-text: #efede5;
+  --color-muted: #b0afa6;
+  --color-border: #41433d;
+  --color-accent: #fa704d;
+  --color-signal: #c4d83d;
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+[data-theme='light'] {
+  color-scheme: light;
+  --color-bg: #f1eee6;
+  --color-surface: #e7e2d6;
+  --color-text: #1b1d1b;
+  --color-muted: #5e625a;
+  --color-border: #c9c4b8;
+  --color-accent: #bd3e25;
+  --color-signal: #596c09;
+}

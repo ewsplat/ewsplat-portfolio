@@ -1,0 +1,255 @@
+---
+import { withBase } from '../utils/site';
+
+// Nav.astro - Primary site navigation with theme switcher and mobile menu
+const currentPath = Astro.url.pathname.replace(import.meta.env.BASE_URL, '/').replace(/\/$/, '') || '/';
+---
+<header class="site-header">
+  <nav class="nav-container container" aria-label="Primary navigation">
+    <a href={withBase('/')} class="wordmark" aria-label="EWSPLAT Homepage">EWSPLAT</a>
+
+    <div class="desktop-menu">
+      <ul class="nav-links">
+        <li><a href={withBase('/archive')} aria-current={currentPath === '/archive' ? 'page' : undefined}>Archive</a></li>
+        <li><a href={withBase('/about')} aria-current={currentPath === '/about' ? 'page' : undefined}>About</a></li>
+        <li><a href={withBase('/contact')} aria-current={currentPath === '/contact' ? 'page' : undefined}>Contact</a></li>
+      </ul>
+      <button
+        class="theme-toggle"
+        aria-pressed="false"
+        aria-label="Toggle light/dark theme"
+        type="button"
+      >
+        <span class="theme-icon" aria-hidden="true">☼</span>
+        <span class="visually-hidden">Switch theme</span>
+      </button>
+    </div>
+
+    <div class="mobile-menu">
+      <button
+        class="theme-toggle"
+        aria-pressed="false"
+        aria-label="Toggle light/dark theme"
+        type="button"
+      >
+        <span class="theme-icon" aria-hidden="true">☼</span>
+        <span class="visually-hidden">Switch theme</span>
+      </button>
+      <details class="mobile-nav-details">
+        <summary aria-label="Toggle navigation menu" class="menu-toggle">
+          <svg class="hamburger-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </summary>
+        <div class="mobile-dropdown">
+          <ul class="mobile-links">
+            <li><a href={withBase('/archive')} aria-current={currentPath === '/archive' ? 'page' : undefined}>Archive</a></li>
+            <li><a href={withBase('/about')} aria-current={currentPath === '/about' ? 'page' : undefined}>About</a></li>
+            <li><a href={withBase('/contact')} aria-current={currentPath === '/contact' ? 'page' : undefined}>Contact</a></li>
+          </ul>
+        </div>
+      </details>
+    </div>
+  </nav>
+</header>
+
+<style>
+  .site-header {
+    border-bottom: 1px solid var(--color-border);
+    background-color: var(--color-bg);
+    position: relative;
+    z-index: 50;
+  }
+
+  .nav-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 4rem;
+  }
+
+  .wordmark {
+    position: relative;
+    font-family: var(--font-display);
+    font-size: 1.65rem;
+    letter-spacing: -0.035em;
+    color: var(--color-text);
+    text-decoration: none;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .wordmark::after {
+    content: '';
+    display: block;
+    width: 0.38rem;
+    height: 0.38rem;
+    margin-top: -0.85rem;
+    background: var(--color-accent);
+  }
+
+  .wordmark:hover {
+    color: var(--color-accent);
+  }
+
+  /* Desktop menu */
+  .desktop-menu {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 1.75rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav-links a,
+  .mobile-links a {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-text);
+    transition: color 0.15s ease;
+  }
+
+  .nav-links a:hover,
+  .mobile-links a:hover {
+    color: var(--color-accent);
+  }
+
+  .nav-links a[aria-current='page'],
+  .mobile-links a[aria-current='page'] {
+    text-decoration: underline;
+    text-decoration-color: var(--color-border);
+    text-underline-offset: 0.35em;
+  }
+
+  /* Theme toggle button */
+  .theme-toggle {
+    background: transparent;
+    border: 1px solid var(--color-border);
+    border-radius: 0;
+    padding: 0.35rem 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1;
+    cursor: pointer;
+    color: var(--color-text);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.15s ease, background-color 0.15s ease;
+  }
+
+  .theme-toggle:hover {
+    border-color: var(--color-accent);
+    background-color: var(--color-surface);
+  }
+
+  /* Mobile menu styles */
+  .mobile-menu {
+    display: none;
+  }
+
+  .mobile-nav-details {
+    position: relative;
+  }
+
+  .mobile-nav-details summary {
+    list-style: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--color-border);
+    border-radius: 0;
+    padding: 0.35rem 0.5rem;
+    color: var(--color-text);
+  }
+
+  .mobile-nav-details summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .mobile-nav-details summary:hover {
+    border-color: var(--color-accent);
+  }
+
+  .mobile-dropdown {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 0.5rem);
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 0;
+    min-width: 160px;
+    padding: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+
+  .mobile-links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  @media (max-width: 639px) {
+    .desktop-menu {
+      display: none;
+    }
+    .mobile-menu {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+  }
+</style>
+
+<script>
+  function setupThemeToggles() {
+    const root = document.documentElement;
+    const toggles = document.querySelectorAll('.theme-toggle');
+
+    function updateState() {
+      const isLight = root.dataset.theme === 'light';
+      toggles.forEach((btn) => {
+        btn.setAttribute('aria-pressed', isLight ? 'true' : 'false');
+        btn.setAttribute('aria-label', isLight ? 'Switch to dark theme' : 'Switch to light theme');
+        const icon = btn.querySelector('.theme-icon');
+        if (icon) {
+          icon.textContent = isLight ? '☾' : '☼';
+        }
+      });
+    }
+
+    toggles.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const currentIsLight = root.dataset.theme === 'light';
+        const newTheme = currentIsLight ? 'dark' : 'light';
+        root.dataset.theme = newTheme;
+        try {
+          localStorage.setItem('ewsplat-theme', newTheme);
+        } catch (error) {
+          console.warn('Theme preference could not be saved.', error);
+        }
+        updateState();
+      });
+    });
+
+    updateState();
+  }
+
+  setupThemeToggles();
+  document.addEventListener('astro:after-swap', setupThemeToggles);
+</script>

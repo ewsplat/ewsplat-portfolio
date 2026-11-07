@@ -1,0 +1,62 @@
+{
+  "slug": "composition-graphic-sequence",
+  "title": "Graphic sequence composition test",
+  "description": "Placeholder only — a mixed-format editorial sequence.",
+  "composition": "graphic-sequence",
+  "compositionTest": true,
+  "placeholder": true,
+  "draft": true,
+  "roles": ["Graphic design — placeholder metadata"],
+  "sections": [
+    {
+      "type": "media",
+      "media": {
+        "type": "placeholder",
+        "aspect": "1/1",
+        "color": "#59464e",
+        "alt": "Neutral square graphic placeholder"
+      },
+      "layout": "half",
+      "alignment": "left",
+      "caption": "01 / Square format — placeholder"
+    },
+    {
+      "type": "text",
+      "heading": "A sequence, not a grid",
+      "body": "Placeholder copy only. Brief context can create a pause between formats without competing with the graphics.",
+      "layout": "narrow",
+      "alignment": "right"
+    },
+    {
+      "type": "media",
+      "media": {
+        "type": "placeholder",
+        "aspect": "16/9",
+        "color": "#4b536b",
+        "alt": "Neutral landscape graphic placeholder"
+      },
+      "layout": "full",
+      "alignment": "left",
+      "caption": "02 / Landscape format — placeholder"
+    },
+    {
+      "type": "media",
+      "media": {
+        "type": "placeholder",
+        "aspect": "9/16",
+        "color": "#3f5c58",
+        "alt": "Neutral portrait graphic placeholder"
+      },
+      "layout": "narrow",
+      "alignment": "right",
+      "caption": "03 / Portrait format — placeholder"
+    },
+    {
+      "type": "text",
+      "heading": "Context",
+      "body": "Replace this note with real project information when the work is added.",
+      "layout": "half",
+      "alignment": "left"
+    }
+  ]
+}

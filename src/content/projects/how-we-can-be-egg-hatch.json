@@ -1,0 +1,22 @@
+{
+  "slug": "how-we-can-be-egg-hatch",
+  "title": "How We Can Be — Egg Hatch Promotion",
+  "composition": "motion",
+  "client": "How We Can Be",
+  "collection": "How We Can Be",
+  "archiveOrder": 62,
+  "description": "A launch-promotion animation for How We Can Be’s Egg Hatch activation.",
+  "roles": ["Animation"],
+  "thumbnail": {
+    "type": "image",
+    "src": "/images/portfolio/posters/how-we-can-be-egg-hatch.jpg",
+    "alt": "Still from the Egg Hatch promotion"
+  },
+  "hero": {
+    "type": "video",
+    "src": "/media/portfolio/how-we-can-be-egg-hatch.mp4",
+    "poster": "/images/portfolio/posters/how-we-can-be-egg-hatch.jpg",
+    "aspect": "9/16",
+    "alt": "Egg Hatch promotion for How We Can Be"
+  }
+}

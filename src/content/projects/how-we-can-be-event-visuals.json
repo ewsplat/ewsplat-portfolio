@@ -1,0 +1,33 @@
+{
+  "slug": "how-we-can-be-event-visuals",
+  "title": "How We Can Be — Event Visuals",
+  "composition": "motion",
+  "client": "How We Can Be",
+  "collection": "How We Can Be",
+  "archiveOrder": 61,
+  "description": "Event poster and animated face loops created for How We Can Be.",
+  "roles": [
+    "Event visuals"
+  ],
+  "thumbnail": {
+    "type": "image",
+    "src": "/images/portfolio/posters/how-we-can-be-event.jpg",
+    "alt": "Still from How We Can Be event visuals"
+  },
+  "hero": {
+    "type": "video",
+    "src": "/media/portfolio/how-we-can-be-event-poster.mp4",
+    "poster": "/images/portfolio/posters/how-we-can-be-event.jpg",
+    "aspect": "9/16",
+    "alt": "Animated event visual for How We Can Be"
+  },
+  "gallery": [
+    {
+      "type": "video",
+      "src": "/media/portfolio/web/how-we-can-be-face1.mp4",
+      "poster": "/images/portfolio/posters/how-we-can-be-face1.jpg",
+      "aspect": "1/1",
+      "alt": "Looping animated face from the How We Can Be event visuals"
+    }
+  ]
+}

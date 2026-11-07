@@ -1,0 +1,328 @@
+---
+import Layout from '../layouts/Layout.astro';
+import MediaBlock from '../components/MediaBlock.astro';
+import { withBase } from '../utils/site';
+import { getCollection } from 'astro:content';
+
+const allProjects = await getCollection('projects');
+const projects = allProjects
+  .filter((p) => !p.data.draft)
+  .sort((a, b) => (a.data.archiveOrder ?? a.data.featuredOrder ?? 999) - (b.data.archiveOrder ?? b.data.featuredOrder ?? 999)
+    || a.data.title.localeCompare(b.data.title));
+
+const totalCount = projects.length;
+const groupedProjects: { collection: string; projects: (typeof projects)[number][] }[] = [];
+for (const project of projects) {
+  const collection = project.data.collection ?? 'Independent work';
+  const group = groupedProjects.find((item) => item.collection === collection);
+  if (group) group.projects.push(project);
+  else groupedProjects.push({ collection, projects: [project] });
+}
+---
+
+<Layout title="Archive — EWSPLAT" description="Complete archive of works, experiments, and visual projects.">
+  <div class="container archive-container">
+    <header class="archive-header">
+      <div class="archive-heading-row">
+        <div>
+          <p class="archive-kicker">Visual index / selected things</p>
+          <h1 class="archive-heading">Archive<span aria-hidden="true">.</span></h1>
+        </div>
+        <span class="archive-count" aria-label={`${totalCount} projects`}>{totalCount.toString().padStart(2, '0')}</span>
+      </div>
+      <div class="archive-intro-row">
+        <p class="archive-intro">A collection of images, moving things and visual experiments.</p>
+        <p class="archive-aside">Still in progress<br />Always in flux</p>
+      </div>
+      <hr class="header-rule" />
+    </header>
+
+    <div class="archive-groups">
+      {groupedProjects.map((group) => (
+        <section class="archive-group" aria-label={`${group.collection} projects`}>
+          {group.projects.length > 1 && (
+            <header class="collection-heading">
+              <h2>{group.collection}</h2>
+              <span>{String(group.projects.length).padStart(2, '0')}</span>
+            </header>
+          )}
+          <div class="archive-grid">
+            {group.projects.map((project) => {
+              const index = projects.indexOf(project);
+              const dimensions = project.data.thumbnail?.aspect?.split('/').map(Number);
+              const portrait = dimensions && dimensions[0] < dimensions[1];
+              const portraitMaxWidth = portrait && dimensions ? `${86 * dimensions[0] / dimensions[1]}svh` : undefined;
+              return (
+                <a
+                  href={withBase(`/projects/${project.data.slug ?? project.id}`)}
+                  class:list={['archive-item', `archive-item-${index + 1}`]}
+                  aria-label={`View ${project.data.title}`}
+                >
+                  {project.data.thumbnail && (
+                    <div
+                      class="media-wrapper"
+                      style={portraitMaxWidth ? `max-width: min(100%, ${portraitMaxWidth}); margin-inline: auto;` : undefined}
+                    >
+                      <MediaBlock
+                        type={project.data.thumbnail.type}
+                        src={project.data.thumbnail.src}
+                        aspect={project.data.thumbnail.aspect}
+                        color={project.data.thumbnail.color}
+                        alt={project.data.thumbnail.alt || project.data.title}
+                        poster={project.data.thumbnail.poster}
+                        crop={project.data.thumbnail.crop}
+                        controls={false}
+                      />
+                    </div>
+                  )}
+                  <div class="item-meta">
+                    <span class="item-counter" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+                    <span class="item-title">{project.data.title}</span>
+                    {project.data.year && <span class="item-year">{project.data.year}</span>}
+                  </div>
+                </a>
+              );
+            })}
+          </div>
+        </section>
+      ))}
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .archive-container {
+    padding-top: 4rem;
+    padding-bottom: 8rem;
+  }
+
+  .archive-header {
+    margin-bottom: 4rem;
+  }
+
+  .archive-heading-row,
+  .archive-intro-row {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+
+  .archive-kicker {
+    margin-bottom: 0.4rem;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+  }
+
+  .archive-heading {
+    font-family: var(--font-display);
+    font-size: clamp(5rem, 12vw, 9.5rem);
+    line-height: 0.78;
+    letter-spacing: -0.035em;
+    text-transform: uppercase;
+  }
+
+  .archive-heading span {
+    color: var(--color-accent);
+  }
+
+  .archive-count {
+    color: var(--color-signal);
+    font-family: var(--font-display);
+    font-size: clamp(4rem, 9vw, 7rem);
+    line-height: 0.75;
+    letter-spacing: -0.04em;
+  }
+
+  .archive-intro-row {
+    margin-top: 1.5rem;
+    align-items: baseline;
+  }
+
+  .archive-intro {
+    font-family: var(--font-body);
+    font-size: clamp(1.15rem, 2.2vw, 1.75rem);
+    font-weight: 500;
+    letter-spacing: -0.045em;
+    max-width: 35rem;
+  }
+
+  .archive-aside {
+    color: var(--color-muted);
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    line-height: 1.45;
+    text-align: right;
+  }
+
+  .header-rule {
+    border: none;
+    border-bottom: 1px solid var(--color-accent);
+    margin-top: 2rem;
+  }
+
+  .archive-groups {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(4rem, 10vw, 8rem);
+  }
+
+  .archive-group {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .collection-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 0.65rem;
+  }
+
+  .collection-heading h2 {
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 4vw, 3rem);
+    font-weight: 400;
+    line-height: 0.9;
+  }
+
+  .collection-heading span {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    color: var(--color-muted);
+  }
+
+  .archive-grid {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(3rem, 8vw, 7rem);
+  }
+
+  .archive-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    width: min(70%, 54rem);
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .archive-item:nth-child(even) {
+    align-self: flex-end;
+    width: min(48%, 39rem);
+  }
+
+  .archive-item-3 {
+    width: min(58%, 46rem);
+    margin-left: 9%;
+  }
+
+  .archive-item-4 {
+    width: min(42%, 32rem);
+  }
+
+  .media-wrapper {
+    width: 100%;
+    overflow: hidden;
+    background-color: var(--color-surface);
+  }
+
+  .archive-item:hover .item-title {
+    color: var(--color-accent);
+  }
+
+  .item-meta {
+    display: flex;
+    align-items: baseline;
+    gap: 0.85rem;
+    border-top: 1px solid var(--color-border);
+    padding-top: 0.6rem;
+  }
+
+  .item-counter {
+    color: var(--color-accent);
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    line-height: 0.8;
+  }
+
+  .item-title {
+    flex: 1;
+    font-family: var(--font-display);
+    font-size: clamp(1.4rem, 2.5vw, 2rem);
+    line-height: 0.92;
+    color: var(--color-text);
+    transition: color 0.15s ease;
+  }
+
+  .item-year {
+    font-family: var(--font-body);
+    font-size: 0.8125rem;
+    color: var(--color-muted);
+  }
+
+  @media (max-width: 639px) {
+    .archive-container {
+      padding-top: 2.5rem;
+      padding-bottom: 4rem;
+    }
+
+    .archive-heading-row {
+      align-items: flex-end;
+      gap: 0.75rem;
+    }
+
+    .archive-kicker {
+      font-size: 0.5625rem;
+    }
+
+    .archive-heading {
+      font-size: clamp(4.5rem, 22vw, 6.5rem);
+    }
+
+    .archive-count {
+      font-size: 4rem;
+    }
+
+    .archive-intro-row {
+      display: block;
+      align-items: flex-start;
+      margin-top: 1rem;
+    }
+
+    .archive-intro {
+      font-size: 1.2rem;
+      max-width: 15rem;
+    }
+
+    .archive-aside {
+      font-size: 0.65rem;
+      margin-top: 0.5rem;
+    }
+
+    .archive-header {
+      margin-bottom: 2.5rem;
+    }
+
+    .archive-grid {
+      gap: 2.5rem;
+    }
+
+    .archive-item,
+    .archive-item:nth-child(even),
+    .archive-item-3,
+    .archive-item-4 {
+      width: 100%;
+      margin-left: 0;
+    }
+
+    .item-title {
+      font-size: 1.6rem;
+    }
+  }
+</style>

@@ -1,0 +1,22 @@
+{
+  "slug": "orange-fields",
+  "title": "Orange Fields",
+  "composition": "single-artwork",
+  "collection": "Personal works",
+  "archiveOrder": 2,
+  "roles": [
+    "Illustration"
+  ],
+  "thumbnail": {
+    "type": "image",
+    "src": "/images/portfolio/web/PersonalWorks/OrangeFields.webp",
+    "alt": "Orange Fields illustration"
+  },
+  "hero": {
+    "type": "image",
+    "src": "/images/portfolio/web/PersonalWorks/OrangeFields.webp",
+    "alt": "Orange Fields illustration"
+  },
+  "featured": true,
+  "featuredOrder": 2
+}

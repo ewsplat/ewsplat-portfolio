@@ -1,0 +1,18 @@
+{
+  "slug": "personal-headphone-dog",
+  "title": "Headphone Dog",
+  "composition": "single-artwork",
+  "collection": "Personal works",
+  "archiveOrder": 13,
+  "roles": ["Illustration"],
+  "thumbnail": {
+    "type": "image",
+    "src": "/images/portfolio/PersonalWorks/HeadphoneDog.jpg",
+    "alt": "Headphone Dog illustration"
+  },
+  "hero": {
+    "type": "image",
+    "src": "/images/portfolio/PersonalWorks/HeadphoneDog.jpg",
+    "alt": "Headphone Dog illustration"
+  }
+}

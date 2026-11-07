@@ -1,0 +1,9 @@
+{
+  "title": "Placeholder Project 04",
+  "placeholder": true,
+  "thumbnail": { "type": "placeholder", "aspect": "9/16", "color": "#3f5c58", "alt": "Placeholder thumbnail" },
+  "hero": { "type": "placeholder", "aspect": "9/16", "color": "#3f5c58", "alt": "Placeholder hero" },
+  "gallery": [],
+  "featured": false,
+  "draft": true
+}

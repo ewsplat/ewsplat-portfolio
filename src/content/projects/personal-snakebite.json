@@ -1,0 +1,20 @@
+{
+  "slug": "personal-snakebite",
+  "title": "Snakebite",
+  "composition": "single-artwork",
+  "collection": "Personal works",
+  "archiveOrder": 15,
+  "roles": [
+    "Illustration"
+  ],
+  "thumbnail": {
+    "type": "image",
+    "src": "/images/portfolio/web/PersonalWorks/Snakebite.webp",
+    "alt": "Snakebite character illustration"
+  },
+  "hero": {
+    "type": "image",
+    "src": "/images/portfolio/web/PersonalWorks/Snakebite.webp",
+    "alt": "Snakebite character illustration"
+  }
+}

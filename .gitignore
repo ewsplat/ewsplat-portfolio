@@ -1,0 +1,59 @@
+# build output
+dist/
+screenshots/
+coverage/
+playwright-report/
+test-results/
+
+# generated types
+.astro/
+.cache/
+.turbo/
+.media-originals/
+.media-work/
+
+# dependencies
+node_modules/
+
+# logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# environment variables
+.env
+.env.*
+!.env.example
+*.local
+.npmrc
+!.npmrc.example
+
+# credentials and local keys
+*.pem
+*.key
+*.p12
+*.pfx
+id_rsa*
+id_ed25519*
+.netrc
+credentials.json
+credentials.*
+secrets.*
+
+# local editor settings
+.vscode/
+.idea/
+
+# macOS-specific files
+.DS_Store
+Thumbs.db
+
+# Internal portfolio inventory and curation notes (source paths and review notes)
+/docs/portfolio-content-audit.md
+/docs/portfolio-curation.md
+/docs/portfolio-curation-contact-sheet.jpg
+/docs/portfolio-outstanding-questions.md
+/src/data/portfolio-manifest.json
+/src/data/portfolio-curation.json

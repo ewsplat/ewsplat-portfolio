@@ -1,0 +1,20 @@
+{
+  "slug": "personal-sour-yuck",
+  "title": "Sour Yuck!",
+  "composition": "single-artwork",
+  "collection": "Personal works",
+  "archiveOrder": 16,
+  "roles": [
+    "Illustration"
+  ],
+  "thumbnail": {
+    "type": "image",
+    "src": "/images/portfolio/web/PersonalWorks/SourYuck!.webp",
+    "alt": "Sour Yuck character illustration"
+  },
+  "hero": {
+    "type": "image",
+    "src": "/images/portfolio/web/PersonalWorks/SourYuck!.webp",
+    "alt": "Sour Yuck character illustration"
+  }
+}

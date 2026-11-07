@@ -1,0 +1,34 @@
+{
+  "slug": "plans-after-pa-festival",
+  "title": "Plans After — PA Festival",
+  "composition": "graphic-sequence",
+  "client": "Plans After",
+  "collection": "Plans After",
+  "archiveOrder": 20,
+  "description": "A distinct Plans After event campaign, developed through EWSPLAT’s ongoing work with Nexgen Touring across visual direction, design, illustration and animation.",
+  "roles": [
+    "Creative direction",
+    "Design",
+    "Illustration",
+    "Animation"
+  ],
+  "thumbnail": {
+    "type": "image",
+    "src": "/images/portfolio/web/PlansAfter/PA-Festival/Cover.webp",
+    "alt": "Plans After Festival cover artwork"
+  },
+  "hero": {
+    "type": "image",
+    "src": "/images/portfolio/web/PlansAfter/PA-Festival/Cover.webp",
+    "alt": "Plans After Festival cover artwork"
+  },
+  "gallery": [
+    {
+      "type": "video",
+      "src": "/media/portfolio/plans-after-festival-poster.mp4",
+      "poster": "/images/portfolio/posters/plans-after-festival-poster.jpg",
+      "aspect": "9/16",
+      "alt": "Animated Plans After Festival poster"
+    }
+  ]
+}

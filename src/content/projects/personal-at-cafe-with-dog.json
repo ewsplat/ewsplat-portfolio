@@ -1,0 +1,20 @@
+{
+  "slug": "personal-at-cafe-with-dog",
+  "title": "At Cafe with Dog",
+  "composition": "single-artwork",
+  "collection": "Personal works",
+  "archiveOrder": 12,
+  "roles": [
+    "Illustration"
+  ],
+  "thumbnail": {
+    "type": "image",
+    "src": "/images/portfolio/web/PersonalWorks/AtcafewithDog.webp",
+    "alt": "At Cafe with Dog illustration"
+  },
+  "hero": {
+    "type": "image",
+    "src": "/images/portfolio/web/PersonalWorks/AtcafewithDog.webp",
+    "alt": "At Cafe with Dog illustration"
+  }
+}

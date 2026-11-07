@@ -1,0 +1,41 @@
+{
+  "slug": "all-stars-nexgen-converse",
+  "title": "All Stars — Nexgen x Converse",
+  "composition": "motion",
+  "collection": "Nexgen Touring",
+  "archiveOrder": 4,
+  "description": "A single campaign spanning design, 3D characters and animation. EWSPLAT created all creative output for the campaign.",
+  "roles": [
+    "Design",
+    "3D character work",
+    "Animation"
+  ],
+  "thumbnail": {
+    "type": "image",
+    "src": "/images/portfolio/web/AllStars/Poster-static.webp",
+    "alt": "All Stars campaign poster"
+  },
+  "hero": {
+    "type": "video",
+    "src": "/media/portfolio/web/all-stars-eden.mp4",
+    "poster": "/images/portfolio/web/posters/all-stars-eden.webp",
+    "aspect": "1/1",
+    "alt": "Animated artist tile from the All Stars campaign"
+  },
+  "gallery": [
+    {
+      "type": "video",
+      "src": "/media/portfolio/web/all-stars-simple-animation.mp4",
+      "poster": "/images/portfolio/web/posters/all-stars-simple-animation.webp",
+      "aspect": "9/16",
+      "alt": "Vertical campaign animation"
+    },
+    {
+      "type": "image",
+      "src": "/images/portfolio/web/AllStars/Banner.webp",
+      "alt": "All Stars campaign banner"
+    }
+  ],
+  "featured": true,
+  "featuredOrder": 4
+}

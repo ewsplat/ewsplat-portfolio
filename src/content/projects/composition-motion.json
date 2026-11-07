@@ -1,0 +1,62 @@
+{
+  "slug": "composition-motion",
+  "title": "Motion project composition test",
+  "description": "Placeholder only — a restrained opener for a landscape moving-image project.",
+  "composition": "motion",
+  "compositionTest": true,
+  "placeholder": true,
+  "draft": true,
+  "roles": ["Animation — placeholder metadata"],
+  "hero": {
+    "type": "video",
+    "src": "/media/composition-motion-test.webm",
+    "poster": "/images/composition-motion-poster.svg",
+    "aspect": "16/9",
+    "alt": "Neutral color test clip for the motion composition"
+  },
+  "sections": [
+    {
+      "type": "media",
+      "media": {
+        "type": "placeholder",
+        "aspect": "16/9",
+        "color": "#45554d",
+        "alt": "Neutral landscape supporting-still placeholder"
+      },
+      "layout": "half",
+      "alignment": "left",
+      "caption": "Supporting still — placeholder media"
+    },
+    {
+      "type": "text",
+      "heading": "Sequence notes",
+      "body": "Placeholder copy only. Use this pause for concise context or production notes.",
+      "layout": "narrow",
+      "alignment": "right"
+    },
+    {
+      "type": "media",
+      "media": {
+        "type": "placeholder",
+        "aspect": "1/1",
+        "color": "#59464e",
+        "alt": "Neutral square supporting-still placeholder"
+      },
+      "layout": "half",
+      "alignment": "right",
+      "caption": "Frame study — placeholder media"
+    },
+    {
+      "type": "media",
+      "media": {
+        "type": "placeholder",
+        "aspect": "9/16",
+        "color": "#3f5c58",
+        "alt": "Neutral vertical behind-the-scenes placeholder"
+      },
+      "layout": "narrow",
+      "alignment": "left",
+      "caption": "Behind the scenes — placeholder media"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "slug": "matty-searching",
+  "title": "Matty the Friend — Searching",
+  "composition": "single-artwork",
+  "collection": "Matty the Friend",
+  "archiveOrder": 7,
+  "thumbnail": {
+    "type": "image",
+    "src": "/images/portfolio/web/MattyTheFriend/Searching.webp",
+    "alt": "Searching artwork for Matty the Friend"
+  },
+  "hero": {
+    "type": "image",
+    "src": "/images/portfolio/web/MattyTheFriend/Searching.webp",
+    "alt": "Searching artwork for Matty the Friend"
+  },
+  "featured": true,
+  "featuredOrder": 7
+}

@@ -1,0 +1,27 @@
+{
+  "slug": "lower-billie-hoodie-graphic",
+  "title": "Lower — Billie Hood Graphic",
+  "composition": "graphic-sequence",
+  "client": "Lower",
+  "collection": "Lower",
+  "archiveOrder": 42,
+  "description": "Character illustration and apparel design for Lower.",
+  "roles": ["Illustration", "Apparel design"],
+  "thumbnail": {
+    "type": "image",
+    "src": "/images/portfolio/Lower/BillieHoodieGraphic-DogIllustration.jpeg",
+    "alt": "Dog illustration for the Lower Billie hood graphic"
+  },
+  "hero": {
+    "type": "image",
+    "src": "/images/portfolio/Lower/BillieHoodieGraphic-DogIllustration.jpeg",
+    "alt": "Dog illustration for the Lower Billie hood graphic"
+  },
+  "gallery": [
+    {
+      "type": "image",
+      "src": "/images/portfolio/Lower/BILLIE_HOOD_EWSPLAT_BLACK_2.jpeg",
+      "alt": "Lower Billie hood graphic on a black garment"
+    }
+  ]
+}

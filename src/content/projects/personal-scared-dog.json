@@ -1,0 +1,20 @@
+{
+  "slug": "personal-scared-dog",
+  "title": "Scared Dog",
+  "composition": "single-artwork",
+  "collection": "Personal works",
+  "archiveOrder": 14,
+  "roles": [
+    "Illustration"
+  ],
+  "thumbnail": {
+    "type": "image",
+    "src": "/images/portfolio/web/PersonalWorks/ScaredDog.webp",
+    "alt": "Scared Dog character illustration"
+  },
+  "hero": {
+    "type": "image",
+    "src": "/images/portfolio/web/PersonalWorks/ScaredDog.webp",
+    "alt": "Scared Dog character illustration"
+  }
+}

@@ -1,0 +1,62 @@
+---
+import { withBase } from '../utils/site';
+
+export interface Props {
+  title?: string;
+  href?: string;
+  src?: string; // optional image src
+  placeholder?: boolean;
+  aspect?: string; // e.g. "16:9", "4:3" – used for padding‑bottom calc
+}
+const { title = "", href = "#", src = "", placeholder = false, aspect = "16:9" } = Astro.props;
+---
+<a class="preview" aria-label={title} href={withBase(href)}>
+  <div class="image" style={src && !placeholder ? `background-image: url(${withBase(src)});` : ''}>
+    {placeholder && <span class="label">Placeholder – {title || "project"}</span>}
+  </div>
+  {title && <div class="caption">{title}</div>}
+</a>
+
+<style>
+  .preview {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+    cursor: default; /* not clickable when placeholder */
+  }
+  .image {
+    position: relative;
+    width: 100%;
+    /* aspect ratio using CSS variables */
+    padding-bottom: calc(100% / (var(--ar-width) / var(--ar-height)));
+    background-size: cover;
+    background-position: center;
+    background-color: #444; /* fallback */
+  }
+  :global(:root) {
+    --ar-width: 16;
+    --ar-height: 9;
+  }
+  :global(.aspect-16-9) { --ar-width: 16; --ar-height: 9; }
+  :global(.aspect-4-3) { --ar-width: 4; --ar-height: 3; }
+  :global(.aspect-3-4) { --ar-width: 3; --ar-height: 4; }
+  :global(.aspect-3-2) { --ar-width: 3; --ar-height: 2; }
+  :global(.aspect-2-3) { --ar-width: 2; --ar-height: 3; }
+  .label {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    color: #bbb;
+    background: rgba(0,0,0,0.3);
+  }
+  .caption {
+    margin-top: 0.5rem;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    color: var(--color-muted);
+    text-align: center;
+  }
+</style>

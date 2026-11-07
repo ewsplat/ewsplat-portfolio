@@ -1,0 +1,20 @@
+{
+  "slug": "lower-logo-animation",
+  "title": "Lower — Black-and-White Logo Animation",
+  "composition": "motion",
+  "client": "Lower",
+  "collection": "Lower",
+  "archiveOrder": 41,
+  "description": "Animated treatments of Lower’s existing identity for web, in-store screens and social media. EWSPLAT did not create the brand’s original identity.",
+  "roles": ["Logo animation"],
+  "thumbnail": {
+    "type": "gif",
+    "src": "/images/portfolio/Lower/Whitebackground.gif",
+    "alt": "Animated black-and-white Lower logo"
+  },
+  "hero": {
+    "type": "gif",
+    "src": "/images/portfolio/Lower/Whitebackground.gif",
+    "alt": "Animated black-and-white Lower logo"
+  }
+}

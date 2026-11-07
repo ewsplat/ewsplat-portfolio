@@ -1,0 +1,36 @@
+{
+  "slug": "plans-after-pop-up-party",
+  "title": "Plans After — Pop-Up Party",
+  "composition": "motion",
+  "client": "Plans After",
+  "collection": "Plans After",
+  "archiveOrder": 5,
+  "description": "A Plans After event campaign developed through EWSPLAT’s ongoing work with Nexgen Touring. Nic led the visual direction and created the design, illustration and animation.",
+  "roles": [
+    "Creative direction",
+    "Design",
+    "Illustration",
+    "Animation"
+  ],
+  "thumbnail": {
+    "type": "image",
+    "src": "/images/portfolio/web/posters/plans-after-pop-up.webp",
+    "alt": "Plans After Pop-Up Party poster"
+  },
+  "hero": {
+    "type": "video",
+    "src": "/media/portfolio/web/plans-after-pop-up-party.mp4",
+    "poster": "/images/portfolio/web/posters/plans-after-pop-up.webp",
+    "aspect": "9/16",
+    "alt": "Animated Plans After Pop-Up Party poster"
+  },
+  "gallery": [
+    {
+      "type": "image",
+      "src": "/images/portfolio/web/PlansAfter/PopUp/Banner.webp",
+      "alt": "Plans After Pop-Up Party landscape banner"
+    }
+  ],
+  "featured": true,
+  "featuredOrder": 5
+}

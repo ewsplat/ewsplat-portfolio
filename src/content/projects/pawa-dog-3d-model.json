@@ -1,0 +1,21 @@
+{
+  "slug": "pawa-dog-3d-model",
+  "title": "Pawa Dog 3D Model",
+  "composition": "motion",
+  "collection": "Character work",
+  "archiveOrder": 6,
+  "thumbnail": {
+    "type": "image",
+    "src": "/images/portfolio/posters/pawa-dog-turnaround.jpg",
+    "alt": "Still from a 3D dog character turn-around"
+  },
+  "hero": {
+    "type": "video",
+    "src": "/media/portfolio/web/pawa-dog-turnaround.mp4",
+    "poster": "/images/portfolio/posters/pawa-dog-turnaround.jpg",
+    "aspect": "27/20",
+    "alt": "3D dog character turn-around"
+  },
+  "featured": true,
+  "featuredOrder": 6
+}

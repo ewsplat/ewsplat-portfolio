@@ -1,0 +1,21 @@
+{
+  "slug": "kaylee-bell-cowboy-up",
+  "title": "Kaylee Bell — Cowboy Up",
+  "composition": "motion",
+  "client": "Kaylee Bell",
+  "collection": "Music visuals",
+  "archiveOrder": 80,
+  "description": "A cowboy-chase-themed music visualiser: a longer loop accompanying the song, rather than a conventional music video.",
+  "thumbnail": {
+    "type": "image",
+    "src": "/images/portfolio/posters/kaylee-bell-cowboy-up.jpg",
+    "alt": "Still from the Cowboy Up music visualiser"
+  },
+  "hero": {
+    "type": "video",
+    "src": "/media/portfolio/kaylee-bell-cowboy-up.mp4",
+    "poster": "/images/portfolio/posters/kaylee-bell-cowboy-up.jpg",
+    "aspect": "16/9",
+    "alt": "Cowboy Up music visualiser"
+  }
+}

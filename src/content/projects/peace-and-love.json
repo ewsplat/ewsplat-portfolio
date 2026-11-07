@@ -1,0 +1,22 @@
+{
+  "slug": "peace-and-love",
+  "title": "Peace and Love",
+  "composition": "single-artwork",
+  "collection": "Personal works",
+  "archiveOrder": 1,
+  "roles": [
+    "Illustration"
+  ],
+  "thumbnail": {
+    "type": "image",
+    "src": "/images/portfolio/web/PersonalWorks/Peaceandlove.webp",
+    "alt": "Peace and Love illustration"
+  },
+  "hero": {
+    "type": "image",
+    "src": "/images/portfolio/web/PersonalWorks/Peaceandlove.webp",
+    "alt": "Peace and Love illustration"
+  },
+  "featured": true,
+  "featuredOrder": 1
+}

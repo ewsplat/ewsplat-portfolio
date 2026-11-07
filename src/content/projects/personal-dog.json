@@ -1,0 +1,18 @@
+{
+  "slug": "personal-dog",
+  "title": "Dog",
+  "composition": "single-artwork",
+  "collection": "Personal works",
+  "archiveOrder": 11,
+  "roles": ["Illustration"],
+  "thumbnail": {
+    "type": "image",
+    "src": "/images/portfolio/PersonalWorks/Dog.jpg",
+    "alt": "Dog character illustration"
+  },
+  "hero": {
+    "type": "image",
+    "src": "/images/portfolio/PersonalWorks/Dog.jpg",
+    "alt": "Dog character illustration"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "slug": "found-store",
+  "title": "Found Store — Garment Artwork",
+  "composition": "graphic-sequence",
+  "collection": "Found Store",
+  "archiveOrder": 50,
+  "description": "Garment-back graphic and typography designed and illustrated by EWSPLAT, shown with the related photoshoot.",
+  "roles": [
+    "Garment graphic design",
+    "Illustration",
+    "Typography"
+  ],
+  "thumbnail": {
+    "type": "image",
+    "src": "/images/portfolio/web/FoundStore/Artwork.webp",
+    "alt": "Illustrated character and typography designed for the back of a garment"
+  },
+  "hero": {
+    "type": "image",
+    "src": "/images/portfolio/web/FoundStore/Artwork.webp",
+    "alt": "Illustrated character and typography designed for the back of a garment"
+  },
+  "gallery": [
+    {
+      "type": "image",
+      "src": "/images/portfolio/web/FoundStore/Photoshoot.webp",
+      "alt": "Model wearing the garment with the related illustrated artwork"
+    }
+  ]
+}

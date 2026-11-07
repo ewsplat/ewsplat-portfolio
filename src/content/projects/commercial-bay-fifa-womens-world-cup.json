@@ -1,0 +1,40 @@
+{
+  "slug": "commercial-bay-fifa-womens-world-cup",
+  "title": "Commercial Bay — FIFA Women’s World Cup",
+  "composition": "graphic-sequence",
+  "collection": "Commercial Bay",
+  "archiveOrder": 30,
+  "description": "Commissioned through BLINK agency in Auckland, Nic created character designs and illustrations for a Commercial Bay activation announcing the FIFA Women’s World Cup. The brief called for black-and-white line art, used on flags and printed materials.",
+  "roles": [
+    "Character design",
+    "Illustration"
+  ],
+  "credits": [
+    {
+      "role": "Commissioned via",
+      "name": "BLINK agency"
+    }
+  ],
+  "thumbnail": {
+    "type": "image",
+    "src": "/images/portfolio/web/CommercialBay/final-06.webp",
+    "alt": "Character illustration for the Commercial Bay FIFA Women’s World Cup pop-up"
+  },
+  "hero": {
+    "type": "image",
+    "src": "/images/portfolio/web/CommercialBay/final-06.webp",
+    "alt": "Character illustration for the Commercial Bay FIFA Women’s World Cup pop-up"
+  },
+  "gallery": [
+    {
+      "type": "image",
+      "src": "/images/portfolio/web/CommercialBay/final-07.webp",
+      "alt": "Additional character illustration for the Commercial Bay FIFA Women’s World Cup pop-up"
+    },
+    {
+      "type": "image",
+      "src": "/images/portfolio/web/CommercialBay/final-08.webp",
+      "alt": "Additional character illustration for the Commercial Bay FIFA Women’s World Cup pop-up"
+    }
+  ]
+}

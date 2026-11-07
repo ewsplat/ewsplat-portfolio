@@ -1,0 +1,34 @@
+{
+  "slug": "plans-after-ilu-marathon",
+  "title": "Plans After — ILU Marathon",
+  "composition": "graphic-sequence",
+  "client": "Plans After",
+  "collection": "Plans After",
+  "archiveOrder": 21,
+  "description": "A distinct Plans After event campaign, developed through EWSPLAT’s ongoing work with Nexgen Touring across visual direction, design, illustration and animation.",
+  "roles": [
+    "Creative direction",
+    "Design",
+    "Illustration",
+    "Animation"
+  ],
+  "thumbnail": {
+    "type": "image",
+    "src": "/images/portfolio/web/PlansAfter/ILU-Marathon/Banner-07.webp",
+    "alt": "Plans After ILU Marathon banner artwork"
+  },
+  "hero": {
+    "type": "image",
+    "src": "/images/portfolio/web/PlansAfter/ILU-Marathon/Banner-07.webp",
+    "alt": "Plans After ILU Marathon banner artwork"
+  },
+  "gallery": [
+    {
+      "type": "video",
+      "src": "/media/portfolio/plans-after-ilu-marathon.mp4",
+      "poster": "/images/portfolio/posters/plans-after-ilu-marathon.jpg",
+      "aspect": "4/5",
+      "alt": "Animated Plans After ILU Marathon artwork"
+    }
+  ]
+}

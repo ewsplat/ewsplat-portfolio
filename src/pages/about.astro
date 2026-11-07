@@ -1,0 +1,140 @@
+---
+import Layout from '../layouts/Layout.astro';
+import MediaBlock from '../components/MediaBlock.astro';
+---
+
+<Layout title="About — EWSPLAT" description="About EWSPLAT — independent creative practice.">
+  <div class="container">
+    <header class="page-header">
+      <h1 class="page-title">About</h1>
+    </header>
+
+    <div class="about-grid">
+      <!-- Text column -->
+      <div class="about-text">
+        <div class="placeholder-block" aria-label="Placeholder biography">
+          <p class="placeholder-label">[ Placeholder — add practice biography here ]</p>
+        </div>
+        <div class="placeholder-block" aria-label="Placeholder paragraph">
+          <p class="placeholder-label">[ Placeholder — add second paragraph here ]</p>
+        </div>
+
+        <hr class="section-rule" />
+
+        <!-- Disciplines -->
+        <div class="disciplines">
+          <h2 class="disciplines-heading">Practice</h2>
+          <ul class="disciplines-list">
+            <li>Illustration</li>
+            <li>Animation</li>
+            <li>Graphic Design</li>
+            <li>3D &amp; Rendering</li>
+            <li>Music Video</li>
+            <li>Visual Experiments</li>
+          </ul>
+        </div>
+
+        <hr class="section-rule" />
+
+      </div>
+
+      <!-- Image column -->
+      <div class="about-image">
+        <MediaBlock
+          type="placeholder"
+          aspect="4/3"
+          color="#2e3038"
+          label="[ Placeholder — studio or portrait image ]"
+        />
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .page-header {
+    padding: 4rem 0 2rem;
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: 3rem;
+  }
+
+  .page-title {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    line-height: 0.95;
+    letter-spacing: 0.03em;
+    color: var(--color-text);
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+    margin-bottom: 6rem;
+  }
+
+  .about-text {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .placeholder-block {
+    padding: 2rem 1.5rem;
+    border: 1px dashed var(--color-border);
+    border-radius: 2px;
+  }
+
+  .placeholder-label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+    color: var(--color-muted);
+    text-align: center;
+  }
+
+  .section-rule {
+    border: none;
+    border-bottom: 1px solid var(--color-border);
+    margin: 1rem 0;
+  }
+
+  .disciplines-heading {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+    margin-bottom: 1rem;
+  }
+
+  .disciplines-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .disciplines-list li {
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    color: var(--color-text);
+  }
+
+  @media (max-width: 768px) {
+    .about-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .about-image {
+      order: -1;
+    }
+
+    .page-header {
+      padding: 2.5rem 0 1.5rem;
+      margin-bottom: 2rem;
+    }
+  }
+</style>

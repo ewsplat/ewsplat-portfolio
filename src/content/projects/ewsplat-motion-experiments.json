@@ -1,0 +1,28 @@
+{
+  "slug": "ewsplat-motion-experiments",
+  "title": "EWSPLAT — Motion Experiments",
+  "composition": "motion",
+  "collection": "Personal works",
+  "archiveOrder": 17,
+  "thumbnail": {
+    "type": "image",
+    "src": "/images/portfolio/web/posters/ewsplat-experiment4.webp",
+    "alt": "Still from an EWSPLAT motion experiment"
+  },
+  "hero": {
+    "type": "video",
+    "src": "/media/portfolio/web/ewsplat-experiment4.mp4",
+    "poster": "/images/portfolio/web/posters/ewsplat-experiment4.webp",
+    "aspect": "1/1",
+    "alt": "Finished playful EWSPLAT motion experiment"
+  },
+  "gallery": [
+    {
+      "type": "video",
+      "src": "/media/portfolio/web/ewsplat-experiment.mp4",
+      "poster": "/images/portfolio/posters/ewsplat-experiment.jpg",
+      "aspect": "1/1",
+      "alt": "Second finished EWSPLAT motion experiment"
+    }
+  ]
+}

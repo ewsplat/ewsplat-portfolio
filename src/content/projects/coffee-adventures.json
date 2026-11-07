@@ -1,0 +1,20 @@
+{
+  "slug": "coffee-adventures",
+  "title": "Coffee Adventures",
+  "composition": "single-artwork",
+  "collection": "Personal works",
+  "archiveOrder": 10,
+  "roles": [
+    "Illustration"
+  ],
+  "thumbnail": {
+    "type": "image",
+    "src": "/images/portfolio/web/PersonalWorks/CoffeeAdventures.webp",
+    "alt": "Coffee Adventures illustration"
+  },
+  "hero": {
+    "type": "image",
+    "src": "/images/portfolio/web/PersonalWorks/CoffeeAdventures.webp",
+    "alt": "Coffee Adventures illustration"
+  }
+}

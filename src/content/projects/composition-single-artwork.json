@@ -1,0 +1,25 @@
+{
+  "slug": "composition-single-artwork",
+  "title": "Single artwork study",
+  "description": "Placeholder only — replace this note with project-specific context.",
+  "composition": "single-artwork",
+  "compositionTest": true,
+  "placeholder": true,
+  "draft": true,
+  "roles": ["Illustration — placeholder metadata"],
+  "hero": {
+    "type": "placeholder",
+    "aspect": "1/1",
+    "color": "#45554d",
+    "alt": "Neutral square placeholder for a single illustration"
+  },
+  "sections": [
+    {
+      "type": "text",
+      "heading": "Project context",
+      "body": "Placeholder copy only. Supporting information sits after the artwork and should remain secondary.",
+      "layout": "narrow",
+      "alignment": "right"
+    }
+  ]
+}
