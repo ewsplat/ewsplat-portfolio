@@ -1,0 +1,230 @@
+---
+import { withBase } from '../utils/site';
+
+export interface ProjectLink {
+  slug: string;
+  title: string;
+}
+
+export interface Props {
+  previous?: ProjectLink;
+  next?: ProjectLink;
+  related: ProjectLink[];
+  collection?: string;
+}
+
+const { previous, next, related, collection } = Astro.props;
+---
+
+<nav class="project-navigation" aria-label="Project navigation">
+  <div class="project-navigation-grid">
+    {previous ? (
+      <a class="step-link previous-link" href={withBase(`/projects/${previous.slug}`)} rel="prev">
+        <span class="step-label"><span aria-hidden="true">←</span> Previous</span>
+        <span class="step-title">{previous.title}</span>
+      </a>
+    ) : <span class="step-empty" aria-hidden="true"></span>}
+
+    <a class="archive-link" href={withBase('/archive')}>
+      <span class="archive-mark" aria-hidden="true">E</span>
+      <span>Project index</span>
+    </a>
+
+    {next ? (
+      <a class="step-link next-link" href={withBase(`/projects/${next.slug}`)} rel="next">
+        <span class="step-label">Next <span aria-hidden="true">→</span></span>
+        <span class="step-title">{next.title}</span>
+      </a>
+    ) : <span class="step-empty" aria-hidden="true"></span>}
+  </div>
+
+  {related.length > 0 && (
+    <div class="related-projects">
+      <span class="related-label">{collection ? `More from ${collection}` : 'Related work'}</span>
+      <ul>
+        {related.map((project) => (
+          <li><a href={withBase(`/projects/${project.slug}`)}>{project.title}<span aria-hidden="true">↗</span></a></li>
+        ))}
+      </ul>
+    </div>
+  )}
+</nav>
+
+<style>
+  .project-navigation {
+    margin-bottom: clamp(3rem, 8vw, 6rem);
+  }
+
+  .project-navigation-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    align-items: stretch;
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .step-link,
+  .archive-link {
+    min-width: 0;
+    min-height: 7rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.6rem;
+    padding: 1rem 1.25rem;
+    transition: color 0.15s ease, background-color 0.15s ease;
+  }
+
+  .step-link:hover,
+  .archive-link:hover {
+    color: var(--color-accent);
+    background-color: var(--color-surface);
+  }
+
+  .previous-link {
+    align-items: flex-start;
+  }
+
+  .next-link {
+    align-items: flex-end;
+    text-align: right;
+  }
+
+  .step-label,
+  .archive-link > span:last-child,
+  .related-label {
+    color: var(--color-muted);
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .step-label span {
+    display: inline-block;
+    color: var(--color-accent);
+    transition: transform 160ms ease;
+  }
+
+  .previous-link:hover .step-label span,
+  .previous-link:focus-visible .step-label span {
+    transform: translateX(-0.2rem);
+  }
+
+  .next-link:hover .step-label span,
+  .next-link:focus-visible .step-label span {
+    transform: translateX(0.2rem);
+  }
+
+  .step-title {
+    max-width: 20rem;
+    font-family: var(--font-display);
+    font-size: clamp(1.25rem, 2.4vw, 1.8rem);
+    line-height: 0.95;
+    text-wrap: balance;
+  }
+
+  .archive-link {
+    align-items: center;
+    border-inline: 1px solid var(--color-border);
+  }
+
+  .archive-mark {
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    border: 1px solid var(--color-accent);
+    color: var(--color-accent);
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    line-height: 1;
+    transition: transform 220ms cubic-bezier(0.2, 0.65, 0.3, 1), background-color 180ms ease;
+  }
+
+  .archive-link:hover .archive-mark,
+  .archive-link:focus-visible .archive-mark {
+    transform: rotate(45deg);
+    background-color: var(--color-bg);
+  }
+
+  .related-projects {
+    display: flex;
+    align-items: baseline;
+    gap: 1.5rem;
+    padding-top: 1rem;
+  }
+
+  .related-projects ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.25rem;
+    list-style: none;
+  }
+
+  .related-projects a {
+    display: inline-flex;
+    gap: 0.4rem;
+    align-items: baseline;
+    font-size: 0.8125rem;
+    transition: color 0.15s ease;
+  }
+
+  .related-projects a span {
+    color: var(--color-accent);
+    font-size: 0.7rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .previous-link:hover .step-label span,
+    .previous-link:focus-visible .step-label span,
+    .next-link:hover .step-label span,
+    .next-link:focus-visible .step-label span,
+    .archive-link:hover .archive-mark,
+    .archive-link:focus-visible .archive-mark {
+      transform: none;
+    }
+  }
+
+  @media (max-width: 639px) {
+    .project-navigation-grid {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    }
+
+    .step-link,
+    .archive-link {
+      min-height: 5.5rem;
+      padding: 0.85rem 0.65rem;
+    }
+
+    .archive-link {
+      grid-column: 1 / -1;
+      grid-row: 1;
+      flex-direction: row;
+      min-height: 3.75rem;
+      justify-content: flex-start;
+      border-inline: 0;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .archive-mark {
+      width: 1.5rem;
+      height: 1.5rem;
+      font-size: 1rem;
+    }
+
+    .step-label {
+      font-size: 0.5625rem;
+    }
+
+    .step-title {
+      font-size: 1.2rem;
+    }
+
+    .related-projects {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+  }
+</style>

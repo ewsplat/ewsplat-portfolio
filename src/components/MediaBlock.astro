@@ -12,6 +12,7 @@ export interface Props {
   crop?: boolean;
   controls?: boolean;
   loading?: 'lazy' | 'eager';
+  response?: 'expressive' | 'tilt' | 'reveal-up' | 'reveal-side' | 'still';
 }
 
 const {
@@ -20,11 +21,12 @@ const {
   aspect,
   alt = '',
   poster,
-  color = '#3a3a38',
+  color = 'var(--color-surface)',
   objectFit = 'contain',
   crop = false,
   controls = true,
   loading = 'lazy',
+  response = 'still',
 } = Astro.props;
 
 const fit = crop ? 'cover' : objectFit;
@@ -35,7 +37,11 @@ const mediaSrc = src ? withBase(src) : undefined;
 const mediaPoster = poster ? withBase(poster) : undefined;
 ---
 
-<div class:list={['media-block', { 'has-aspect': Boolean(effectiveAspect) }]} style={wrapperStyle}>
+<div
+  class:list={['media-block', { 'has-aspect': Boolean(effectiveAspect) }]}
+  data-playful-media={type === 'image' || type === 'gif' ? response : undefined}
+  style={wrapperStyle}
+>
   {(type === 'image' || type === 'gif') && src && (
     <img
       src={mediaSrc}

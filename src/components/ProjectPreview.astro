@@ -31,7 +31,7 @@ const { title = "", href = "#", src = "", placeholder = false, aspect = "16:9" }
     padding-bottom: calc(100% / (var(--ar-width) / var(--ar-height)));
     background-size: cover;
     background-position: center;
-    background-color: #444; /* fallback */
+    background-color: var(--color-surface);
   }
   :global(:root) {
     --ar-width: 16;
@@ -49,8 +49,8 @@ const { title = "", href = "#", src = "", placeholder = false, aspect = "16:9" }
     align-items: center;
     justify-content: center;
     font-size: 0.9rem;
-    color: #bbb;
-    background: rgba(0,0,0,0.3);
+    color: var(--color-text);
+    background: var(--color-bg);
   }
   .caption {
     margin-top: 0.5rem;

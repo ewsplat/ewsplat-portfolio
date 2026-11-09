@@ -1,5 +1,6 @@
 {
   "title": "Placeholder Project 02",
+  "workType": "uncertain",
   "placeholder": true,
   "thumbnail": { "type": "placeholder", "aspect": "16/9", "color": "#4b536b", "alt": "Placeholder thumbnail" },
   "hero": { "type": "placeholder", "aspect": "16/9", "color": "#4b536b", "alt": "Placeholder hero" },

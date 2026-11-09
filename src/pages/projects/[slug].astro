@@ -1,49 +1,113 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import MediaBlock from '../../components/MediaBlock.astro';
+import ProjectNavigation from '../../components/ProjectNavigation.astro';
 import { withBase } from '../../utils/site';
 import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
-  const projects = await getCollection('projects');
-  const sortedProjects = projects.sort((a, b) => a.id.localeCompare(b.id));
-  const published = sortedProjects.filter((project) => !project.data.draft);
-  const compositionTests = sortedProjects.filter((project) => project.data.compositionTest);
-  const routes = [
-    ...published.map((project, index) => ({ project, projectIndex: index + 1 })),
-    ...compositionTests.map((project, index) => ({
+  const compareProjects = (a, b) =>
+    (a.data.archiveOrder ?? a.data.featuredOrder ?? 999) - (b.data.archiveOrder ?? b.data.featuredOrder ?? 999)
+      || a.data.title.localeCompare(b.data.title);
+  const projectSlug = (project) => project.data.slug ?? project.id;
+  const allProjects = await getCollection('projects');
+  const published = allProjects
+    .filter((project) => !project.data.draft && !project.data.compositionTest)
+    .sort(compareProjects);
+  const compositionTests = allProjects
+    .filter((project) => project.data.compositionTest)
+    .sort((a, b) => a.id.localeCompare(b.id));
+  const projectRoutes = published.map((project, index) => {
+    const previous = published[index - 1];
+    const next = published[index + 1];
+    const adjacent = new Set([previous?.id, next?.id]);
+    const related = published
+      .filter((candidate) => {
+        if (candidate.id === project.id || adjacent.has(candidate.id)) return false;
+        const sameCollection = project.data.collection
+          && candidate.data.collection === project.data.collection;
+        const sharedRoles = project.data.roles.filter((role) => candidate.data.roles.includes(role)).length;
+        return Boolean(sameCollection) || sharedRoles > 0;
+      })
+      .sort((a, b) => {
+        const aCollection = Number(Boolean(project.data.collection && a.data.collection === project.data.collection));
+        const bCollection = Number(Boolean(project.data.collection && b.data.collection === project.data.collection));
+        const aRoles = project.data.roles.filter((role) => a.data.roles.includes(role)).length;
+        const bRoles = project.data.roles.filter((role) => b.data.roles.includes(role)).length;
+        return bCollection - aCollection || bRoles - aRoles
+          || Math.abs(published.indexOf(a) - index) - Math.abs(published.indexOf(b) - index);
+      })
+      .slice(0, 2);
+
+    return {
       project,
-      projectIndex: published.length + index + 1,
+      projectIndex: index + 1,
+      previous,
+      next,
+      related,
+    };
+  });
+  const routes = [
+    ...projectRoutes,
+    ...compositionTests.map((project) => ({
+      project,
+      projectIndex: undefined,
+      previous: undefined,
+      next: undefined,
+      related: [],
     })),
   ];
-  const slugs = routes.map(({ project }) => project.data.slug ?? project.id);
+  const slugs = routes.map(({ project }) => projectSlug(project));
 
   if (new Set(slugs).size !== slugs.length) {
     throw new Error('Project slugs must be unique.');
   }
 
-  return routes.map(({ project, projectIndex }, index) => ({
+  return routes.map(({ project, projectIndex, previous, next, related }, index) => ({
     params: { slug: slugs[index] },
-    props: { project, projectIndex },
+    props: { project, projectIndex, previous, next, related },
   }));
 }
 
-const { project, projectIndex } = Astro.props;
+const { project, projectIndex, previous, next, related = [] } = Astro.props;
 const { data } = project;
+const presentation = data.presentation ?? {
+  standard: 'editorial',
+  'single-artwork': 'artwork',
+  motion: 'motion',
+  'graphic-sequence': 'sequence',
+}[data.composition];
 const heroAspect = data.hero?.aspect?.split('/').map(Number);
 const portraitHero = heroAspect && heroAspect[0] < heroAspect[1];
-const portraitMaxWidth = portraitHero && heroAspect
-  ? `${75 * heroAspect[0] / heroAspect[1]}svh`
+const heroMaxWidth = heroAspect
+  ? `${78 * heroAspect[0] / heroAspect[1]}svh`
   : undefined;
+const galleryLayout = (aspect?: string) => {
+  if (!aspect) return 'intrinsic';
+  const [width, height] = aspect.split('/').map(Number);
+  const ratio = width / height;
+  if (ratio > 1.5) return 'landscape';
+  if (ratio < 0.85) return 'portrait';
+  return 'square';
+};
+const relatedCollection = data.collection
+  && related.length > 0
+  && related.every((candidate) => candidate.data.collection === data.collection)
+  ? data.collection
+  : undefined;
+const projectLink = (item: (typeof previous) & object) => ({
+  slug: item?.data.slug ?? item?.id ?? '',
+  title: item?.data.title ?? '',
+});
 ---
 
 <Layout title={`${data.title} — EWSPLAT`} description={data.description ?? `${data.title} — EWSPLAT project.`}>
-  <div class:list={['project-opening', 'container', `composition-${data.composition}`, { 'portrait-opening': portraitHero, 'no-hero': !data.hero }]}>
+  <div class:list={['project-opening', 'container', `presentation-${presentation}`, { 'portrait-opening': portraitHero, 'no-hero': !data.hero }]}>
     {data.hero && (
       <section
         class="project-hero"
         aria-label="Project hero media"
-        style={portraitMaxWidth ? `--portrait-width: min(100%, ${portraitMaxWidth});` : undefined}
+        style={heroMaxWidth ? `--hero-max-width: min(100%, ${heroMaxWidth});` : undefined}
       >
         <MediaBlock
           type={data.hero.type}
@@ -65,12 +129,24 @@ const portraitMaxWidth = portraitHero && heroAspect
       </div>
       <h1 class="project-title">{data.title}</h1>
       {data.description && <p class="project-description">{data.description}</p>}
-      {(data.year || data.client || data.roles.length > 0) && (
-        <div class="project-meta">
-          {data.year && <span class="project-year">{data.year}</span>}
-          {data.client && <span class="project-client">{data.client}</span>}
-          {data.roles.length > 0 && <span class="project-roles">{data.roles.join(' / ')}</span>}
-        </div>
+      {(data.year || data.client || data.workType || data.roles.length > 0) && (
+        <dl class="project-meta">
+          {data.workType && <div class="meta-item"><dt>Type</dt><dd>{data.workType === 'client' ? 'Client work' : data.workType === 'personal' ? 'Personal work' : 'Uncertain'}</dd></div>}
+          {data.year && <div class="meta-item"><dt>Year</dt><dd>{data.year}</dd></div>}
+          {data.client && <div class="meta-item"><dt>Client</dt><dd>{data.client}</dd></div>}
+          {data.roles.length > 0 && (
+            <div class="meta-item meta-roles">
+              <dt>Contribution</dt>
+              <dd>
+                <ul class="contribution-list">
+                  {data.roles.map((role, index) => (
+                    <li><span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>{role}</li>
+                  ))}
+                </ul>
+              </dd>
+            </div>
+          )}
+        </dl>
       )}
     </header>
   </div>
@@ -83,9 +159,10 @@ const portraitMaxWidth = portraitHero && heroAspect
     <!-- Gallery -->
     {data.gallery.length > 0 && (
       <section class="project-gallery" aria-label="Project gallery">
-        <div class="gallery-grid">
+        <div class:list={['gallery-grid', `gallery-${presentation}`]}>
           {data.gallery.map((item, i) => (
-            <div class="gallery-item">
+            <figure class:list={['gallery-item', `gallery-item-${galleryLayout(item.aspect)}`]}>
+              <span class="gallery-index" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
               <MediaBlock
                 type={item.type}
                 src={item.src}
@@ -96,7 +173,7 @@ const portraitMaxWidth = portraitHero && heroAspect
                 crop={item.crop}
               />
               {item.caption && <p class="gallery-caption">{item.caption}</p>}
-            </div>
+            </figure>
           ))}
         </div>
       </section>
@@ -160,11 +237,12 @@ const portraitMaxWidth = portraitHero && heroAspect
       </section>
     )}
 
-    <!-- Back nav -->
-    <nav class="project-nav" aria-label="Project navigation">
-      <hr class="section-rule" />
-      <a href={withBase('/archive')} class="back-link">← Archive</a>
-    </nav>
+    <ProjectNavigation
+      previous={previous ? projectLink(previous) : undefined}
+      next={next ? projectLink(next) : undefined}
+      related={related.map(projectLink)}
+      collection={relatedCollection}
+    />
   </div>
 </Layout>
 
@@ -190,19 +268,47 @@ const portraitMaxWidth = portraitHero && heroAspect
     min-height: min(58svh, 36rem);
   }
 
-  .project-opening.composition-single-artwork,
-  .project-opening.composition-motion {
+  .project-opening.presentation-sequence,
+  .project-opening.presentation-motion,
+  .project-opening.presentation-campaign {
     display: flex;
     flex-direction: column;
     gap: clamp(1.5rem, 4vw, 3rem);
   }
 
-  .project-opening.composition-single-artwork {
+  .project-opening.presentation-artwork {
+    grid-template-columns: minmax(0, 8fr) minmax(17rem, 4fr);
     padding-bottom: 2rem;
   }
 
-  .composition-single-artwork .project-header,
-  .composition-motion .project-header {
+  .presentation-artwork .project-hero {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .presentation-artwork .project-header {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .presentation-artwork .project-header,
+  .presentation-sequence .project-header,
+  .presentation-motion .project-header,
+  .presentation-campaign .project-header {
+    order: 0;
+  }
+
+  .presentation-artwork .project-hero,
+  .presentation-motion .project-hero {
+    order: 0;
+  }
+
+  .presentation-sequence .project-hero,
+  .presentation-campaign .project-hero {
+    order: 1;
+  }
+
+  .presentation-motion .project-header {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(12rem, 0.42fr);
     align-items: end;
@@ -210,54 +316,112 @@ const portraitMaxWidth = portraitHero && heroAspect
     padding: 0;
   }
 
-  .composition-motion .project-header {
-    order: 0;
-  }
-
-  .composition-motion .project-hero {
-    order: 1;
-  }
-
-  .composition-single-artwork .project-kicker,
-  .composition-motion .project-kicker {
+  .presentation-motion .project-kicker {
     grid-column: 1 / -1;
   }
 
-  .composition-single-artwork .project-title,
-  .composition-motion .project-title {
+  .presentation-motion .project-title {
     grid-column: 1;
     font-size: clamp(3.5rem, 6.5vw, 5.5rem);
   }
 
-  .composition-single-artwork .project-description,
-  .composition-motion .project-description {
+  .presentation-motion .project-description {
     grid-column: 1;
   }
 
-  .composition-single-artwork .project-meta,
-  .composition-motion .project-meta {
+  .presentation-motion .project-meta {
     grid-column: 2;
     grid-row: 2 / span 2;
     width: 100%;
     margin-top: 0;
   }
 
-  .composition-single-artwork .project-hero :global(.media-block) {
-    width: min(100%, 56rem);
-    margin-inline: auto;
+  .presentation-artwork .project-header {
+    display: flex;
+    align-items: flex-start;
   }
 
-  .composition-motion .project-hero :global(.media-block) {
+  .presentation-artwork .project-title {
+    align-self: stretch;
+    width: 100%;
+    font-size: clamp(2.65rem, 3.5vw, 3.5rem);
+    line-height: 0.88;
+    overflow-wrap: normal;
+  }
+
+  .presentation-artwork .project-description,
+  .presentation-artwork .project-meta {
     width: 100%;
   }
 
-  .project-opening.composition-graphic-sequence {
-    grid-template-columns: minmax(0, 1fr);
+  .presentation-motion .project-hero :global(.media-block) {
+    width: min(100%, var(--hero-max-width, 100%));
+    margin-inline: auto;
   }
 
-  .project-opening.composition-graphic-sequence.no-hero .project-header {
+  .project-opening.presentation-sequence.no-hero .project-header {
     min-height: 0;
     padding: 2rem 0 3rem;
+  }
+
+  .project-opening.presentation-campaign {
+    gap: clamp(2rem, 5vw, 4rem);
+  }
+
+  .presentation-campaign .project-header {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(15rem, 0.8fr);
+    align-items: end;
+    column-gap: clamp(1.5rem, 5vw, 5rem);
+    padding-bottom: 0;
+  }
+
+  .presentation-campaign .project-kicker,
+  .presentation-campaign .project-meta {
+    grid-column: 1 / -1;
+  }
+
+  .presentation-campaign .project-title {
+    grid-column: 1;
+    font-size: clamp(3.5rem, 7vw, 6.5rem);
+  }
+
+  .presentation-campaign .project-description {
+    grid-column: 2;
+    grid-row: 2;
+    margin: 0 0 0.25rem;
+  }
+
+  .presentation-campaign .project-hero :global(.media-block) {
+    width: min(100%, var(--hero-max-width, 100%));
+    margin-inline: auto;
+  }
+
+  .project-opening.presentation-execution {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    align-items: start;
+  }
+
+  .presentation-execution .project-header {
+    grid-column: 1;
+    grid-row: 1;
+    align-self: stretch;
+    padding-top: 0;
+  }
+
+  .presentation-execution .project-hero {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: center;
+  }
+
+  .presentation-execution .project-title {
+    font-size: clamp(2.75rem, 4.5vw, 4.5rem);
+    line-height: 0.88;
+  }
+
+  .presentation-execution .project-description {
+    font-size: clamp(0.95rem, 1.2vw, 1.05rem);
   }
 
   .project-hero {
@@ -269,12 +433,32 @@ const portraitMaxWidth = portraitHero && heroAspect
   }
 
   .project-hero :global(.media-block) {
+    width: min(100%, var(--hero-max-width, 100%));
     max-width: 100%;
+    margin-inline: auto;
+  }
+
+  .presentation-sequence .project-hero {
+    justify-content: flex-start;
+  }
+
+  .presentation-sequence .project-hero :global(.media-block) {
+    margin-inline: 0;
+  }
+
+  .project-hero :global(.media-block:not(.has-aspect)) {
+    width: fit-content;
+  }
+
+  .project-hero :global(.media-block:not(.has-aspect) img),
+  .project-hero :global(.media-block:not(.has-aspect) video) {
+    width: auto;
+    max-width: 100%;
+    max-height: 78svh;
   }
 
   .portrait-opening .project-hero :global(.media-block) {
-    width: var(--portrait-width);
-    margin-inline: auto;
+    width: min(100%, var(--hero-max-width, 100%));
   }
 
   .project-header {
@@ -308,27 +492,66 @@ const portraitMaxWidth = portraitHero && heroAspect
   .project-meta {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.45rem 1rem;
+    gap: 0.75rem 1.5rem;
     margin-top: 1.5rem;
     padding-top: 0.75rem;
     border-top: 1px solid var(--color-border);
   }
 
-  .project-year,
-  .project-client {
+  .meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    min-width: 7rem;
+  }
+
+  .meta-item dt {
+    color: var(--color-muted);
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .meta-item dd {
+    margin: 0;
     color: var(--color-text);
     font-family: var(--font-body);
     font-size: 0.875rem;
     font-weight: 500;
+    line-height: 1.45;
   }
 
-  .project-roles {
+  .meta-roles {
     flex-basis: 100%;
+    min-width: 0;
+  }
+
+  .contribution-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 10rem), 1fr));
+    gap: 0.35rem 1rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .contribution-list li {
+    display: flex;
+    align-items: baseline;
+    gap: 0.55rem;
+    border-top: 1px solid var(--color-border);
+    padding-top: 0.4rem;
+    color: var(--color-text);
+    font-family: var(--font-body);
+    font-size: 0.8125rem;
+    line-height: 1.4;
+  }
+
+  .contribution-list li span {
+    color: var(--color-accent);
     font-family: var(--font-mono);
-    color: var(--color-muted);
-    font-size: 0.65rem;
-    letter-spacing: 0.04em;
-    line-height: 1.6;
+    font-size: 0.5625rem;
   }
 
   .project-title {
@@ -371,9 +594,62 @@ const portraitMaxWidth = portraitHero && heroAspect
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+    margin: 0;
+  }
+
+  .gallery-index {
+    display: inline-block;
+    color: var(--color-accent);
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    letter-spacing: 0.08em;
+    transition: transform 180ms ease, color 180ms ease;
+  }
+
+  .gallery-item :global(.media-block),
+  .media-section :global(.media-block) {
+    transition: transform 280ms cubic-bezier(0.2, 0.65, 0.3, 1);
+  }
+
+  @media (hover: hover) {
+    .gallery-item:hover .gallery-index {
+      color: var(--color-text);
+      transform: translateX(0.2rem);
+    }
+
+    .gallery-item:hover :global(.media-block),
+    .media-section:hover :global(.media-block) {
+      transform: translateY(-0.25rem);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .gallery-item:hover .gallery-index,
+    .gallery-item:hover :global(.media-block),
+    .media-section:hover :global(.media-block) {
+      transform: none;
+    }
   }
 
   .gallery-item:nth-child(even) {
+    grid-column: span 5;
+    align-self: center;
+  }
+
+  .gallery-item-landscape {
+    grid-column: 1 / -1;
+  }
+
+  .gallery-item-square {
+    grid-column: span 6;
+  }
+
+  .gallery-item-portrait {
+    grid-column: span 4;
+    justify-self: center;
+  }
+
+  .gallery-item-intrinsic:nth-child(even) {
     grid-column: span 5;
     align-self: center;
   }
@@ -497,23 +773,6 @@ const portraitMaxWidth = portraitHero && heroAspect
     text-decoration: underline;
   }
 
-  .project-nav {
-    margin-bottom: 4rem;
-  }
-
-  .back-link {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--color-muted);
-    transition: color 0.15s ease;
-  }
-
-  .back-link:hover {
-    color: var(--color-text);
-  }
-
   @media (max-width: 639px) {
     .project-opening,
     .project-opening.portrait-opening {
@@ -528,44 +787,51 @@ const portraitMaxWidth = portraitHero && heroAspect
       padding-block: 4rem 2rem;
     }
 
-    .project-opening.composition-single-artwork,
-    .project-opening.composition-motion {
+    .project-opening.presentation-artwork {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .project-opening.presentation-artwork,
+    .project-opening.presentation-motion,
+    .project-opening.presentation-campaign,
+    .project-opening.presentation-sequence {
       gap: 1.5rem;
       padding-bottom: 2rem;
     }
 
-    .composition-single-artwork .project-header,
-    .composition-motion .project-header {
+    .presentation-artwork .project-header,
+    .presentation-motion .project-header,
+    .presentation-campaign .project-header {
       grid-template-columns: minmax(0, 1fr);
       gap: 0;
     }
 
-    .composition-motion .project-header {
-      order: 0;
-    }
-
-    .composition-motion .project-hero {
-      order: 1;
-    }
-
-    .composition-single-artwork .project-title,
-    .composition-motion .project-title {
+    .presentation-artwork .project-title,
+    .presentation-motion .project-title,
+    .presentation-campaign .project-title {
       grid-column: 1;
       font-size: clamp(3rem, 13vw, 4.5rem);
     }
 
-    .composition-single-artwork .project-meta,
-    .composition-motion .project-meta {
+    .presentation-artwork .project-meta,
+    .presentation-motion .project-meta,
+    .presentation-campaign .project-meta {
       grid-column: 1;
       grid-row: auto;
       margin-top: 1rem;
     }
 
-    .project-opening.composition-graphic-sequence.no-hero .project-header {
+    .presentation-campaign .project-description {
+      grid-column: 1;
+      grid-row: auto;
+      margin-top: 1rem;
+    }
+
+    .project-opening.presentation-sequence.no-hero .project-header {
       padding: 1.5rem 0 2rem;
     }
 
-    .project-hero {
+    .presentation-motion .project-hero {
       order: 0;
     }
 
@@ -580,6 +846,34 @@ const portraitMaxWidth = portraitHero && heroAspect
       padding: 0.75rem 0;
     }
 
+    .presentation-execution .project-header,
+    .presentation-execution .project-hero {
+      grid-column: 1;
+      grid-row: auto;
+    }
+
+    .project-opening.presentation-execution {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .presentation-execution .project-header {
+      order: 0;
+    }
+
+    .presentation-execution .project-hero {
+      order: 1;
+    }
+
+    .presentation-artwork .project-header,
+    .presentation-artwork .project-hero {
+      grid-column: 1;
+      grid-row: auto;
+    }
+
+    .presentation-execution .project-title {
+      font-size: clamp(2.5rem, 12vw, 3.8rem);
+    }
+
     .project-title {
       font-size: clamp(3.5rem, 17vw, 5rem);
     }
@@ -590,8 +884,12 @@ const portraitMaxWidth = portraitHero && heroAspect
     }
 
     .gallery-item,
-    .gallery-item:nth-child(even) {
+    .gallery-item:nth-child(even),
+    .gallery-item-landscape,
+    .gallery-item-square,
+    .gallery-item-portrait {
       grid-column: 1;
+      justify-self: stretch;
     }
 
     .media-section.layout-half,

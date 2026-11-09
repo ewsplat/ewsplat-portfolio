@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import MediaBlock from '../components/MediaBlock.astro';
+import CharacterCameo from '../components/CharacterCameo.astro';
 import { withBase } from '../utils/site';
 import { getCollection } from 'astro:content';
 
@@ -9,120 +10,116 @@ const featuredProjects = allProjects
   .filter((p) => !p.data.draft && p.data.featured)
   .sort((a, b) => (a.data.featuredOrder ?? 99) - (b.data.featuredOrder ?? 99));
 
-const dominantProject = featuredProjects[0];
-const supportProject1 = featuredProjects[1];
-const supportProject2 = featuredProjects[2];
-const continuationProjects = featuredProjects.slice(3, 7);
+const leadProject = featuredProjects[0];
+const remainingProjects = featuredProjects.slice(1);
+const publishedCount = allProjects.filter((project) => !project.data.draft).length;
+const pawaProject = allProjects.find((project) => (project.data.slug ?? project.id) === 'pawa-dog-3d-model');
+
+if (
+  !pawaProject
+  || pawaProject.data.draft
+  || pawaProject.data.compositionTest
+  || !pawaProject.data.thumbnail
+) {
+  throw new Error('The homepage character cameo requires the published Pawa Dog thumbnail.');
+}
 
 const projectHref = (project: (typeof featuredProjects)[number]) =>
   withBase(`/projects/${project.data.slug ?? project.id}`);
 ---
 
 <Layout title="EWSPLAT — Multidisciplinary Creative Practice">
-  <div class="container">
+  <div class="container" data-home-interaction>
     <section class="hero" aria-label="Introduction">
-      <div class="hero-eyebrow">
+      <div class="hero-topline">
         <span>Independent creative practice</span>
-        <span>Image / motion / other things</span>
+        <span>Wellington, New Zealand</span>
       </div>
-      <h1 class="hero-title">EWSPLAT</h1>
-      <div class="hero-bottom">
-        <p class="hero-intro">Images, characters and worlds — still and moving.</p>
-        <p class="hero-note">Illustration, animation, design, 2D / 3D and visual experiments.</p>
-      </div>
-      <hr class="hero-rule" />
-    </section>
-
-    <section class="selected-work" aria-label="Selected Work">
-      <div class="section-heading">
-        <span>01 — Selected work</span>
-        <span>Some things, for now</span>
-      </div>
-      <div class="selected-work-grid">
-        {dominantProject && (
-          <div class="dominant-col">
-            <a href={projectHref(dominantProject)} class="project-card" aria-label={`View ${dominantProject.data.title}`}>
-              {dominantProject.data.thumbnail && (
-                <MediaBlock
-                  type={dominantProject.data.thumbnail.type}
-                  src={dominantProject.data.thumbnail.src}
-                  aspect={dominantProject.data.thumbnail.aspect}
-                  color={dominantProject.data.thumbnail.color}
-                  alt={dominantProject.data.thumbnail.alt || dominantProject.data.title}
-                  poster={dominantProject.data.thumbnail.poster}
-                  crop={dominantProject.data.thumbnail.crop}
-                  controls={false}
-                />
+      <h1 class="hero-title">
+        <button
+          type="button"
+          class="hero-wordmark-button"
+          data-wordmark-play
+          aria-label="EWSPLAT"
+          aria-describedby="wordmark-hint"
+          title="Play the selected-project ripple"
+        >
+          {'EWSPLAT'.split('').map((letter, index) => (
+            <span class="hero-letter" style={`--letter-index: ${index}`}>{letter}</span>
+          ))}
+        </button>
+      </h1>
+      <span class="visually-hidden" id="wordmark-hint">Activate to send a ripple through the seven selected projects.</span>
+      <span class="visually-hidden" data-ripple-status role="status" aria-live="polite"></span>
+      {leadProject && (
+        <div class="hero-feature">
+          <a
+            href={projectHref(leadProject)}
+            class="hero-artwork"
+            aria-label={`View ${leadProject.data.title}`}
+            data-featured-media="1"
+            style="--ripple-order: 1"
+          >
+            {leadProject.data.thumbnail && (
+              <MediaBlock
+                type={leadProject.data.thumbnail.type}
+                src={leadProject.data.thumbnail.src}
+                aspect={leadProject.data.thumbnail.aspect}
+                color={leadProject.data.thumbnail.color}
+                alt={leadProject.data.thumbnail.alt || leadProject.data.title}
+                poster={leadProject.data.thumbnail.poster}
+                crop={leadProject.data.thumbnail.crop}
+                controls={false}
+                loading="eager"
+                response="expressive"
+              />
+            )}
+          </a>
+          <div class="hero-caption">
+            <div class="hero-index"><span>01</span><span>/ 07</span></div>
+            <p class="hero-intro">Illustration, character design, animation and graphic design — moving between disciplines as the work requires.</p>
+            <div class="hero-project">
+              <a href={projectHref(leadProject)} class="hero-project-title">
+                {leadProject.data.title}<span aria-hidden="true">↗</span>
+              </a>
+              {leadProject.data.roles.length > 0 && (
+                <p class="hero-project-roles">{leadProject.data.roles.join(' / ')}</p>
               )}
-              <div class="project-info">
-                <span class="project-title">{dominantProject.data.title}</span>
-                {dominantProject.data.roles.length > 0 && (
-                  <span class="project-roles">{dominantProject.data.roles.join(' / ')}</span>
-                )}
-              </div>
-            </a>
-          </div>
-        )}
-
-        <div class="support-col">
-          <div class="annotation"><span>Across disciplines</span><span aria-hidden="true">↘</span></div>
-          <div class="support-items">
-            {supportProject1 && (
-              <a href={projectHref(supportProject1)} class="project-card" aria-label={`View ${supportProject1.data.title}`}>
-                {supportProject1.data.thumbnail && (
-                  <MediaBlock
-                    type={supportProject1.data.thumbnail.type}
-                    src={supportProject1.data.thumbnail.src}
-                    aspect={supportProject1.data.thumbnail.aspect}
-                    color={supportProject1.data.thumbnail.color}
-                    alt={supportProject1.data.thumbnail.alt || supportProject1.data.title}
-                    poster={supportProject1.data.thumbnail.poster}
-                    crop={supportProject1.data.thumbnail.crop}
-                    controls={false}
-                  />
-                )}
-                <div class="project-info">
-                  <span class="project-title">{supportProject1.data.title}</span>
-                  {supportProject1.data.roles.length > 0 && (
-                    <span class="project-roles">{supportProject1.data.roles.join(' / ')}</span>
-                  )}
-                </div>
-              </a>
-            )}
-            {supportProject2 && (
-              <a href={projectHref(supportProject2)} class="project-card" aria-label={`View ${supportProject2.data.title}`}>
-                {supportProject2.data.thumbnail && (
-                  <MediaBlock
-                    type={supportProject2.data.thumbnail.type}
-                    src={supportProject2.data.thumbnail.src}
-                    aspect={supportProject2.data.thumbnail.aspect}
-                    color={supportProject2.data.thumbnail.color}
-                    alt={supportProject2.data.thumbnail.alt || supportProject2.data.title}
-                    poster={supportProject2.data.thumbnail.poster}
-                    crop={supportProject2.data.thumbnail.crop}
-                    controls={false}
-                  />
-                )}
-                <div class="project-info">
-                  <span class="project-title">{supportProject2.data.title}</span>
-                  {supportProject2.data.roles.length > 0 && (
-                    <span class="project-roles">{supportProject2.data.roles.join(' / ')}</span>
-                  )}
-                </div>
-              </a>
-            )}
+            </div>
+            <p class="hero-note">Commissioned and self-initiated work</p>
           </div>
         </div>
+      )}
+      <div class="hero-signoff">
+        <span>Seven selected projects</span>
+        <CharacterCameo
+          href={projectHref(pawaProject)}
+          src={pawaProject.data.thumbnail.src}
+          alt={pawaProject.data.thumbnail.alt || pawaProject.data.title}
+          name={pawaProject.data.title}
+          collection={pawaProject.data.collection || 'Character work'}
+        />
+        <span aria-hidden="true">↓</span>
       </div>
+    </section>
 
-      {continuationProjects.length > 0 && (
-        <div class="featured-continuation" aria-label="More selected work">
-          {continuationProjects.map((project) => (
+    <section class="selected-work" aria-label="More selected work">
+      <div class="section-heading">
+        <span>02—07 <i> / </i> Selected work</span>
+        <span>A mix of client commissions and personal experiments</span>
+      </div>
+      <div class="featured-sequence">
+        {remainingProjects.map((project) => (
             <a
               href={projectHref(project)}
               class:list={['project-card', `featured-card-${project.data.featuredOrder}`]}
               aria-label={`View ${project.data.title}`}
+              data-featured-media={String(project.data.featuredOrder ?? 0)}
+              style={`--ripple-order: ${project.data.featuredOrder ?? 0}`}
             >
+              <span class="project-index" aria-hidden="true">
+                {String(project.data.featuredOrder ?? 0).padStart(2, '0')}
+              </span>
               {project.data.thumbnail && (
                 <MediaBlock
                   type={project.data.thumbnail.type}
@@ -133,25 +130,34 @@ const projectHref = (project: (typeof featuredProjects)[number]) =>
                   poster={project.data.thumbnail.poster}
                   crop={project.data.thumbnail.crop}
                   controls={false}
+                  response={
+                    project.data.featuredOrder === 4 ? 'tilt'
+                    : project.data.featuredOrder === 3 || project.data.featuredOrder === 7 ? 'reveal-side'
+                    : project.data.featuredOrder === 2 || project.data.featuredOrder === 6 ? 'reveal-up'
+                    : 'still'
+                  }
                 />
               )}
               <div class="project-info">
-                <span class="project-title">{project.data.title}</span>
+                <span class="project-title">
+                  {project.data.title}<span class="project-arrow" aria-hidden="true">↗</span>
+                </span>
                 {project.data.roles.length > 0 && (
                   <span class="project-roles">{project.data.roles.join(' / ')}</span>
                 )}
               </div>
             </a>
-          ))}
-        </div>
-      )}
+        ))}
+      </div>
     </section>
 
-    <section class="archive-section" aria-label="Continue to the archive">
+<section class="archive-section" aria-label="Continue to the archive">
       <hr class="archive-rule" />
       <div class="archive-link-wrapper">
-        <p class="archive-prompt">There’s more where that came from.</p>
-        <a href={withBase('/archive')} class="archive-link"><span>Open the index</span><span aria-hidden="true">↗</span></a>
+        <p class="archive-prompt">The full archive includes commissioned work, self-initiated projects and visual experiments.</p>
+        <a href={withBase('/archive')} class="archive-link">
+          <span>Open all {publishedCount} projects</span><span aria-hidden="true">↗</span>
+        </a>
       </div>
     </section>
   </div>
@@ -159,73 +165,240 @@ const projectHref = (project: (typeof featuredProjects)[number]) =>
 
 <style>
   .hero {
-    padding: clamp(3.5rem, 8vw, 7rem) 0 1.5rem;
-    position: relative;
+    padding: clamp(1.5rem, 4vw, 3.5rem) 0 0;
   }
 
-  .hero-eyebrow,
-  .hero-bottom,
+  .hero-topline,
   .section-heading {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    gap: 1.5rem;
+    gap: 1rem;
   }
 
-  .hero-eyebrow,
+  .hero-topline,
   .section-heading {
     font-family: var(--font-body);
     font-size: 0.6875rem;
     font-weight: 600;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
   }
 
-  .hero-eyebrow {
-    margin-bottom: 0.75rem;
+  .hero-topline {
     color: var(--color-muted);
   }
 
   .hero-title {
     font-family: var(--font-display);
-    font-size: clamp(6rem, 17.2vw, 13rem);
+    font-size: clamp(7rem, 19vw, 17rem);
     line-height: 0.76;
-    letter-spacing: -0.035em;
-    margin: 0 -0.045em 1.5rem;
+    letter-spacing: -0.045em;
+    margin: 0.08em -0.045em clamp(1rem, 2.5vw, 2rem);
     white-space: nowrap;
   }
 
+  .hero-wordmark-button {
+    display: inline-block;
+    border: 0;
+    padding: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    letter-spacing: inherit;
+    line-height: inherit;
+    white-space: inherit;
+    cursor: pointer;
+  }
+
+  .hero-wordmark-button:focus-visible {
+    outline: 0;
+    text-decoration: underline;
+    text-decoration-color: var(--color-accent);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.08em;
+  }
+
+  .hero-letter {
+    display: inline-block;
+    transform-origin: 50% 80%;
+    transition: transform 190ms cubic-bezier(0.2, 0.65, 0.3, 1);
+  }
+
+  .hero-wordmark-button.is-jiggling .hero-letter {
+    animation: wordmark-nudge 480ms cubic-bezier(0.2, 0.75, 0.25, 1) both;
+    animation-delay: calc(var(--letter-index) * 22ms);
+  }
+
+  @keyframes wordmark-nudge {
+    0%, 100% { transform: translate3d(0, 0, 0) rotate(0) scale(1); }
+    28% { transform: translate3d(0, -0.09em, 0) rotate(-6deg) scale(1.025); }
+    52% { transform: translate3d(0, 0.025em, 0) rotate(3deg) scale(0.99); }
+    72% { transform: translate3d(0, -0.015em, 0) rotate(-1deg) scale(1.005); }
+  }
+
+  @media (hover: hover) {
+    .hero-letter:hover {
+      transform: translateY(-0.055em) rotate(-3deg);
+    }
+
+    .hero-letter:hover + .hero-letter {
+      transform: translateY(0.02em) rotate(1deg);
+    }
+  }
+
+  .hero-wordmark-button:active .hero-letter {
+    transform: translateY(-0.035em) rotate(-2deg);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-wordmark-button.is-jiggling .hero-letter,
+    [data-home-interaction].is-rippling [data-featured-media] img,
+    .hero-letter:hover,
+    .hero-letter:hover + .hero-letter,
+    .hero-wordmark-button:active .hero-letter,
+    [data-playful-media]:hover img,
+    [data-playful-media]:focus-visible img,
+    [data-featured-media] img,
+    .hero-artwork:hover :global(.media-block),
+    .hero-artwork:focus-visible :global(.media-block),
+    .project-card:hover .project-index,
+    .project-card:focus-visible .project-index,
+    .project-card:hover .project-arrow,
+    .project-card:focus-visible .project-arrow {
+      transform: none;
+    }
+  }
+
+  .hero-feature {
+    display: grid;
+    grid-template-columns: minmax(0, 1.12fr) minmax(15rem, 0.88fr);
+    gap: clamp(1.5rem, 5vw, 5rem);
+    align-items: end;
+    border-bottom: 1px solid var(--color-accent);
+    padding-bottom: clamp(1.5rem, 3vw, 2.5rem);
+  }
+
+  .hero-artwork {
+    display: flex;
+    align-items: flex-end;
+    min-width: 0;
+  }
+
+  .hero-artwork :global(.media-block) {
+    width: 100%;
+    background: transparent;
+    transition: transform 350ms cubic-bezier(0.2, 0.65, 0.3, 1);
+  }
+
+  .hero-artwork :global(.media-block img) {
+    width: auto;
+    max-width: 100%;
+    max-height: 55svh;
+  }
+
+  .hero-artwork:hover :global(.media-block),
+  .hero-artwork:focus-visible :global(.media-block) {
+    transform: translateY(-0.25rem);
+  }
+
+  .hero-caption {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: clamp(1.25rem, 3vw, 2.5rem);
+    padding-bottom: 0.25rem;
+  }
+
+  .hero-index,
+  .project-index {
+    display: flex;
+    gap: 0.45rem;
+    align-items: baseline;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--color-muted);
+  }
+
+  .hero-index span:first-child,
+  .project-index {
+    color: var(--color-accent);
+  }
+
   .hero-intro {
+    max-width: 15ch;
     font-family: var(--font-body);
-    font-size: clamp(1.35rem, 2.8vw, 2.25rem);
+    font-size: clamp(1.45rem, 3.1vw, 2.75rem);
     font-weight: 500;
-    letter-spacing: -0.055em;
-    max-width: 27rem;
-    line-height: 1.15;
+    letter-spacing: -0.065em;
+    line-height: 1.04;
+  }
+
+  .hero-project {
+    width: 100%;
+    padding-top: 0.8rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .hero-project-title {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    width: 100%;
+    font-family: var(--font-display);
+    font-size: clamp(2.25rem, 4.5vw, 4.25rem);
+    line-height: 0.92;
+    transition: color 160ms ease;
+  }
+
+  .hero-project-title:hover,
+  .hero-project-title:focus-visible {
+    color: var(--color-accent);
+  }
+
+  .hero-project-title span {
+    color: var(--color-accent);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    transition: transform 160ms ease;
+  }
+
+  .hero-project-title:hover span,
+  .hero-project-title:focus-visible span {
+    transform: translate(0.2rem, -0.2rem);
+  }
+
+  .hero-project-roles,
+  .hero-note {
+    margin-top: 0.45rem;
+    color: var(--color-muted);
+    font-size: 0.8125rem;
   }
 
   .hero-note {
-    max-width: 17rem;
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .hero-signoff {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.7rem 0;
     color: var(--color-muted);
-    font-size: 0.9375rem;
-    line-height: 1.55;
-    text-align: right;
-  }
-
-  .hero-rule {
-    border: none;
-    border-bottom: 1px solid var(--color-accent);
-    margin-top: 2rem;
-    margin-bottom: 3.25rem;
-  }
-
-  .selected-work {
-    margin-bottom: 2rem;
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
   }
 
   .section-heading {
     padding-bottom: 0.75rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: clamp(1.5rem, 4vw, 3rem);
     border-bottom: 1px solid var(--color-border);
   }
 
@@ -233,66 +406,40 @@ const projectHref = (project: (typeof featuredProjects)[number]) =>
     color: var(--color-accent);
   }
 
-  .selected-work-grid {
-    display: grid;
-    grid-template-columns: minmax(0, 1.28fr) minmax(18rem, 0.72fr);
-    gap: clamp(1.75rem, 5vw, 5rem);
-    align-items: start;
-  }
-
-  .dominant-col {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .support-col {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    padding-top: 1.5rem;
-  }
-
-  .annotation {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-family: var(--font-body);
-    font-size: 0.6875rem;
-    font-weight: 500;
+  .section-heading i {
     color: var(--color-muted);
+    font-style: normal;
   }
 
-  .annotation span:last-child {
-    color: var(--color-accent);
-    font-size: 1.25rem;
-  }
-
-  .support-items {
-    display: flex;
-    flex-direction: column;
-    gap: 2.75rem;
-    padding-top: 0.5rem;
-  }
-
-  .featured-continuation {
+  .featured-sequence {
     display: grid;
     grid-template-columns: repeat(12, minmax(0, 1fr));
-    gap: clamp(2.5rem, 7vw, 6rem) clamp(1rem, 3vw, 2.5rem);
+    column-gap: clamp(1rem, 3vw, 2.5rem);
+    row-gap: clamp(3rem, 8vw, 7rem);
     align-items: start;
-    margin-top: clamp(3rem, 8vw, 7rem);
+    padding-top: clamp(1rem, 3vw, 2.5rem);
+  }
+
+  .featured-card-2 {
+    grid-column: 1 / span 5;
+  }
+
+  .featured-card-3 {
+    grid-column: 8 / span 5;
+    margin-top: clamp(3rem, 9vw, 7rem);
   }
 
   .featured-card-4 {
-    grid-column: 1 / span 7;
+    grid-column: 2 / span 7;
   }
 
   .featured-card-5 {
     grid-column: 9 / span 4;
-    margin-top: clamp(3rem, 9vw, 7rem);
+    margin-top: clamp(2rem, 6vw, 5rem);
   }
 
   .featured-card-6 {
-    grid-column: 2 / span 5;
+    grid-column: 1 / span 5;
   }
 
   .featured-card-7 {
@@ -301,19 +448,51 @@ const projectHref = (project: (typeof featuredProjects)[number]) =>
   }
 
   .project-card {
+    position: relative;
     display: flex;
     flex-direction: column;
-    gap: 0.65rem;
+    gap: 0.7rem;
     text-decoration: none;
     color: inherit;
   }
 
-  .project-card:hover .project-title {
+  .project-index {
+    position: absolute;
+    z-index: 1;
+    top: 0.7rem;
+    left: 0.7rem;
+    padding: 0.25rem 0.4rem;
+    background: var(--color-bg);
+    font-size: 0.625rem;
+    transition: transform 180ms ease, background-color 180ms ease;
+  }
+
+  .project-card:hover .project-index,
+  .project-card:focus-visible .project-index {
+    background: var(--color-surface);
+    transform: rotate(-4deg);
+  }
+
+  .project-card .media-block {
+    width: 100%;
+  }
+
+  .project-card:hover .project-title,
+  .project-card:focus-visible .project-title {
     color: var(--color-accent);
   }
 
-  .project-card:focus-visible .project-title {
-    color: var(--color-accent);
+  .project-title {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.75rem;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(1.4rem, 2.3vw, 2rem);
+    line-height: 0.95;
+    color: var(--color-text);
+    transition: color 0.15s ease;
   }
 
   .project-info {
@@ -322,13 +501,16 @@ const projectHref = (project: (typeof featuredProjects)[number]) =>
     gap: 0.25rem;
   }
 
-  .project-title {
-    font-family: var(--font-display);
-    font-weight: 400;
-    font-size: clamp(1.25rem, 2vw, 1.75rem);
-    line-height: 0.95;
-    color: var(--color-text);
-    transition: color 0.15s ease;
+  .project-arrow {
+    color: var(--color-accent);
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    transition: transform 160ms ease;
+  }
+
+  .project-card:hover .project-arrow,
+  .project-card:focus-visible .project-arrow {
+    transform: translate(0.2rem, -0.2rem);
   }
 
   .project-roles {
@@ -338,7 +520,7 @@ const projectHref = (project: (typeof featuredProjects)[number]) =>
   }
 
   .archive-section {
-    margin-top: clamp(3rem, 8vw, 7rem);
+    margin-top: clamp(4rem, 10vw, 9rem);
     margin-bottom: 4rem;
   }
 
@@ -357,8 +539,8 @@ const projectHref = (project: (typeof featuredProjects)[number]) =>
 
   .archive-prompt {
     font-family: var(--font-body);
-    font-size: clamp(1rem, 1.7vw, 1.35rem);
-    letter-spacing: -0.035em;
+    font-size: clamp(1.2rem, 2.3vw, 1.8rem);
+    letter-spacing: -0.045em;
   }
 
   .archive-link {
@@ -368,7 +550,7 @@ const projectHref = (project: (typeof featuredProjects)[number]) =>
     padding: 0.75rem 0;
     border-bottom: 1px solid var(--color-accent);
     font-family: var(--font-display);
-    font-size: 1.5rem;
+    font-size: clamp(1.4rem, 3vw, 2.2rem);
     line-height: 1;
     text-transform: uppercase;
     transition: color 0.15s ease, gap 0.15s ease;
@@ -383,91 +565,103 @@ const projectHref = (project: (typeof featuredProjects)[number]) =>
     color: var(--color-accent);
   }
 
+  .archive-link:hover {
+    color: var(--color-accent);
+    gap: 2rem;
+  }
+
   @media (max-width: 639px) {
     .hero {
-      padding: 3rem 0 1rem;
+      padding: 2rem 0 0;
     }
 
-    .hero-eyebrow {
-      font-size: 0.5625rem;
+    .hero-topline,
+    .section-heading {
+      font-size: 0.55rem;
       gap: 0.5rem;
     }
 
     .hero-title {
-      font-size: clamp(4.2rem, 18vw, 7rem);
-      margin-top: 1rem;
-      margin-bottom: 1.25rem;
+      font-size: clamp(4.6rem, 18.5vw, 7.5rem);
+      margin: 0.5rem 0 1rem -0.045em;
     }
 
-    .hero-bottom {
-      align-items: flex-start;
+    .hero-feature {
+      grid-template-columns: minmax(0, 1fr) minmax(7.5rem, 0.78fr);
       gap: 1rem;
+      align-items: end;
+      padding-bottom: 1rem;
+    }
+
+    .hero-artwork :global(.media-block img) {
+      max-height: 43svh;
+    }
+
+    .hero-caption {
+      gap: 1.25rem;
+      padding-bottom: 0;
     }
 
     .hero-intro {
-      font-size: clamp(1.25rem, 6vw, 1.75rem);
-      max-width: 17rem;
+      font-size: clamp(1.15rem, 5.5vw, 1.7rem);
+      letter-spacing: -0.06em;
+    }
+
+    .hero-project-title {
+      font-size: clamp(1.8rem, 8vw, 2.6rem);
+    }
+
+    .hero-project-title span {
+      font-size: 0.8rem;
     }
 
     .hero-note {
-      max-width: 8.5rem;
-      font-size: 0.75rem;
+      font-size: 0.55rem;
     }
 
-    .section-heading {
-      font-size: 0.5625rem;
-      gap: 0.5rem;
+    .featured-sequence {
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 2.5rem 0.75rem;
+      padding-top: 0.5rem;
     }
 
-    .hero-rule {
-      margin-top: 1.5rem;
-      margin-bottom: 2rem;
+    .featured-card-2 {
+      grid-column: 1 / span 4;
     }
 
-    .selected-work-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 2rem;
+    .featured-card-3 {
+      grid-column: 3 / span 4;
+      margin-top: 0;
     }
 
-    .hero-title {
-      font-size: clamp(3rem, 17vw, 4.5rem);
+    .featured-card-4 {
+      grid-column: 1 / span 5;
     }
 
-    .dominant-col {
-      width: 100%;
+    .featured-card-5 {
+      grid-column: 3 / span 4;
+      margin-top: 0;
     }
 
-    .support-col {
-      width: 100%;
-      gap: 0.75rem;
-      padding-top: 0;
+    .featured-card-6 {
+      grid-column: 1 / span 4;
     }
 
-    .support-items {
-      display: grid;
-      grid-template-columns: 1.12fr 0.88fr;
-      gap: 1rem;
-      align-items: start;
-    }
-
-    .featured-continuation {
-      display: flex;
-      flex-direction: column;
-      gap: 2rem;
-      margin-top: 2.5rem;
-    }
-
-    .featured-card-4,
-    .featured-card-5,
-    .featured-card-6,
     .featured-card-7 {
-      width: 100%;
-      margin: 0;
+      grid-column: 3 / span 4;
+      margin-top: 0;
+    }
+
+    .project-title {
+      font-size: 1.4rem;
+    }
+
+    .project-roles {
+      font-size: 0.7rem;
     }
 
     .archive-section {
-      margin-top: 3.5rem;
+      margin-top: 4rem;
       margin-bottom: 2.5rem;
     }
 
@@ -477,4 +671,49 @@ const projectHref = (project: (typeof featuredProjects)[number]) =>
       gap: 0.75rem;
     }
   }
+
+  @media (max-width: 380px) {
+    .hero-topline {
+      font-size: 0.49rem;
+      letter-spacing: 0.04em;
+    }
+
+    .hero-feature {
+      grid-template-columns: minmax(0, 1fr) minmax(6.75rem, 0.82fr);
+      gap: 0.75rem;
+    }
+
+    .hero-intro {
+      font-size: 1.12rem;
+    }
+
+    .hero-project-title {
+      font-size: 1.7rem;
+    }
+  }
 </style>
+
+<script>
+  const wordmark = document.querySelector<HTMLButtonElement>('[data-wordmark-play]');
+  const letters = wordmark?.querySelectorAll('.hero-letter');
+  const finalLetter = letters?.[letters.length - 1];
+  const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  if (wordmark && finalLetter && wordmark.dataset.playReady !== 'true') {
+    wordmark.dataset.playReady = 'true';
+    wordmark.addEventListener('click', () => {
+      if (motionPreference.matches) return;
+      wordmark.classList.remove('is-jiggling');
+      void wordmark.offsetWidth;
+      wordmark.classList.add('is-jiggling');
+    });
+    wordmark.addEventListener('animationend', (event) => {
+      if (event.target === finalLetter && event.animationName === 'wordmark-nudge') {
+        wordmark.classList.remove('is-jiggling');
+      }
+    });
+    motionPreference.addEventListener('change', (event) => {
+      if (event.matches) wordmark.classList.remove('is-jiggling');
+    });
+  }
+</script>

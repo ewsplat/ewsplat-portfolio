@@ -4,6 +4,7 @@
   "description": "Placeholder only — replace this note with project-specific context.",
   "composition": "single-artwork",
   "compositionTest": true,
+  "workType": "uncertain",
   "placeholder": true,
   "draft": true,
   "roles": ["Illustration — placeholder metadata"],

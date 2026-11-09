@@ -6,98 +6,180 @@ import { getCollection } from 'astro:content';
 
 const allProjects = await getCollection('projects');
 const projects = allProjects
-  .filter((p) => !p.data.draft)
+  .filter((p) => !p.data.draft && !p.data.compositionTest)
   .sort((a, b) => (a.data.archiveOrder ?? a.data.featuredOrder ?? 999) - (b.data.archiveOrder ?? b.data.featuredOrder ?? 999)
     || a.data.title.localeCompare(b.data.title));
 
 const totalCount = projects.length;
-const groupedProjects: { collection: string; projects: (typeof projects)[number][] }[] = [];
-for (const project of projects) {
-  const collection = project.data.collection ?? 'Independent work';
-  const group = groupedProjects.find((item) => item.collection === collection);
-  if (group) group.projects.push(project);
-  else groupedProjects.push({ collection, projects: [project] });
-}
+const workTypeCategories = [
+  {
+    id: 'client-work',
+    label: 'Client Work',
+    matches: (project: (typeof projects)[number]) => project.data.workType === 'client',
+  },
+  {
+    id: 'personal-work',
+    label: 'Personal Work',
+    matches: (project: (typeof projects)[number]) => project.data.workType === 'personal',
+  },
+  {
+    id: 'uncertain-work',
+    label: 'Uncertain',
+    matches: (project: (typeof projects)[number]) => project.data.workType === 'uncertain' || !project.data.workType,
+  },
+].map((category) => ({
+  ...category,
+  count: projects.filter(category.matches).length,
+}));
+
+const disciplineCategories = [
+  {
+    id: 'animation-motion',
+    label: 'Animation & Motion',
+    matches: (project: (typeof projects)[number]) =>
+      project.data.composition === 'motion'
+      || project.data.roles.some((role) => /animation|motion/i.test(role)),
+  },
+  {
+    id: 'illustration',
+    label: 'Illustration',
+    matches: (project: (typeof projects)[number]) =>
+      project.data.roles.some((role) => /illustration|character design/i.test(role)),
+  },
+  {
+    id: 'graphic-design',
+    label: 'Graphic Design',
+    matches: (project: (typeof projects)[number]) =>
+      project.data.roles.some((role) => /\bdesign\b|typography|graphic/i.test(role)),
+  },
+  {
+    id: 'campaigns-events',
+    label: 'Campaigns & Events',
+    matches: (project: (typeof projects)[number]) =>
+      project.data.presentation === 'campaign'
+      || project.data.roles.some((role) => /event|campaign|promotional/i.test(role)),
+  },
+].map((category) => ({
+  ...category,
+  count: projects.filter(category.matches).length,
+}));
 ---
 
 <Layout title="Archive — EWSPLAT" description="Complete archive of works, experiments, and visual projects.">
-  <div class="container archive-container">
+  <div class="container archive-container" data-archive>
     <header class="archive-header">
       <div class="archive-heading-row">
         <div>
-          <p class="archive-kicker">Visual index / selected things</p>
+          <p class="archive-kicker">Visual index / the full collection</p>
           <h1 class="archive-heading">Archive<span aria-hidden="true">.</span></h1>
         </div>
         <span class="archive-count" aria-label={`${totalCount} projects`}>{totalCount.toString().padStart(2, '0')}</span>
       </div>
       <div class="archive-intro-row">
-        <p class="archive-intro">A collection of images, moving things and visual experiments.</p>
-        <p class="archive-aside">Still in progress<br />Always in flux</p>
+        <p class="archive-intro">Commissioned work, self-initiated projects, and visual experiments — listed in project order.</p>
+        <p class="archive-aside">01—{totalCount.toString().padStart(2, '0')}<br />In project order</p>
       </div>
       <hr class="header-rule" />
     </header>
 
-    <div class="archive-groups">
-      {groupedProjects.map((group) => (
-        <section class="archive-group" aria-label={`${group.collection} projects`}>
-          {group.projects.length > 1 && (
-            <header class="collection-heading">
-              <h2>{group.collection}</h2>
-              <span>{String(group.projects.length).padStart(2, '0')}</span>
-            </header>
-          )}
-          <div class="archive-grid">
-            {group.projects.map((project) => {
-              const index = projects.indexOf(project);
-              const dimensions = project.data.thumbnail?.aspect?.split('/').map(Number);
-              const portrait = dimensions && dimensions[0] < dimensions[1];
-              const portraitMaxWidth = portrait && dimensions ? `${86 * dimensions[0] / dimensions[1]}svh` : undefined;
-              return (
-                <a
-                  href={withBase(`/projects/${project.data.slug ?? project.id}`)}
-                  class:list={['archive-item', `archive-item-${index + 1}`]}
-                  aria-label={`View ${project.data.title}`}
-                >
-                  {project.data.thumbnail && (
-                    <div
-                      class="media-wrapper"
-                      style={portraitMaxWidth ? `max-width: min(100%, ${portraitMaxWidth}); margin-inline: auto;` : undefined}
-                    >
-                      <MediaBlock
-                        type={project.data.thumbnail.type}
-                        src={project.data.thumbnail.src}
-                        aspect={project.data.thumbnail.aspect}
-                        color={project.data.thumbnail.color}
-                        alt={project.data.thumbnail.alt || project.data.title}
-                        poster={project.data.thumbnail.poster}
-                        crop={project.data.thumbnail.crop}
-                        controls={false}
-                      />
-                    </div>
-                  )}
-                  <div class="item-meta">
-                    <span class="item-counter" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
-                    <span class="item-title">{project.data.title}</span>
-                    {project.data.year && <span class="item-year">{project.data.year}</span>}
-                  </div>
-                </a>
-              );
-            })}
-          </div>
-        </section>
-      ))}
-    </div>
+    <nav class="archive-filters" aria-label="Filter projects by work type" data-archive-filters hidden>
+      <div class="filter-group">
+        <p class="filter-group-label">Work type</p>
+        <div class="filter-options" role="group" aria-label="Work type categories">
+          <button class="filter-button" type="button" data-filter="all" data-filter-group="workType" aria-pressed="true">
+            All <span>{String(totalCount).padStart(2, '0')}</span>
+          </button>
+          {workTypeCategories.filter((category) => category.count > 0).map((category) => (
+            <button class="filter-button" type="button" data-filter={category.id} data-filter-group="workType" aria-pressed="false">
+              {category.label} <span>{String(category.count).padStart(2, '0')}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+      <div class="filter-group">
+        <p class="filter-group-label">Discipline</p>
+        <div class="filter-options" role="group" aria-label="Discipline categories">
+          {disciplineCategories.filter((category) => category.count > 0).map((category) => (
+            <button class="filter-button" type="button" data-filter={category.id} data-filter-group="discipline" aria-pressed="false">
+              {category.label} <span>{String(category.count).padStart(2, '0')}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+      <p class="archive-results" data-archive-results role="status" aria-live="polite">
+        <span data-result-copy>Showing all {totalCount} projects</span>
+        <span class="filter-stamp" data-filter-stamp aria-hidden="true"></span>
+      </p>
+    </nav>
+
+    <p class="archive-empty" data-archive-empty hidden>No projects in this section.</p>
+
+    <section class="archive-grid" aria-label="Projects in archive order">
+      {projects.map((project, index) => {
+        const workTypeForProject = project.data.workType ?? 'uncertain';
+        const disciplineCategoriesForProject = disciplineCategories
+          .filter((category) => category.matches(project))
+          .map((category) => category.id);
+        const allCategoriesForProject = [workTypeForProject, ...disciplineCategoriesForProject];
+        const media = project.data.thumbnail;
+        return (
+          <a
+            href={withBase(`/projects/${project.data.slug ?? project.id}`)}
+            class="archive-item"
+            aria-label={`View ${project.data.title}`}
+            data-archive-item
+            data-categories={allCategoriesForProject.join(' ')}
+            data-rhythm={String((index % 8) + 1)}
+          >
+            {media && (
+              <div class="media-wrapper">
+                <MediaBlock
+                  type={media.type}
+                  src={media.src}
+                  aspect={media.aspect}
+                  color={media.color}
+                  alt={media.alt || project.data.title}
+                  poster={media.poster}
+                  crop={media.crop}
+                  controls={false}
+                />
+              </div>
+            )}
+            <div class="item-meta">
+              <div class="item-topline">
+                <span class="item-counter" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+                <span class="item-collection">{project.data.collection ?? 'Independent work'}</span>
+              </div>
+              <h2 class="item-title">
+                {project.data.title}<span class="item-arrow" aria-hidden="true">↗</span>
+              </h2>
+              <div class="item-details">
+                {project.data.roles.length > 0 && (
+                  <p class="item-roles">{project.data.roles.join(' / ')}</p>
+                )}
+                {(project.data.year || project.data.client) && (
+                  <p class="item-submeta">
+                    {project.data.client && <span>{project.data.client}</span>}
+                    {project.data.year && <span>{project.data.year}</span>}
+                  </p>
+                )}
+              </div>
+            </div>
+          </a>
+        );
+      })}
+    </section>
   </div>
 </Layout>
 
 <style>
   .archive-container {
-    padding-top: 4rem;
-    padding-bottom: 8rem;
+    padding-top: clamp(2.5rem, 6vw, 5rem);
+    padding-bottom: clamp(4rem, 10vw, 8rem);
   }
 
   .archive-header {
-    margin-bottom: 4rem;
+    margin-bottom: clamp(1.5rem, 3.5vw, 2.75rem);
   }
 
   .archive-heading-row,
@@ -109,10 +191,10 @@ for (const project of projects) {
   }
 
   .archive-kicker {
-    margin-bottom: 0.4rem;
+    margin-bottom: 0.55rem;
     font-family: var(--font-mono);
     font-size: 0.6875rem;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--color-accent);
   }
@@ -126,15 +208,23 @@ for (const project of projects) {
   }
 
   .archive-heading span {
+    display: inline-block;
     color: var(--color-accent);
+    transform-origin: 50% 70%;
+    transition: transform 220ms cubic-bezier(0.2, 0.65, 0.3, 1);
+  }
+
+  .archive-heading:hover span {
+    transform: rotate(45deg) scale(0.82);
   }
 
   .archive-count {
-    color: var(--color-signal);
+    color: var(--color-accent);
     font-family: var(--font-display);
     font-size: clamp(4rem, 9vw, 7rem);
     line-height: 0.75;
     letter-spacing: -0.04em;
+    font-variant-numeric: tabular-nums;
   }
 
   .archive-intro-row {
@@ -147,7 +237,7 @@ for (const project of projects) {
     font-size: clamp(1.15rem, 2.2vw, 1.75rem);
     font-weight: 500;
     letter-spacing: -0.045em;
-    max-width: 35rem;
+    max-width: 32rem;
   }
 
   .archive-aside {
@@ -161,69 +251,178 @@ for (const project of projects) {
   .header-rule {
     border: none;
     border-bottom: 1px solid var(--color-accent);
-    margin-top: 2rem;
+    margin-top: clamp(1.25rem, 3vw, 2rem);
   }
 
-  .archive-groups {
+  .archive-filters {
     display: flex;
-    flex-direction: column;
-    gap: clamp(4rem, 10vw, 8rem);
-  }
-
-  .archive-group {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-
-  .collection-heading {
-    display: flex;
+    align-items: flex-start;
     justify-content: space-between;
-    align-items: baseline;
+    flex-wrap: wrap;
+    gap: clamp(1.5rem, 4vw, 3rem) 1.5rem;
+    margin-bottom: clamp(1.25rem, 3vw, 2.5rem);
+    padding-bottom: 0.55rem;
     border-bottom: 1px solid var(--color-border);
-    padding-bottom: 0.65rem;
   }
 
-  .collection-heading h2 {
-    font-family: var(--font-display);
-    font-size: clamp(1.75rem, 4vw, 3rem);
-    font-weight: 400;
-    line-height: 0.9;
+  .filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
   }
 
-  .collection-heading span {
+  .filter-group-label {
+    color: var(--color-muted);
     font-family: var(--font-mono);
-    font-size: 0.6875rem;
+    font-size: 0.58rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .filter-options {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.5rem 1.4rem;
+  }
+
+  .filter-button {
+    position: relative;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.35rem;
+    padding: 0.15rem 0;
+    border: 0;
+    background: transparent;
+    color: var(--color-muted);
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    line-height: 1.5;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: color 160ms ease, transform 160ms ease;
+  }
+
+  .filter-button::after {
+    position: absolute;
+    right: 0;
+    bottom: -0.9rem;
+    left: 0;
+    height: 1px;
+    background: var(--color-accent);
+    content: '';
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 180ms ease;
+  }
+
+  .filter-button span {
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
     color: var(--color-muted);
   }
 
+  .filter-button[aria-pressed='true'],
+  .filter-button:hover {
+    color: var(--color-accent);
+  }
+
+  .filter-button[aria-pressed='true']::after {
+    transform: scaleX(1);
+  }
+
+  .filter-button[aria-pressed='true'] {
+    color: var(--color-accent);
+  }
+
+  .filter-button:active {
+    transform: translateY(1px) scale(0.97);
+  }
+
+  .archive-results {
+    color: var(--color-muted);
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    white-space: nowrap;
+  }
+
+  .filter-stamp {
+    display: inline-block;
+    width: 0.38rem;
+    height: 0.38rem;
+    margin-left: 0.25rem;
+    background: var(--color-accent);
+    vertical-align: 0.03em;
+    transform: rotate(0);
+  }
+
+  .filter-stamp.is-turning {
+    animation: filter-stamp-turn 360ms cubic-bezier(0.2, 0.65, 0.3, 1);
+  }
+
+  @keyframes filter-stamp-turn {
+    45% { transform: rotate(135deg) scale(0.76); }
+    100% { transform: rotate(0) scale(1); }
+  }
+
   .archive-grid {
-    display: flex;
-    flex-direction: column;
-    gap: clamp(3rem, 8vw, 7rem);
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: clamp(3rem, 7vw, 6rem) clamp(0.75rem, 2vw, 1.5rem);
   }
 
   .archive-item {
     display: flex;
     flex-direction: column;
-    gap: 0.85rem;
-    width: min(70%, 54rem);
+    min-width: 0;
+    gap: 0.7rem;
     text-decoration: none;
     color: inherit;
   }
 
-  .archive-item:nth-child(even) {
-    align-self: flex-end;
-    width: min(48%, 39rem);
+  .archive-item.is-entering {
+    animation: archive-arrive 420ms cubic-bezier(0.2, 0.75, 0.25, 1) both;
+    animation-delay: calc(var(--reveal-order, 0) * 24ms);
   }
 
-  .archive-item-3 {
-    width: min(58%, 46rem);
-    margin-left: 9%;
+  @keyframes archive-arrive {
+    from { opacity: 0; transform: translateY(0.8rem) rotate(0.5deg); }
+    to { opacity: 1; transform: translateY(0) rotate(0); }
   }
 
-  .archive-item-4 {
-    width: min(42%, 32rem);
+  .archive-item[data-rhythm='1'] {
+    grid-column: 1 / span 7;
+  }
+
+  .archive-item[data-rhythm='2'] {
+    grid-column: 9 / span 4;
+    align-self: center;
+  }
+
+  .archive-item[data-rhythm='3'] {
+    grid-column: 2 / span 4;
+  }
+
+  .archive-item[data-rhythm='4'] {
+    grid-column: 7 / span 6;
+    align-self: center;
+  }
+
+  .archive-item[data-rhythm='5'] {
+    grid-column: 1 / span 6;
+  }
+
+  .archive-item[data-rhythm='6'] {
+    grid-column: 8 / span 5;
+    align-self: center;
+  }
+
+  .archive-item[data-rhythm='7'] {
+    grid-column: 3 / span 8;
+  }
+
+  .archive-item[data-rhythm='8'] {
+    grid-column: 1 / span 5;
   }
 
   .media-wrapper {
@@ -232,44 +431,138 @@ for (const project of projects) {
     background-color: var(--color-surface);
   }
 
-  .archive-item:hover .item-title {
-    color: var(--color-accent);
+  .media-wrapper :global(.media-block) {
+    background: transparent;
   }
 
-  .item-meta {
+  .item-topline {
     display: flex;
     align-items: baseline;
-    gap: 0.85rem;
-    border-top: 1px solid var(--color-border);
-    padding-top: 0.6rem;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: 1.4rem;
   }
 
   .item-counter {
     color: var(--color-accent);
-    font-family: var(--font-display);
-    font-size: 1.8rem;
-    line-height: 0.8;
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .item-collection {
+    overflow: hidden;
+    color: var(--color-muted);
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    letter-spacing: 0.045em;
+    text-align: right;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .item-meta {
+    border-top: 1px solid var(--color-border);
+    padding-top: 0.55rem;
   }
 
   .item-title {
-    flex: 1;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-top: 0.3rem;
     font-family: var(--font-display);
-    font-size: clamp(1.4rem, 2.5vw, 2rem);
-    line-height: 0.92;
+    font-size: clamp(1.5rem, 2.65vw, 2.5rem);
+    line-height: 0.9;
+    letter-spacing: -0.015em;
     color: var(--color-text);
-    transition: color 0.15s ease;
+    transition: color 160ms ease;
   }
 
-  .item-year {
+  .item-arrow {
+    flex: 0 0 auto;
+    color: var(--color-accent);
     font-family: var(--font-body);
-    font-size: 0.8125rem;
+    font-size: 0.55em;
+    opacity: 0;
+    transform: translate(-0.2rem, 0.2rem);
+    transition: opacity 160ms ease, transform 160ms ease;
+  }
+
+  .archive-item:hover .item-title,
+  .archive-item:focus-visible .item-title {
+    color: var(--color-accent);
+  }
+
+  .archive-item:hover .item-arrow,
+  .archive-item:focus-visible .item-arrow {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+
+  .item-counter {
+    display: inline-block;
+    transition: transform 180ms ease, color 180ms ease;
+  }
+
+  .archive-item:hover .item-counter,
+  .archive-item:focus-visible .item-counter {
+    color: var(--color-text);
+    transform: rotate(-6deg) translateY(-1px);
+  }
+
+  .item-details {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.35rem 0.75rem;
+    margin-top: 0.45rem;
+  }
+
+  .item-roles,
+  .item-submeta {
     color: var(--color-muted);
+    font-family: var(--font-body);
+    font-size: 0.7rem;
+    line-height: 1.45;
+  }
+
+  .item-submeta {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 0.35rem 0.7rem;
+  }
+
+  .archive-empty {
+    color: var(--color-muted);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    padding: 2rem 0;
+  }
+
+  @media (max-width: 850px) {
+    .archive-grid {
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+    }
+
+    .archive-item[data-rhythm='1'] { grid-column: 1 / span 4; }
+    .archive-item[data-rhythm='2'] { grid-column: 5 / span 2; }
+    .archive-item[data-rhythm='3'] { grid-column: 2 / span 2; }
+    .archive-item[data-rhythm='4'] { grid-column: 4 / span 3; }
+    .archive-item[data-rhythm='5'] { grid-column: 1 / span 3; }
+    .archive-item[data-rhythm='6'] { grid-column: 4 / span 3; }
+    .archive-item[data-rhythm='7'] { grid-column: 2 / span 4; }
+    .archive-item[data-rhythm='8'] { grid-column: 1 / span 3; }
   }
 
   @media (max-width: 639px) {
     .archive-container {
-      padding-top: 2.5rem;
-      padding-bottom: 4rem;
+      padding-top: 1.5rem;
+      padding-bottom: 4.5rem;
     }
 
     .archive-heading-row {
@@ -286,43 +579,202 @@ for (const project of projects) {
     }
 
     .archive-count {
-      font-size: 4rem;
+      font-size: clamp(3.5rem, 18vw, 4.5rem);
     }
 
     .archive-intro-row {
-      display: block;
-      align-items: flex-start;
+      align-items: flex-end;
       margin-top: 1rem;
+      gap: 1rem;
     }
 
     .archive-intro {
-      font-size: 1.2rem;
-      max-width: 15rem;
+      font-size: 1.05rem;
+      max-width: 16rem;
     }
 
     .archive-aside {
-      font-size: 0.65rem;
-      margin-top: 0.5rem;
+      flex: 0 0 auto;
+      font-size: 0.58rem;
     }
 
     .archive-header {
-      margin-bottom: 2.5rem;
+      margin-bottom: 1.1rem;
+    }
+
+    .archive-filters {
+      align-items: flex-start;
+      gap: 0.45rem;
+      margin-bottom: 1.1rem;
+      padding-bottom: 0.45rem;
+    }
+
+    .filter-group {
+      width: 100%;
+    }
+
+    .filter-options {
+      gap: 0.2rem 0.72rem;
+    }
+
+    .filter-button {
+      font-size: 0.58rem;
+    }
+
+    .filter-button::after {
+      bottom: -0.25rem;
+    }
+
+    .archive-results {
+      width: 100%;
+      font-size: 0.57rem;
     }
 
     .archive-grid {
-      gap: 2.5rem;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 2.75rem;
     }
 
     .archive-item,
-    .archive-item:nth-child(even),
-    .archive-item-3,
-    .archive-item-4 {
+    .archive-item[data-rhythm] {
+      grid-column: 1;
       width: 100%;
-      margin-left: 0;
+      align-self: auto;
+    }
+
+    .archive-item[data-rhythm='7'] {
+      width: 92%;
+      justify-self: end;
     }
 
     .item-title {
-      font-size: 1.6rem;
+      font-size: clamp(1.65rem, 7vw, 2.15rem);
+    }
+
+    .item-roles,
+    .item-submeta {
+      font-size: 0.66rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .filter-button,
+    .item-title,
+    .item-arrow {
+      transition: none;
+    }
+
+    .archive-item.is-entering {
+      animation: none;
+    }
+
+    .archive-heading:hover span,
+    .archive-item:hover .item-counter,
+    .archive-item:focus-visible .item-counter,
+    .archive-item:hover .item-arrow,
+    .archive-item:focus-visible .item-arrow {
+      transform: none;
+    }
+
+    .filter-stamp.is-turning {
+      animation: none;
+      transform: none;
     }
   }
 </style>
+
+<script>
+  function setupArchiveFilters() {
+    const archive = document.querySelector<HTMLElement>('[data-archive]');
+    if (!archive || archive.dataset.filtersReady === 'true') return;
+
+    const filterNav = archive.querySelector<HTMLElement>('[data-archive-filters]');
+    const buttons = Array.from(archive.querySelectorAll<HTMLButtonElement>('[data-filter]'));
+    const items = Array.from(archive.querySelectorAll<HTMLElement>('[data-archive-item]'));
+    const results = archive.querySelector<HTMLElement>('[data-archive-results]');
+    const resultCopy = archive.querySelector<HTMLElement>('[data-result-copy]');
+    const stamp = archive.querySelector<HTMLElement>('[data-filter-stamp]');
+    const emptyState = archive.querySelector<HTMLElement>('[data-archive-empty]');
+
+    if (!filterNav || !results || !resultCopy || !stamp || !emptyState || buttons.length === 0 || items.length === 0) {
+      throw new Error('Archive filters could not find their required controls or project list.');
+    }
+
+    archive.dataset.filtersReady = 'true';
+    filterNav.hidden = false;
+
+    let activeWorkType = 'all';
+    let activeDiscipline = 'all';
+
+    const applyFilter = () => {
+      let visibleIndex = 0;
+      const visibleItems = items.filter((item) => {
+        const categories = item.dataset.categories?.split(' ') ?? [];
+        const matchesWorkType = activeWorkType === 'all' || categories.includes(activeWorkType);
+        const matchesDiscipline = activeDiscipline === 'all' || categories.includes(activeDiscipline);
+        const matches = matchesWorkType && matchesDiscipline;
+        item.hidden = !matches;
+        if (matches) {
+          item.dataset.rhythm = String((visibleIndex % 8) + 1);
+          item.style.setProperty('--reveal-order', String(visibleIndex % 8));
+          item.classList.remove('is-entering');
+          void item.offsetWidth;
+          item.classList.add('is-entering');
+          visibleIndex += 1;
+        }
+        return matches;
+      });
+
+      buttons.forEach((button) => {
+        const group = button.dataset.filterGroup;
+        const filter = button.dataset.filter ?? 'all';
+        const isActive = group === 'workType' ? filter === activeWorkType : filter === activeDiscipline;
+        button.setAttribute('aria-pressed', String(isActive));
+      });
+
+      const activeLabels = [];
+      if (activeWorkType !== 'all') {
+        const btn = buttons.find(b => b.dataset.filterGroup === 'workType' && b.dataset.filter === activeWorkType);
+        if (btn) activeLabels.push(btn.textContent?.trim().split(' ')[0] ?? '');
+      }
+      if (activeDiscipline !== 'all') {
+        const btn = buttons.find(b => b.dataset.filterGroup === 'discipline' && b.dataset.filter === activeDiscipline);
+        if (btn) activeLabels.push(btn.textContent?.trim().split(' ')[0] ?? '');
+      }
+
+      resultCopy.textContent = activeLabels.length === 0
+        ? `Showing all ${visibleItems.length} projects`
+        : `Showing ${visibleItems.length} of ${items.length} projects (${activeLabels.join(', ')})`;
+      stamp.classList.remove('is-turning');
+      void stamp.offsetWidth;
+      stamp.classList.add('is-turning');
+      emptyState.hidden = visibleItems.length > 0;
+    };
+
+    items.forEach((item) => {
+      item.addEventListener('animationend', (event) => {
+        if (event.animationName === 'archive-arrive') item.classList.remove('is-entering');
+      });
+    });
+
+    stamp.addEventListener('animationend', () => stamp.classList.remove('is-turning'));
+    filterNav.addEventListener('click', (event) => {
+      const target = event.target;
+      if (!(target instanceof Element)) return;
+      const button = target.closest<HTMLButtonElement>('[data-filter]');
+      if (button && filterNav.contains(button)) {
+        const group = button.dataset.filterGroup;
+        const filter = button.dataset.filter ?? 'all';
+        if (group === 'workType') activeWorkType = filter;
+        else if (group === 'discipline') activeDiscipline = filter;
+        applyFilter();
+      }
+    });
+
+    // Initial apply to set correct button states
+    applyFilter();
+  }
+
+  setupArchiveFilters();
+  document.addEventListener('astro:page-load', setupArchiveFilters);
+</script>

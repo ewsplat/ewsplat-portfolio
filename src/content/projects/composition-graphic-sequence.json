@@ -4,6 +4,7 @@
   "description": "Placeholder only — a mixed-format editorial sequence.",
   "composition": "graphic-sequence",
   "compositionTest": true,
+  "workType": "uncertain",
   "placeholder": true,
   "draft": true,
   "roles": ["Graphic design — placeholder metadata"],

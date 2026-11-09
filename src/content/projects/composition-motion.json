@@ -4,6 +4,7 @@
   "description": "Placeholder only — a restrained opener for a landscape moving-image project.",
   "composition": "motion",
   "compositionTest": true,
+  "workType": "uncertain",
   "placeholder": true,
   "draft": true,
   "roles": ["Animation — placeholder metadata"],

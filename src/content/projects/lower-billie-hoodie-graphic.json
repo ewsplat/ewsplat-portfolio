@@ -4,6 +4,7 @@
   "composition": "graphic-sequence",
   "client": "Lower",
   "collection": "Lower",
+  "workType": "client",
   "archiveOrder": 42,
   "description": "Character illustration and apparel design for Lower.",
   "roles": ["Illustration", "Apparel design"],

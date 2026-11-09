@@ -1,140 +1,658 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import MediaBlock from '../components/MediaBlock.astro';
+import { withBase } from '../utils/site';
+import { getCollection } from 'astro:content';
+
+const allProjects = await getCollection('projects');
+const publishedProjects = allProjects.filter((project) => !project.data.draft && !project.data.compositionTest);
+const selectedSlugs = [
+  'peace-and-love',
+  'ewsplat-motion-experiments',
+  'pawa-dog-3d-model',
+  'all-stars-nexgen-converse',
+];
+const selectedWorks = selectedSlugs.map((slug) => {
+  const project = publishedProjects.find((item) => (item.data.slug ?? item.id) === slug);
+  if (!project?.data.thumbnail) {
+    throw new Error(`About page artwork "${slug}" must reference a published project thumbnail.`);
+  }
+  return { project, thumbnail: project.data.thumbnail };
+});
 ---
 
-<Layout title="About — EWSPLAT" description="About EWSPLAT — independent creative practice.">
-  <div class="container">
-    <header class="page-header">
-      <h1 class="page-title">About</h1>
+<Layout
+  title="About — EWSPLAT"
+  description="Nic Little's independent creative practice in Wellington — illustration, animation, character design and graphic design."
+>
+  <div class="container about-container">
+    <header class="about-hero">
+      <p class="page-kicker">EWSPLAT / About</p>
+      <h1 class="about-title">
+        Independent creative practice based in Wellington.<span aria-hidden="true">.</span>
+      </h1>
+      <div class="hero-follow">
+        <p class="hero-echo">Run by Nic Little since 2020.</p>
+        <p class="hero-byline"><span>Nic Little</span> / Multidisciplinary designer</p>
+      </div>
+      <hr class="header-rule" />
     </header>
 
-    <div class="about-grid">
-      <!-- Text column -->
-      <div class="about-text">
-        <div class="placeholder-block" aria-label="Placeholder biography">
-          <p class="placeholder-label">[ Placeholder — add practice biography here ]</p>
-        </div>
-        <div class="placeholder-block" aria-label="Placeholder paragraph">
-          <p class="placeholder-label">[ Placeholder — add second paragraph here ]</p>
-        </div>
-
-        <hr class="section-rule" />
-
-        <!-- Disciplines -->
-        <div class="disciplines">
-          <h2 class="disciplines-heading">Practice</h2>
-          <ul class="disciplines-list">
-            <li>Illustration</li>
-            <li>Animation</li>
-            <li>Graphic Design</li>
-            <li>3D &amp; Rendering</li>
-            <li>Music Video</li>
-            <li>Visual Experiments</li>
-          </ul>
-        </div>
-
-        <hr class="section-rule" />
-
+    <section class="practice-intro" aria-labelledby="practice-title">
+      <p class="section-index">01 / Background</p>
+      <div class="practice-copy">
+        <h2 id="practice-title">From honours graduate to independent practice.</h2>
+        <p>
+          I graduated from Massey University in 2018 with a Bachelor of Design in Visual Communication Design, First Class Honours.
+          After studio experience at Platform29 and A Label Called Success, I've been working independently under EWSPLAT since June 2020.
+        </p>
+        <p>
+          The practice spans illustration and character design, 2D and 3D animation, motion design, graphic design and visual identities,
+          campaign art direction, 3D modelling and rendering, and interactive and AR experiences. Projects move between these disciplines
+          as needed — sometimes a single piece of artwork, sometimes a full campaign across design, illustration and animation.
+        </p>
       </div>
+    </section>
 
-      <!-- Image column -->
-      <div class="about-image">
-        <MediaBlock
-          type="placeholder"
-          aspect="4/3"
-          color="#2e3038"
-          label="[ Placeholder — studio or portrait image ]"
-        />
+    <section class="selected-work" aria-labelledby="selected-work-title">
+      <div class="section-heading">
+        <p class="section-index">02 / Selected things</p>
+        <h2 id="selected-work-title">Different forms, same collection.</h2>
       </div>
-    </div>
+      <div class="artwork-grid">
+        {selectedWorks.map(({ project, thumbnail }, index) => {
+          return (
+            <article class:list={['artwork-item', `artwork-item-${index + 1}`]}>
+              <a
+                class="artwork-link"
+                href={withBase(`/projects/${project.data.slug ?? project.id}`)}
+                aria-label={`View ${project.data.title}`}
+              >
+                <div class="artwork-media">
+                  <MediaBlock
+                    type={thumbnail.type}
+                    src={thumbnail.src}
+                    aspect={thumbnail.aspect}
+                    color={thumbnail.color}
+                    alt={thumbnail.alt || project.data.title}
+                    poster={thumbnail.poster}
+                    crop={thumbnail.crop}
+                    controls={false}
+                  />
+                </div>
+                <div class="artwork-caption">
+                  <span class="artwork-title">{project.data.title}<span aria-hidden="true">↗</span></span>
+                  <span class="artwork-origin">
+                    <span>{project.data.collection ?? 'Independent work'}</span>
+                    {project.data.roles.length > 0 && <span>{project.data.roles.join(' / ')}</span>}
+                  </span>
+                </div>
+              </a>
+            </article>
+          );
+        })}
+      </div>
+    </section>
+
+    <section class="approach-section" aria-labelledby="approach-title">
+      <p class="section-index">03 / How the work happens</p>
+      <div class="approach-content">
+        <h2 id="approach-title">Sometimes execution. Sometimes the whole visual language.</h2>
+        <div class="approach-columns">
+          <div class="approach-note">
+            <h3>A defined brief</h3>
+            <p>
+              Some projects are focused responses to an existing brief or supplied creative material.
+              The work stays clear about what was made for the project and what came from elsewhere.
+            </p>
+          </div>
+          <div class="approach-note">
+            <h3>From direction to making</h3>
+            <p>
+              Other projects bring visual direction and execution together — connecting design,
+              illustration, characters and animation when that combination suits the work.
+            </p>
+          </div>
+        </div>
+        <p class="approach-footnote">
+          Each project page describes the contribution and credits the work accordingly.
+        </p>
+      </div>
+    </section>
+
+    <section class="collaboration-section" aria-labelledby="collaboration-title">
+      <p class="section-index">04 / Clients and collaborators</p>
+      <div class="collaboration-content">
+        <h2 id="collaboration-title">Music, fashion, events, entertainment and commercial projects.</h2>
+        <p>
+          Selected clients and collaborators include Lower Clothing, Checks Downtown, Commercial Bay,
+          Newground Coffee, Plans After and others. Collaborations with agencies, studios and brands are welcome,
+          as are projects with independent clients. From a defined piece of making to a project that needs
+          several disciplines to connect.
+        </p>
+      </div>
+    </section>
+
+    <section class="contact-transition" aria-labelledby="contact-title">
+      <div>
+        <p class="section-index">05 / The next thing</p>
+        <h2 id="contact-title">Have something in mind<span aria-hidden="true">?</span></h2>
+      </div>
+      <a class="contact-link" href={withBase('/contact')}>
+        <span>Go to contact</span><span aria-hidden="true">↗</span>
+      </a>
+    </section>
   </div>
 </Layout>
 
 <style>
-  .page-header {
-    padding: 4rem 0 2rem;
-    border-bottom: 1px solid var(--color-border);
-    margin-bottom: 3rem;
+  .about-container {
+    padding-top: clamp(2.5rem, 7vw, 6rem);
+    padding-bottom: clamp(4rem, 10vw, 8rem);
   }
 
-  .page-title {
-    font-family: var(--font-display);
-    font-size: clamp(3rem, 7vw, 5.5rem);
-    line-height: 0.95;
-    letter-spacing: 0.03em;
-    color: var(--color-text);
-  }
-
-  .about-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
-    align-items: start;
-    margin-bottom: 6rem;
-  }
-
-  .about-text {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-
-  .placeholder-block {
-    padding: 2rem 1.5rem;
-    border: 1px dashed var(--color-border);
-    border-radius: 2px;
-  }
-
-  .placeholder-label {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    letter-spacing: 0.06em;
-    color: var(--color-muted);
-    text-align: center;
-  }
-
-  .section-rule {
-    border: none;
-    border-bottom: 1px solid var(--color-border);
-    margin: 1rem 0;
-  }
-
-  .disciplines-heading {
+  .page-kicker,
+  .section-index {
+    color: var(--color-accent);
     font-family: var(--font-mono);
     font-size: 0.6875rem;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
+  }
+
+  .about-hero {
+    padding-bottom: clamp(2rem, 5vw, 4rem);
+  }
+
+  .about-title {
+    max-width: 13ch;
+    margin-top: clamp(2rem, 7vw, 5rem);
+    font-family: var(--font-display);
+    font-size: clamp(4.5rem, 11vw, 9.5rem);
+    line-height: 0.84;
+    letter-spacing: -0.035em;
+    text-transform: uppercase;
+  }
+
+  .about-title span,
+  .contact-transition h2 span {
+    display: inline-block;
+    color: var(--color-accent);
+    transform-origin: 50% 70%;
+    transition: transform 220ms cubic-bezier(0.2, 0.65, 0.3, 1);
+  }
+
+  .about-title:hover span,
+  .contact-transition:hover h2 span,
+  .contact-transition:focus-within h2 span {
+    transform: rotate(45deg) scale(0.82);
+  }
+
+  .hero-follow {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(12rem, 0.45fr);
+    align-items: end;
+    gap: 2rem;
+    margin-top: clamp(1.25rem, 3vw, 2rem);
+  }
+
+  .hero-echo {
+    max-width: 24ch;
+    font-size: clamp(1.5rem, 3.2vw, 2.8rem);
+    font-weight: 500;
+    letter-spacing: -0.055em;
+    line-height: 1.08;
+  }
+
+  .hero-byline {
+    justify-self: end;
+    padding-bottom: 0.25rem;
     color: var(--color-muted);
-    margin-bottom: 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    text-align: right;
+    text-transform: uppercase;
   }
 
-  .disciplines-list {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
-  }
-
-  .disciplines-list li {
-    font-family: var(--font-body);
-    font-size: 0.9375rem;
+  .hero-byline span {
     color: var(--color-text);
+  }
+
+  .header-rule {
+    border: 0;
+    border-bottom: 1px solid var(--color-accent);
+    margin-top: clamp(1.75rem, 4vw, 3rem);
+  }
+
+  .practice-intro,
+  .approach-section,
+  .collaboration-section {
+    display: grid;
+    grid-template-columns: minmax(10rem, 0.34fr) minmax(0, 1fr);
+    gap: clamp(1.5rem, 6vw, 5rem);
+    padding: clamp(3rem, 8vw, 6.5rem) 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .section-index {
+    color: var(--color-muted);
+    font-size: 0.625rem;
+  }
+
+  .practice-copy {
+    max-width: 54rem;
+  }
+
+  .practice-copy h2,
+  .approach-content > h2,
+  .collaboration-content h2 {
+    max-width: 17ch;
+    font-family: var(--font-display);
+    font-size: clamp(2.75rem, 6vw, 5.75rem);
+    line-height: 0.9;
+    letter-spacing: -0.025em;
+    text-transform: uppercase;
+  }
+
+  .practice-copy > p,
+  .collaboration-content > p {
+    max-width: 47rem;
+    margin-top: clamp(1.25rem, 3vw, 2rem);
+    font-size: clamp(1rem, 1.6vw, 1.25rem);
+    line-height: 1.65;
+    color: var(--color-muted);
+  }
+
+  .selected-work {
+    padding: clamp(3rem, 8vw, 6.5rem) 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .section-heading {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 2rem;
+    margin-bottom: clamp(2rem, 5vw, 4rem);
+  }
+
+  .section-heading h2 {
+    max-width: 18ch;
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    line-height: 0.9;
+    text-align: right;
+    text-transform: uppercase;
+  }
+
+  .artwork-grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    align-items: start;
+    gap: clamp(2.5rem, 7vw, 6rem) clamp(1rem, 3vw, 2.5rem);
+  }
+
+  .artwork-item {
+    min-width: 0;
+  }
+
+  .artwork-item-1 {
+    grid-column: 1 / span 7;
+  }
+
+  .artwork-item-2 {
+    grid-column: 9 / span 4;
+    align-self: center;
+  }
+
+  .artwork-item-3 {
+    grid-column: 2 / span 4;
+  }
+
+  .artwork-item-4 {
+    grid-column: 4 / span 6;
+  }
+
+  .artwork-link {
+    display: block;
+    color: inherit;
+  }
+
+  .artwork-media {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    background: var(--color-surface);
+    transition: transform 280ms cubic-bezier(0.2, 0.65, 0.3, 1);
+  }
+
+  .artwork-media :global(.media-block) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+  }
+
+  .artwork-media :global(img) {
+    width: 100%;
+    max-height: min(68svh, 46rem);
+    object-fit: contain;
+    transition: transform 280ms cubic-bezier(0.2, 0.65, 0.3, 1);
+  }
+
+  .artwork-link:focus-visible .artwork-media {
+    transform: translateY(-0.25rem);
+  }
+
+  .artwork-caption {
+    display: block;
+    margin-top: 0.65rem;
+    padding-top: 0.55rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .artwork-title,
+  .artwork-origin {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .artwork-title {
+    align-items: baseline;
+    font-family: var(--font-display);
+    font-size: clamp(1.4rem, 2.4vw, 2.2rem);
+    line-height: 0.95;
+    transition: color 160ms ease;
+  }
+
+  .artwork-title > span {
+    flex: 0 0 auto;
+    color: var(--color-accent);
+    opacity: 0;
+    transform: translate(-0.15rem, 0.15rem);
+    transition: opacity 160ms ease, transform 160ms ease;
+  }
+
+  .artwork-link:hover .artwork-title,
+  .artwork-link:focus-visible .artwork-title {
+    color: var(--color-accent);
+  }
+
+  .artwork-link:hover .artwork-title > span,
+  .artwork-link:focus-visible .artwork-title > span {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+
+  @media (hover: hover) {
+    .artwork-link:hover .artwork-media {
+      transform: translateY(-0.25rem);
+    }
+
+    .artwork-link:hover .artwork-title > span {
+      opacity: 1;
+      transform: translate(0, 0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .about-title:hover span,
+    .contact-transition:hover h2 span,
+    .contact-transition:focus-within h2 span,
+    .artwork-link:hover .artwork-media,
+    .artwork-link:focus-visible .artwork-media,
+    .artwork-link:hover .artwork-title > span,
+    .artwork-link:focus-visible .artwork-title > span {
+      transform: none;
+    }
+  }
+
+  .artwork-origin {
+    flex-wrap: wrap;
+    margin-top: 0.45rem;
+    color: var(--color-muted);
+    font-family: var(--font-mono);
+    font-size: 0.57rem;
+    line-height: 1.5;
+    text-transform: uppercase;
+  }
+
+  .approach-section {
+    padding-bottom: clamp(3rem, 8vw, 6.5rem);
+  }
+
+  .approach-content > h2 {
+    max-width: 16ch;
+  }
+
+  .approach-columns {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(1.5rem, 4vw, 3.5rem);
+    margin-top: clamp(2rem, 5vw, 4rem);
+  }
+
+  .approach-note {
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--color-accent);
+  }
+
+  .approach-note h3 {
+    font-family: var(--font-display);
+    font-size: clamp(1.7rem, 2.7vw, 2.5rem);
+    line-height: 0.95;
+    text-transform: uppercase;
+  }
+
+  .approach-note p,
+  .approach-footnote {
+    margin-top: 0.8rem;
+    color: var(--color-muted);
+    font-size: 0.9rem;
+    line-height: 1.65;
+  }
+
+  .approach-footnote {
+    margin-top: 1.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+  }
+
+  .collaboration-section {
+    border-bottom: 0;
+  }
+
+  .collaboration-content h2 {
+    max-width: 18ch;
+  }
+
+  .contact-transition {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 2rem;
+    margin-top: clamp(2rem, 6vw, 5rem);
+    padding: clamp(1.5rem, 4vw, 3rem) 0;
+    border-top: 1px solid var(--color-accent);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .contact-transition h2 {
+    margin-top: 1rem;
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 7vw, 6.5rem);
+    line-height: 0.86;
+    text-transform: uppercase;
+  }
+
+  .contact-link {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    gap: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--color-border);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: color 160ms ease, border-color 160ms ease;
+  }
+
+  .contact-link span:last-child {
+    color: var(--color-accent);
+    font-size: 1.1rem;
+  }
+
+  .contact-link:hover,
+  .contact-link:focus-visible {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
   }
 
   @media (max-width: 768px) {
-    .about-grid {
-      grid-template-columns: 1fr;
-      gap: 2rem;
+    .practice-intro,
+    .approach-section,
+    .collaboration-section {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 1.5rem;
     }
 
-    .about-image {
-      order: -1;
+    .artwork-item-1 {
+      grid-column: 1 / span 8;
     }
 
-    .page-header {
-      padding: 2.5rem 0 1.5rem;
-      margin-bottom: 2rem;
+    .artwork-item-2 {
+      grid-column: 9 / span 4;
+    }
+
+    .artwork-item-3 {
+      grid-column: 1 / span 5;
+    }
+
+    .artwork-item-4 {
+      grid-column: 7 / span 6;
+    }
+
+    .section-heading {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+
+    .section-heading h2 {
+      text-align: left;
+    }
+  }
+
+  @media (max-width: 639px) {
+    .about-container {
+      padding-top: 2.25rem;
+      padding-bottom: 4rem;
+    }
+
+    .page-kicker,
+    .section-index {
+      font-size: 0.58rem;
+    }
+
+    .about-title {
+      max-width: 10ch;
+      margin-top: 2.75rem;
+      font-size: clamp(4rem, 17.5vw, 6rem);
+    }
+
+    .hero-follow {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 1rem;
+      margin-top: 1.25rem;
+    }
+
+    .hero-echo {
+      max-width: 19ch;
+      font-size: clamp(1.45rem, 7vw, 2rem);
+    }
+
+    .hero-byline {
+      justify-self: start;
+      text-align: left;
+    }
+
+    .practice-intro,
+    .approach-section,
+    .collaboration-section,
+    .selected-work {
+      padding: 2.75rem 0;
+    }
+
+    .practice-copy h2,
+    .approach-content > h2,
+    .collaboration-content h2 {
+      font-size: clamp(2.6rem, 12vw, 4rem);
+    }
+
+    .practice-copy > p,
+    .collaboration-content > p {
+      font-size: 1rem;
+    }
+
+    .artwork-grid {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 2.25rem;
+    }
+
+    .artwork-item-1,
+    .artwork-item-2,
+    .artwork-item-3,
+    .artwork-item-4 {
+      grid-column: 1;
+      align-self: auto;
+    }
+
+    .artwork-item-2 {
+      width: 78%;
+      justify-self: end;
+    }
+
+    .artwork-item-3 {
+      width: 82%;
+      justify-self: start;
+    }
+
+    .artwork-item-4 {
+      width: 90%;
+      justify-self: end;
+    }
+
+    .artwork-media :global(img) {
+      max-height: 68svh;
+    }
+
+    .approach-columns {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .contact-transition {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .contact-transition h2 {
+      font-size: clamp(3rem, 14vw, 4.5rem);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .artwork-title,
+    .artwork-title > span,
+    .contact-link {
+      transition: none;
     }
   }
 </style>

@@ -3,6 +3,7 @@
   "title": "Dog",
   "composition": "single-artwork",
   "collection": "Personal works",
+  "workType": "personal",
   "archiveOrder": 11,
   "roles": ["Illustration"],
   "thumbnail": {
