@@ -1,5 +1,72 @@
 import { withBase } from '../utils/site';
 
+// Deployment manifest references: ensures all 60 wordmark animation frames
+// are classified as required-site in the deployment manifest, so they are
+// included in the GitHub Pages production build. Without these references, only
+// frame-000.png was classified as required-site (because it appears in .astro HTML);
+// frames 001-059 were excluded as "unreferenced" since they are only used by the
+// pointerenter/pointerleave animation in this file.
+'/images/wordmark/frames/frame-000.png';
+'/images/wordmark/frames/frame-001.png';
+'/images/wordmark/frames/frame-002.png';
+'/images/wordmark/frames/frame-003.png';
+'/images/wordmark/frames/frame-004.png';
+'/images/wordmark/frames/frame-005.png';
+'/images/wordmark/frames/frame-006.png';
+'/images/wordmark/frames/frame-007.png';
+'/images/wordmark/frames/frame-008.png';
+'/images/wordmark/frames/frame-009.png';
+'/images/wordmark/frames/frame-010.png';
+'/images/wordmark/frames/frame-011.png';
+'/images/wordmark/frames/frame-012.png';
+'/images/wordmark/frames/frame-013.png';
+'/images/wordmark/frames/frame-014.png';
+'/images/wordmark/frames/frame-015.png';
+'/images/wordmark/frames/frame-016.png';
+'/images/wordmark/frames/frame-017.png';
+'/images/wordmark/frames/frame-018.png';
+'/images/wordmark/frames/frame-019.png';
+'/images/wordmark/frames/frame-020.png';
+'/images/wordmark/frames/frame-021.png';
+'/images/wordmark/frames/frame-022.png';
+'/images/wordmark/frames/frame-023.png';
+'/images/wordmark/frames/frame-024.png';
+'/images/wordmark/frames/frame-025.png';
+'/images/wordmark/frames/frame-026.png';
+'/images/wordmark/frames/frame-027.png';
+'/images/wordmark/frames/frame-028.png';
+'/images/wordmark/frames/frame-029.png';
+'/images/wordmark/frames/frame-030.png';
+'/images/wordmark/frames/frame-031.png';
+'/images/wordmark/frames/frame-032.png';
+'/images/wordmark/frames/frame-033.png';
+'/images/wordmark/frames/frame-034.png';
+'/images/wordmark/frames/frame-035.png';
+'/images/wordmark/frames/frame-036.png';
+'/images/wordmark/frames/frame-037.png';
+'/images/wordmark/frames/frame-038.png';
+'/images/wordmark/frames/frame-039.png';
+'/images/wordmark/frames/frame-040.png';
+'/images/wordmark/frames/frame-041.png';
+'/images/wordmark/frames/frame-042.png';
+'/images/wordmark/frames/frame-043.png';
+'/images/wordmark/frames/frame-044.png';
+'/images/wordmark/frames/frame-045.png';
+'/images/wordmark/frames/frame-046.png';
+'/images/wordmark/frames/frame-047.png';
+'/images/wordmark/frames/frame-048.png';
+'/images/wordmark/frames/frame-049.png';
+'/images/wordmark/frames/frame-050.png';
+'/images/wordmark/frames/frame-051.png';
+'/images/wordmark/frames/frame-052.png';
+'/images/wordmark/frames/frame-053.png';
+'/images/wordmark/frames/frame-054.png';
+'/images/wordmark/frames/frame-055.png';
+'/images/wordmark/frames/frame-056.png';
+'/images/wordmark/frames/frame-057.png';
+'/images/wordmark/frames/frame-058.png';
+'/images/wordmark/frames/frame-059.png';
+
 function setupAnimationControls() {
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   if (reducedMotion.matches) return;
