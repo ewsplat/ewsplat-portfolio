@@ -1,12 +1,15 @@
 {
   "slug": "composition-single-artwork",
   "title": "Single artwork study",
+  "discipline": "illustration",
+  "projectType": "experiment",
   "description": "Placeholder only — replace this note with project-specific context.",
   "composition": "single-artwork",
   "compositionTest": true,
   "workType": "uncertain",
   "placeholder": true,
   "draft": true,
+  "archiveOrder": 999,
   "roles": ["Illustration — placeholder metadata"],
   "hero": {
     "type": "placeholder",

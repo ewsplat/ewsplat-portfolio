@@ -1,12 +1,17 @@
 {
   "slug": "commercial-bay-fifa-womens-world-cup",
-  "title": "Commercial Bay — FIFA Women's World Cup",
+  "title": "Commercial Bay - FIFA Women's World Cup",
+  "discipline": "illustration",
+  "projectType": "client",
   "composition": "graphic-sequence",
   "presentation": "campaign",
   "collection": "Commercial Bay",
   "workType": "client",
-  "archiveOrder": 30,
-  "description": "Commissioned through BLINK agency in Auckland, Nic created character designs and illustrations for a Commercial Bay activation announcing the FIFA Women’s World Cup. The brief called for black-and-white line art, used on flags and printed materials.",
+  "archiveOrder": 29,
+  "homepageFeatured": true,
+  "homepageOrder": 2,
+  "year": 2023,
+  "description": "Commissioned through BLINK agency in Auckland, Nic created character designs and illustrations for a Commercial Bay activation announcing the FIFA Women's World Cup. The brief called for black-and-white line art, used on flags, packaging and printed materials.",
   "roles": [
     "Character design",
     "Illustration"
@@ -20,23 +25,39 @@
   "thumbnail": {
     "type": "image",
     "src": "/images/portfolio/web/CommercialBay/final-06.webp",
-    "alt": "Character illustration for the Commercial Bay FIFA Women’s World Cup pop-up"
+    "alt": "Character illustration for the Commercial Bay FIFA Women's World Cup pop-up",
+    "aspect": "4/3"
   },
   "hero": {
     "type": "image",
     "src": "/images/portfolio/web/CommercialBay/final-06.webp",
-    "alt": "Character illustration for the Commercial Bay FIFA Women’s World Cup pop-up"
+    "alt": "Character illustration for the Commercial Bay FIFA Women's World Cup pop-up",
+    "aspect": "4/3"
   },
   "gallery": [
     {
       "type": "image",
+      "src": "/images/portfolio/CommercialBay/FIFA/printed-box.jpg",
+      "alt": "Printed retail packaging box with character illustration"
+    },
+    {
+      "type": "image",
+      "src": "/images/portfolio/CommercialBay/FIFA/fifa-banner.jpg",
+      "alt": "Commercial Bay FIFA event promotional banner"
+    },
+    {
+      "type": "image",
       "src": "/images/portfolio/web/CommercialBay/final-07.webp",
-      "alt": "Additional character illustration for the Commercial Bay FIFA Women’s World Cup pop-up"
+      "alt": "Additional character illustration for the Commercial Bay FIFA Women's World Cup pop-up"
     },
     {
       "type": "image",
       "src": "/images/portfolio/web/CommercialBay/final-08.webp",
-      "alt": "Additional character illustration for the Commercial Bay FIFA Women’s World Cup pop-up"
+      "alt": "Additional character illustration for the Commercial Bay FIFA Women's World Cup pop-up"
     }
-  ]
+  ],
+  "compositionPreferences": {
+    "layoutHint": "editorial",
+    "heroAspect": "4/3"
+  }
 }

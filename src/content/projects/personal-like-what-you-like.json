@@ -1,0 +1,34 @@
+{
+  "slug": "personal-like-what-you-like",
+  "title": "Like What You Like",
+  "discipline": "illustration",
+  "projectType": "personal",
+  "composition": "single-artwork",
+  "presentation": "artwork",
+  "collection": "Personal works",
+  "workType": "personal",
+  "archiveOrder": 21,
+  "homepageFeatured": false,
+  "year": 2021,
+  "description": "Personal illustration combining bold character design with typographic image-making.",
+  "roles": [
+    "Illustration",
+    "Graphic design"
+  ],
+  "thumbnail": {
+    "type": "image",
+    "src": "/images/portfolio/PersonalWorks/like-what-you-like.jpg",
+    "alt": "Like What You Like illustration",
+    "aspect": "4/3"
+  },
+  "hero": {
+    "type": "image",
+    "src": "/images/portfolio/PersonalWorks/like-what-you-like.jpg",
+    "alt": "Like What You Like illustration",
+    "aspect": "4/3"
+  },
+  "compositionPreferences": {
+    "layoutHint": "single",
+    "heroAspect": "4/3"
+  }
+}

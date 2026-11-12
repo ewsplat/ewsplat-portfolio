@@ -1,21 +1,33 @@
 {
   "slug": "personal-at-cafe-with-dog",
   "title": "At Cafe with Dog",
+  "discipline": "illustration",
+  "projectType": "personal",
   "composition": "single-artwork",
+  "presentation": "artwork",
   "collection": "Personal works",
   "workType": "personal",
-  "archiveOrder": 12,
+  "archiveOrder": 10,
+  "homepageFeatured": false,
+  "year": 2020,
+  "description": "Personal illustration of a dog at a cafe.",
   "roles": [
     "Illustration"
   ],
   "thumbnail": {
     "type": "image",
     "src": "/images/portfolio/web/PersonalWorks/AtcafewithDog.webp",
-    "alt": "At Cafe with Dog illustration"
+    "alt": "At Cafe with Dog illustration",
+    "aspect": "4/3"
   },
   "hero": {
     "type": "image",
     "src": "/images/portfolio/web/PersonalWorks/AtcafewithDog.webp",
-    "alt": "At Cafe with Dog illustration"
+    "alt": "At Cafe with Dog illustration",
+    "aspect": "4/3"
+  },
+  "compositionPreferences": {
+    "layoutHint": "single",
+    "heroAspect": "4/3"
   }
 }

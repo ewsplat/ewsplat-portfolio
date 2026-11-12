@@ -11,6 +11,8 @@ test-results/
 .turbo/
 .media-originals/
 .media-work/
+.deploy-public/
+.r2-check-dist/
 
 # dependencies
 node_modules/
@@ -57,3 +59,13 @@ Thumbs.db
 /docs/portfolio-outstanding-questions.md
 /src/data/portfolio-manifest.json
 /src/data/portfolio-curation.json
+/data/deployment-media-manifest.json
+/data/deployment-video-report.json
+/data/deployment-centre-report.json
+
+# Internal deployment/audit material
+/codex_handover/
+/tmp-screens/
+/stdout
+/video-preview-idle
+*.astro.bak

@@ -1,0 +1,62 @@
+{
+  "slug": "spinoff-nz-web-illustrations",
+  "title": "The Spinoff NZ — Musician Editorial Portraits",
+  "discipline": "illustration",
+  "projectType": "client",
+  "composition": "graphic-sequence",
+  "presentation": "editorial",
+  "client": "The Spinoff NZ",
+  "collection": "The Spinoff",
+  "workType": "client",
+  "archiveOrder": 26,
+  "homepageFeatured": false,
+  "year": 2023,
+  "description": "Commissioned editorial portrait illustrations for The Spinoff NZ web features profiling prominent New Zealand electronic and hip-hop musicians.",
+  "roles": [
+    "Illustration",
+    "Editorial portraiture"
+  ],
+  "thumbnail": {
+    "type": "image",
+    "src": "/images/portfolio/Spinoff/baynk.jpg",
+    "alt": "Baynk editorial portrait illustration",
+    "aspect": "3/4"
+  },
+  "hero": {
+    "type": "image",
+    "src": "/images/portfolio/Spinoff/montell2099.jpg",
+    "alt": "Montell2099 editorial portrait illustration",
+    "aspect": "3/4"
+  },
+  "gallery": [
+    {
+      "type": "image",
+      "src": "/images/portfolio/Spinoff/baynk.jpg",
+      "alt": "Baynk editorial portrait illustration"
+    },
+    {
+      "type": "image",
+      "src": "/images/portfolio/Spinoff/jessb.jpg",
+      "alt": "JessB editorial portrait illustration"
+    },
+    {
+      "type": "image",
+      "src": "/images/portfolio/Spinoff/lontalius.jpg",
+      "alt": "Lontalius editorial portrait illustration"
+    },
+    {
+      "type": "image",
+      "src": "/images/portfolio/Spinoff/paige.jpg",
+      "alt": "Paige editorial portrait illustration"
+    },
+    {
+      "type": "image",
+      "src": "/images/portfolio/Spinoff/sachi.jpg",
+      "alt": "Sachi editorial portrait illustration"
+    }
+  ],
+  "compositionPreferences": {
+    "layoutHint": "gallery",
+    "heroAspect": "3/4"
+  }
+}

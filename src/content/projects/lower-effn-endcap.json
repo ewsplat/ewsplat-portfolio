@@ -1,19 +1,25 @@
 {
   "slug": "lower-effn-endcap",
   "title": "Lower × Effn — 3D Logo End-Cap",
+  "discipline": "animation-motion",
+  "projectType": "client",
   "composition": "motion",
+  "presentation": "execution",
   "client": "Lower",
   "collection": "Lower",
   "workType": "client",
-  "archiveOrder": 43,
-  "description": "A 3D animated logo end-card for Lower × Effn collaboration launch videos. This is not a redesign of Lower’s original identity.",
+  "archiveOrder": 34,
+  "year": 2024,
+  "description": "A 3D animated logo end-card for Lower × Effn collaboration launch videos. This is not a redesign of Lower's original identity.",
   "roles": [
     "3D animation"
   ],
   "thumbnail": {
-    "type": "image",
-    "src": "/images/portfolio/web/Lower/Lower-Still.webp",
-    "alt": "Still from the Lower and Effn 3D logo end-cap"
+    "type": "video",
+    "src": "/media/portfolio/lower-effn-endcap.mp4",
+    "poster": "/images/portfolio/web/Lower/Lower-Still.webp",
+    "alt": "Still from the Lower and Effn 3D logo end-cap",
+    "aspect": "16/9"
   },
   "hero": {
     "type": "video",
@@ -28,5 +34,9 @@
       "src": "/images/portfolio/web/Lower/Effn-Still.webp",
       "alt": "Effn end-cap still"
     }
-  ]
+  ],
+  "compositionPreferences": {
+    "layoutHint": "hero-gallery",
+    "heroAspect": "16/9"
+  }
 }

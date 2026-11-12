@@ -1,0 +1,54 @@
+{
+  "slug": "les-mills-animated-paid-ad-typography",
+  "title": "Les Mills — Animated Paid-Ad Typography",
+  "discipline": "animation-motion",
+  "projectType": "client",
+  "composition": "motion",
+  "presentation": "campaign",
+  "client": "Les Mills",
+  "collection": "Les Mills",
+  "workType": "client",
+  "archiveOrder": 39,
+  "year": 2023,
+  "description": "Animated typography and motion graphics for Les Mills paid social advertising.",
+  "roles": [
+    "Motion design",
+    "Typography animation"
+  ],
+  "thumbnail": {
+    "type": "video",
+    "src": "/media/portfolio/les-mills/COMBO_HYPEREEL_16-9.mp4",
+    "alt": "Les Mills animated paid-ad typography — combo hypereel",
+    "aspect": "16/9"
+  },
+  "hero": {
+    "type": "video",
+    "src": "/media/portfolio/les-mills/COMBO_HYPEREEL_16-9.mp4",
+    "alt": "Les Mills animated paid-ad typography — combo hypereel",
+    "aspect": "16/9"
+  },
+  "gallery": [
+    {
+      "type": "video",
+      "src": "/media/portfolio/les-mills/BODYPUMP_HYPEREEL_PORTRAIT.mp4",
+      "alt": "Les Mills BodyPump hypereel (portrait)",
+      "aspect": "4/5"
+    },
+    {
+      "type": "video",
+      "src": "/media/portfolio/les-mills/GRIT_HYPE_REEL_PORTRAIT.mp4",
+      "alt": "Les Mills GRIT hype reel (portrait)",
+      "aspect": "4/5"
+    },
+    {
+      "type": "video",
+      "src": "/media/portfolio/les-mills/TRAINER_6SEC_PORTRAIT.mp4",
+      "alt": "Les Mills trainer 6-second ad (portrait)",
+      "aspect": "4/5"
+    }
+  ],
+  "compositionPreferences": {
+    "layoutHint": "hero-gallery",
+    "heroAspect": "16/9"
+  }
+}

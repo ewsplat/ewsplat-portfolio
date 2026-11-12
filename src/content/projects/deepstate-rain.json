@@ -1,0 +1,60 @@
+{
+  "slug": "deepstate-rain",
+  "title": "deepState — Rain",
+  "discipline": "animation-motion",
+  "projectType": "client",
+  "composition": "motion",
+  "presentation": "sequence",
+  "client": "deepState",
+  "collection": "Music visuals",
+  "workType": "client",
+  "archiveOrder": 36,
+  "year": 2023,
+  "description": "Music video for deepState's single 'Rain', the title track from their forthcoming album. Made with support from NZ On Air Music. A slow, drifting journey built around mood, space, and environment — glowing butterflies, floating jellyfish, and empty saturated landscapes shaping the emotion.",
+  "roles": [
+    "Direction",
+    "Animation"
+  ],
+  "links": [
+    {
+      "label": "Watch on YouTube",
+      "url": "https://youtu.be/q_PdKqG6NYY"
+    }
+  ],
+  "thumbnail": {
+    "type": "youtube",
+    "videoId": "q_PdKqG6NYY",
+    "poster": "https://img.youtube.com/vi/q_PdKqG6NYY/maxresdefault.jpg",
+    "alt": "deepState — Rain poster",
+    "aspect": "16/9"
+  },
+  "hero": {
+    "type": "youtube",
+    "videoId": "q_PdKqG6NYY",
+    "poster": "https://img.youtube.com/vi/q_PdKqG6NYY/maxresdefault.jpg",
+    "aspect": "16/9",
+    "alt": "deepState — Rain music video"
+  },
+  "credits": [
+    {
+      "role": "Music video direction",
+      "name": "Ew Splat"
+    },
+    {
+      "role": "Animation",
+      "name": "Ew Splat"
+    },
+    {
+      "role": "Music",
+      "name": "deepState"
+    },
+    {
+      "role": "Funding",
+      "name": "NZ On Air Music"
+    }
+  ],
+  "compositionPreferences": {
+    "layoutHint": "hero-gallery",
+    "heroAspect": "16/9"
+  }
+}

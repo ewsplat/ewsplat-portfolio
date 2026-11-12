@@ -1,17 +1,25 @@
 {
   "slug": "how-we-can-be-egg-hatch",
   "title": "How We Can Be — Egg Hatch Promotion",
+  "discipline": "campaigns-events",
+  "projectType": "client",
   "composition": "motion",
+  "presentation": "execution",
   "client": "How We Can Be",
   "collection": "How We Can Be",
   "workType": "client",
-  "archiveOrder": 62,
-  "description": "A launch-promotion animation for How We Can Be’s Egg Hatch activation.",
-  "roles": ["Animation"],
+  "archiveOrder": 48,
+  "year": 2023,
+  "description": "A launch-promotion animation for How We Can Be's Egg Hatch activation.",
+  "roles": [
+    "Animation"
+  ],
   "thumbnail": {
-    "type": "image",
-    "src": "/images/portfolio/posters/how-we-can-be-egg-hatch.jpg",
-    "alt": "Still from the Egg Hatch promotion"
+    "type": "video",
+    "src": "/media/portfolio/how-we-can-be-egg-hatch.mp4",
+    "poster": "/images/portfolio/posters/how-we-can-be-egg-hatch.jpg",
+    "alt": "Still from the Egg Hatch promotion",
+    "aspect": "9/16"
   },
   "hero": {
     "type": "video",
@@ -19,5 +27,9 @@
     "poster": "/images/portfolio/posters/how-we-can-be-egg-hatch.jpg",
     "aspect": "9/16",
     "alt": "Egg Hatch promotion for How We Can Be"
+  },
+  "compositionPreferences": {
+    "layoutHint": "hero-gallery",
+    "heroAspect": "9/16"
   }
 }

@@ -1,0 +1,44 @@
+{
+  "slug": "plans-after-24th-february-2023",
+  "title": "Plans After — 24 February 2023",
+  "discipline": "animation-motion",
+  "projectType": "client",
+  "composition": "motion",
+  "presentation": "execution",
+  "client": "Plans After",
+  "collection": "Plans After",
+  "workType": "client",
+  "archiveOrder": 52,
+  "year": 2023,
+  "description": "Animated social content for Plans After's 24 February event.",
+  "roles": [
+    "Creative direction",
+    "Design",
+    "Illustration",
+    "Animation"
+  ],
+  "thumbnail": {
+    "type": "video",
+    "src": "/media/portfolio/plans-after/plans-after-24thFeb.mp4",
+    "alt": "Plans After February 2023 social media animation",
+    "aspect": "9/16"
+  },
+  "hero": {
+    "type": "video",
+    "src": "/media/portfolio/plans-after/plans-after-24thFeb.mp4",
+    "aspect": "9/16",
+    "alt": "Plans After February 2023 social media animation"
+  },
+  "gallery": [
+    {
+      "type": "video",
+      "src": "/media/portfolio/plans-after/plans-after-24thFeb.mp4",
+      "aspect": "9/16",
+      "alt": "Plans After February 2023 social media animation"
+    }
+  ],
+  "compositionPreferences": {
+    "layoutHint": "hero-gallery",
+    "heroAspect": "9/16"
+  }
+}

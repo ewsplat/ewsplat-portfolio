@@ -1,22 +1,53 @@
 {
   "slug": "pawa-dog-3d-model",
-  "title": "Pawa Dog 3D Model",
+  "title": "Pawa — 3D Character Work",
+  "discipline": "character-design",
+  "projectType": "experiment",
   "composition": "motion",
+  "presentation": "sequence",
   "collection": "Character work",
-  "workType": "uncertain",
-  "archiveOrder": 6,
+  "workType": "personal",
+  "archiveOrder": 5,
+  "homepageFeatured": false,
+  "year": 2021,
+  "description": "3D character work developed for Pawa, spanning the dog turnaround, a soccer player Blender process piece, and a 3D model made from a client-supplied boy character design.",
+  "roles": [
+    "3D modelling",
+    "Character animation",
+    "3D character development"
+  ],
   "thumbnail": {
-    "type": "image",
-    "src": "/images/portfolio/posters/pawa-dog-turnaround.jpg",
-    "alt": "Still from a 3D dog character turn-around"
+    "type": "video",
+    "src": "/media/portfolio/web/pawa-dog-turnaround.mp4",
+    "poster": "/images/portfolio/posters/pawa-dog-turnaround.jpg",
+    "alt": "Pawa 3D character work — dog turnaround",
+    "aspect": "27/20"
   },
   "hero": {
     "type": "video",
     "src": "/media/portfolio/web/pawa-dog-turnaround.mp4",
     "poster": "/images/portfolio/posters/pawa-dog-turnaround.jpg",
     "aspect": "27/20",
-    "alt": "3D dog character turn-around"
+    "alt": "Pawa 3D character work — dog turnaround"
   },
-  "featured": true,
-  "featuredOrder": 6
+  "featured": false,
+  "featuredOrder": 6,
+  "gallery": [
+    {
+      "type": "video",
+      "src": "/media/portfolio/pawa-boy-render.mp4",
+      "alt": "Pawa boy character 3D model made by EWSPLAT from a client-supplied character design",
+      "aspect": "16/9"
+    },
+    {
+      "type": "video",
+      "src": "/media/ClothingBrands/Pawa/SoccerPlayer3dModel/Behindthescene-3dmodelinginBlender.mp4",
+      "alt": "Pawa soccer player 3D modelling process in Blender",
+      "aspect": "16/9"
+    }
+  ],
+  "compositionPreferences": {
+    "layoutHint": "hero-gallery",
+    "heroAspect": "27/20"
+  }
 }

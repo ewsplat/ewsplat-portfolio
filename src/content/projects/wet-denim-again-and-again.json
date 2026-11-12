@@ -1,11 +1,57 @@
 {
   "slug": "wet-denim-again-and-again",
   "title": "Wet Denim — Again and Again",
+  "discipline": "animation-motion",
+  "projectType": "client",
   "composition": "motion",
+  "presentation": "sequence",
   "client": "Wet Denim",
   "collection": "Music visuals",
   "workType": "client",
-  "draft": true,
-  "description": "EWSPLAT directed and created the video and recreated commissioned claymation characters in 3D. The original physical clay character designs were created by another artist, whose credit needs confirmation.",
-  "roles": ["Direction", "Video", "3D character recreation"]
+  "archiveOrder": 35,
+  "year": 2023,
+  "description": "Music video for Wellington indie rock band Wet Denim's single 'Again and Again'. Directed and animated by Ew Splat, with commissioned claymation characters recreated in 3D. The band: Nick Goodwin, Luca Crampton, Jack Ledword, Joe Ledword.",
+  "roles": [
+    "Direction",
+    "Video",
+    "3D character recreation"
+  ],
+  "links": [
+    {
+      "label": "Watch on YouTube",
+      "url": "https://youtu.be/AUlziTbce8A"
+    }
+  ],
+  "thumbnail": {
+    "type": "youtube",
+    "videoId": "AUlziTbce8A",
+    "poster": "https://img.youtube.com/vi/AUlziTbce8A/maxresdefault.jpg",
+    "alt": "Wet Denim — Again and Again poster",
+    "aspect": "16/9"
+  },
+  "hero": {
+    "type": "youtube",
+    "videoId": "AUlziTbce8A",
+    "poster": "https://img.youtube.com/vi/AUlziTbce8A/maxresdefault.jpg",
+    "aspect": "16/9",
+    "alt": "Wet Denim — Again and Again music video"
+  },
+  "credits": [
+    {
+      "role": "Music video direction",
+      "name": "Ew Splat"
+    },
+    {
+      "role": "Animation",
+      "name": "Ew Splat"
+    },
+    {
+      "role": "Music",
+      "name": "Wet Denim"
+    }
+  ],
+  "compositionPreferences": {
+    "layoutHint": "hero-gallery",
+    "heroAspect": "16/9"
+  }
 }

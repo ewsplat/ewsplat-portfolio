@@ -39,24 +39,21 @@ const selectedWorks = selectedSlugs.map((slug) => {
     </header>
 
     <section class="practice-intro" aria-labelledby="practice-title">
-      <p class="section-index">01 / Background</p>
       <div class="practice-copy">
-        <h2 id="practice-title">From honours graduate to independent practice.</h2>
+        <h2 id="practice-title">What I make.</h2>
         <p>
-          I graduated from Massey University in 2018 with a Bachelor of Design in Visual Communication Design, First Class Honours.
-          After studio experience at Platform29 and A Label Called Success, I've been working independently under EWSPLAT since June 2020.
+          EWSPLAT is Nic Little's independent creative practice, working across illustration, character design, 2D and 3D animation,
+          motion design, graphic design, visual identities, 3D modelling and rendering, and interactive work.
         </p>
         <p>
-          The practice spans illustration and character design, 2D and 3D animation, motion design, graphic design and visual identities,
-          campaign art direction, 3D modelling and rendering, and interactive and AR experiences. Projects move between these disciplines
-          as needed — sometimes a single piece of artwork, sometimes a full campaign across design, illustration and animation.
+          Projects can be a single piece of artwork, a character, a motion study or a broader visual system — with the form shaped by what
+          the work needs.
         </p>
       </div>
     </section>
 
     <section class="selected-work" aria-labelledby="selected-work-title">
       <div class="section-heading">
-        <p class="section-index">02 / Selected things</p>
         <h2 id="selected-work-title">Different forms, same collection.</h2>
       </div>
       <div class="artwork-grid">
@@ -95,7 +92,6 @@ const selectedWorks = selectedSlugs.map((slug) => {
     </section>
 
     <section class="approach-section" aria-labelledby="approach-title">
-      <p class="section-index">03 / How the work happens</p>
       <div class="approach-content">
         <h2 id="approach-title">Sometimes execution. Sometimes the whole visual language.</h2>
         <div class="approach-columns">
@@ -121,7 +117,6 @@ const selectedWorks = selectedSlugs.map((slug) => {
     </section>
 
     <section class="collaboration-section" aria-labelledby="collaboration-title">
-      <p class="section-index">04 / Clients and collaborators</p>
       <div class="collaboration-content">
         <h2 id="collaboration-title">Music, fashion, events, entertainment and commercial projects.</h2>
         <p>
@@ -135,7 +130,6 @@ const selectedWorks = selectedSlugs.map((slug) => {
 
     <section class="contact-transition" aria-labelledby="contact-title">
       <div>
-        <p class="section-index">05 / The next thing</p>
         <h2 id="contact-title">Have something in mind<span aria-hidden="true">?</span></h2>
       </div>
       <a class="contact-link" href={withBase('/contact')}>
@@ -252,6 +246,16 @@ const selectedWorks = selectedSlugs.map((slug) => {
     line-height: 0.9;
     letter-spacing: -0.025em;
     text-transform: uppercase;
+  }
+
+  .practice-copy h2 {
+    max-width: none;
+    margin-bottom: 1.25rem;
+    color: var(--color-accent);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    line-height: 1.2;
   }
 
   .practice-copy > p,

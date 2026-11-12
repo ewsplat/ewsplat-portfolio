@@ -1,0 +1,42 @@
+{
+  "slug": "personal-morphing-characters",
+  "title": "Morphing Characters & Sound Design",
+  "discipline": "animation-motion",
+  "projectType": "experiment",
+  "composition": "motion",
+  "presentation": "sequence",
+  "collection": "Personal works",
+  "workType": "personal",
+  "archiveOrder": 19,
+  "homepageFeatured": false,
+  "year": 2022,
+  "description": "Character morphing transitions integrated with sound design. Procedural animation and audio-visual synchronization.",
+  "roles": [
+    "Animation",
+    "Sound design"
+  ],
+  "thumbnail": {
+    "type": "video",
+    "src": "/media/portfolio/personal-morphing-characters.mp4",
+    "alt": "Morphing characters animation",
+    "aspect": "1/1"
+  },
+  "hero": {
+    "type": "video",
+    "src": "/media/portfolio/personal-morphing-characters.mp4",
+    "aspect": "1/1",
+    "alt": "Morphing characters animation"
+  },
+  "gallery": [
+    {
+      "type": "video",
+      "src": "/media/portfolio/personal-morphing-characters.mp4",
+      "aspect": "1/1",
+      "alt": "Morphing characters animation"
+    }
+  ],
+  "compositionPreferences": {
+    "layoutHint": "hero-gallery",
+    "heroAspect": "1/1"
+  }
+}

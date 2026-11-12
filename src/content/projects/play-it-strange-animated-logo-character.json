@@ -1,0 +1,35 @@
+{
+  "slug": "play-it-strange-animated-logo-character",
+  "title": "Play It Strange — Animated Logo & Character",
+  "discipline": "animation-motion",
+  "projectType": "client",
+  "composition": "motion",
+  "presentation": "execution",
+  "client": "Play It Strange",
+  "collection": "Play It Strange",
+  "workType": "client",
+  "archiveOrder": 38,
+  "year": 2023,
+  "description": "Animated logo and character motion created for Play It Strange.",
+  "roles": [
+    "Animation",
+    "Character animation",
+    "Motion design"
+  ],
+  "thumbnail": {
+    "type": "video",
+    "src": "/media/portfolio/playitstrange-animated-logo.mp4",
+    "alt": "Play It Strange animated logo and character",
+    "aspect": "1/1"
+  },
+  "hero": {
+    "type": "video",
+    "src": "/media/portfolio/playitstrange-animated-logo.mp4",
+    "alt": "Play It Strange animated logo and character",
+    "aspect": "1/1"
+  },
+  "compositionPreferences": {
+    "layoutHint": "hero-gallery",
+    "heroAspect": "1/1"
+  }
+}

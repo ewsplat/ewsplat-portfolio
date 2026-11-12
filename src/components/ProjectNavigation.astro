@@ -26,7 +26,14 @@ const { previous, next, related, collection } = Astro.props;
     ) : <span class="step-empty" aria-hidden="true"></span>}
 
     <a class="archive-link" href={withBase('/archive')}>
-      <span class="archive-mark" aria-hidden="true">E</span>
+      <span class="archive-mark" aria-hidden="true">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="7" height="7" />
+          <rect x="14" y="3" width="7" height="7" />
+          <rect x="3" y="14" width="7" height="7" />
+          <rect x="14" y="14" width="7" height="7" />
+        </svg>
+      </span>
       <span>Project index</span>
     </a>
 
@@ -142,6 +149,12 @@ const { previous, next, related, collection } = Astro.props;
     transition: transform 220ms cubic-bezier(0.2, 0.65, 0.3, 1), background-color 180ms ease;
   }
 
+  .archive-mark svg {
+    width: 14px;
+    height: 14px;
+    stroke: currentColor;
+  }
+
   .archive-link:hover .archive-mark,
   .archive-link:focus-visible .archive-mark {
     transform: rotate(45deg);
@@ -211,6 +224,11 @@ const { previous, next, related, collection } = Astro.props;
       width: 1.5rem;
       height: 1.5rem;
       font-size: 1rem;
+    }
+
+    .archive-mark svg {
+      width: 12px;
+      height: 12px;
     }
 
     .step-label {

@@ -6,166 +6,233 @@ import { getCollection } from 'astro:content';
 
 const allProjects = await getCollection('projects');
 const projects = allProjects
-  .filter((p) => !p.data.draft && !p.data.compositionTest)
+  .filter((p) => !p.data.draft && !p.data.compositionTest && !p.data.placeholder)
   .sort((a, b) => (a.data.archiveOrder ?? a.data.featuredOrder ?? 999) - (b.data.archiveOrder ?? b.data.featuredOrder ?? 999)
     || a.data.title.localeCompare(b.data.title));
 
 const totalCount = projects.length;
-const workTypeCategories = [
-  {
-    id: 'client-work',
-    label: 'Client Work',
-    matches: (project: (typeof projects)[number]) => project.data.workType === 'client',
-  },
-  {
-    id: 'personal-work',
-    label: 'Personal Work',
-    matches: (project: (typeof projects)[number]) => project.data.workType === 'personal',
-  },
-  {
-    id: 'uncertain-work',
-    label: 'Uncertain',
-    matches: (project: (typeof projects)[number]) => project.data.workType === 'uncertain' || !project.data.workType,
-  },
-].map((category) => ({
-  ...category,
-  count: projects.filter(category.matches).length,
+
+// Derive mode from existing metadata (workType + collection)
+const deriveMode = (project) => {
+  const workType = project.data.workType;
+  const collection = project.data.collection?.toLowerCase() || '';
+
+  if (workType === 'client') return 'commissions';
+  if (workType === 'personal') return 'personal';
+  if (collection.includes('personal') || collection.includes('self')) return 'personal';
+  return 'commissions';
+};
+
+const modeDerived = projects.map((p) => ({
+  ...p,
+  _mode: deriveMode(p),
 }));
 
+const commissionsProjects = modeDerived.filter((p) => p._mode === 'commissions');
+const personalProjects = modeDerived.filter((p) => p._mode === 'personal');
+const commissionsCount = commissionsProjects.length;
+const personalCount = personalProjects.length;
+
+// Count projects per discipline using the new discipline field
 const disciplineCategories = [
-  {
-    id: 'animation-motion',
-    label: 'Animation & Motion',
-    matches: (project: (typeof projects)[number]) =>
-      project.data.composition === 'motion'
-      || project.data.roles.some((role) => /animation|motion/i.test(role)),
-  },
-  {
-    id: 'illustration',
-    label: 'Illustration',
-    matches: (project: (typeof projects)[number]) =>
-      project.data.roles.some((role) => /illustration|character design/i.test(role)),
-  },
-  {
-    id: 'graphic-design',
-    label: 'Graphic Design',
-    matches: (project: (typeof projects)[number]) =>
-      project.data.roles.some((role) => /\bdesign\b|typography|graphic/i.test(role)),
-  },
-  {
-    id: 'campaigns-events',
-    label: 'Campaigns & Events',
-    matches: (project: (typeof projects)[number]) =>
-      project.data.presentation === 'campaign'
-      || project.data.roles.some((role) => /event|campaign|promotional/i.test(role)),
-  },
+  { id: 'animation-motion', label: 'Animation & Motion' },
+  { id: 'illustration', label: 'Illustration' },
+  { id: 'graphic-design', label: 'Graphic Design' },
+  { id: 'campaigns-events', label: 'Campaigns & Events' },
+  { id: 'character-design', label: 'Character Design' },
+  { id: 'art-direction', label: 'Art Direction' },
+  { id: 'visual-identity', label: 'Visual Identity' },
+  { id: 'visual-experiments', label: 'Visual Experiments' },
+  { id: 'mixed', label: 'Mixed' },
 ].map((category) => ({
   ...category,
-  count: projects.filter(category.matches).length,
-}));
+  count: projects.filter((p) => p.data.discipline === category.id).length,
+})).filter((c) => c.count > 0);
+
+// Assign each project a grid size for modular layout based on featured status and discipline
+interface ProjectWithSize {
+  project: typeof modeDerived[0];
+  gridSize: 'large' | 'medium' | 'small' | 'portrait' | 'square' | 'cinematic';
+}
+
+const projectsWithSize: ProjectWithSize[] = modeDerived.map((item, index) => {
+  const project = item;
+  const isFeatured = project.data.featured === true;
+  const isVideo = project.data.thumbnail?.type === 'video' || project.data.thumbnail?.type === 'youtube';
+  const discipline = project.data.discipline;
+
+  let gridSize: ProjectWithSize['gridSize'] = 'medium';
+
+  // Featured projects get priority for larger fragments
+  if (isFeatured && project.data.thumbnail) {
+    gridSize = isVideo ? 'cinematic' : 'large';
+  }
+  // Video content gets larger treatment for motion showcase
+  else if (isVideo && project.data.thumbnail) {
+    gridSize = 'large';
+  }
+  // Personal work thumbnails - varied for rhythm
+  else if (project._mode === 'personal' && project.data.thumbnail) {
+    const personalVariants: ProjectWithSize['gridSize'][] = ['medium', 'portrait', 'square', 'medium'];
+    gridSize = personalVariants[index % personalVariants.length];
+  }
+  // Default thumbnail treatment
+  else if (project.data.thumbnail) {
+    const standardVariants: ProjectWithSize['gridSize'][] = ['medium', 'small', 'square', 'portrait'];
+    gridSize = standardVariants[index % standardVariants.length];
+  }
+
+  return {
+    project,
+    gridSize,
+  };
+});
 ---
 
 <Layout title="Archive — EWSPLAT" description="Complete archive of works, experiments, and visual projects.">
   <div class="container archive-container" data-archive>
+    <!-- Archive Header -->
     <header class="archive-header">
+      <div class="archive-top-data">
+        <span class="technical-kicker">
+          <span class="kicker-block" aria-hidden="true">■</span>
+          Archive
+        </span>
+        <span class="archive-index-meta">{totalCount} projects</span>
+      </div>
+
       <div class="archive-heading-row">
         <div>
-          <p class="archive-kicker">Visual index / the full collection</p>
-          <h1 class="archive-heading">Archive<span aria-hidden="true">.</span></h1>
+          <h1 class="archive-heading">Archive<span class="heading-dot" aria-hidden="true">.</span></h1>
         </div>
-        <span class="archive-count" aria-label={`${totalCount} projects`}>{totalCount.toString().padStart(2, '0')}</span>
+        <div class="archive-register">
+          <span class="register-label">Total projects</span>
+          <span class="register-val">{totalCount.toString().padStart(2, '0')}</span>
+        </div>
       </div>
-      <div class="archive-intro-row">
-        <p class="archive-intro">Commissioned work, self-initiated projects, and visual experiments — listed in project order.</p>
-        <p class="archive-aside">01—{totalCount.toString().padStart(2, '0')}<br />In project order</p>
-      </div>
+
+      <p class="archive-intro">
+        Commissioned work, character design and independent motion studies.
+      </p>
+
       <hr class="header-rule" />
     </header>
 
-    <nav class="archive-filters" aria-label="Filter projects by work type" data-archive-filters hidden>
-      <div class="filter-group">
-        <p class="filter-group-label">Work type</p>
-        <div class="filter-options" role="group" aria-label="Work type categories">
-          <button class="filter-button" type="button" data-filter="all" data-filter-group="workType" aria-pressed="true">
-            All <span>{String(totalCount).padStart(2, '0')}</span>
+    <!-- Filter Controls -->
+    <nav class="archive-filters" aria-label="Filter archive projects by mode and discipline" data-archive-filters hidden>
+      <!-- Mode Switcher (Client work vs Personal work) -->
+      <div class="mode-control-block">
+        <span class="control-label">Work type</span>
+        <div class="mode-switcher" data-mode-switcher>
+          <button class="mode-button" type="button" data-mode="all" aria-pressed="true">
+            <span class="mode-label">All work</span>
+            <span class="mode-count">{String(totalCount).padStart(2, '0')}</span>
           </button>
-          {workTypeCategories.filter((category) => category.count > 0).map((category) => (
-            <button class="filter-button" type="button" data-filter={category.id} data-filter-group="workType" aria-pressed="false">
-              {category.label} <span>{String(category.count).padStart(2, '0')}</span>
-            </button>
-          ))}
+          <button
+            class="mode-button"
+            type="button"
+            data-mode="commissions"
+            aria-pressed="false"
+          >
+            <span class="mode-label">Client work</span>
+            <span class="mode-count">{String(commissionsCount).padStart(2, '0')}</span>
+          </button>
+          <button
+            class="mode-button"
+            type="button"
+            data-mode="personal"
+            aria-pressed="false"
+          >
+            <span class="mode-label">Personal work</span>
+            <span class="mode-count">{String(personalCount).padStart(2, '0')}</span>
+          </button>
         </div>
       </div>
-      <div class="filter-group">
-        <p class="filter-group-label">Discipline</p>
+
+      <!-- Discipline Filter -->
+      <div class="discipline-control-block">
+        <span class="control-label">Discipline</span>
         <div class="filter-options" role="group" aria-label="Discipline categories">
-          {disciplineCategories.filter((category) => category.count > 0).map((category) => (
+          <button class="filter-button" type="button" data-filter="all" data-filter-group="discipline" aria-pressed="true">
+            <span>All</span>
+            <span class="count-pill">{String(totalCount).padStart(2, '0')}</span>
+          </button>
+          {disciplineCategories.map((category) => (
             <button class="filter-button" type="button" data-filter={category.id} data-filter-group="discipline" aria-pressed="false">
-              {category.label} <span>{String(category.count).padStart(2, '0')}</span>
+              <span>{category.label}</span>
+              <span class="count-pill">{String(category.count).padStart(2, '0')}</span>
             </button>
           ))}
         </div>
       </div>
-      <p class="archive-results" data-archive-results role="status" aria-live="polite">
-        <span data-result-copy>Showing all {totalCount} projects</span>
-        <span class="filter-stamp" data-filter-stamp aria-hidden="true"></span>
-      </p>
+
+      <div class="archive-status-bar">
+        <p class="archive-results" data-archive-results role="status" aria-live="polite">
+          <span data-result-copy>Showing all {totalCount} projects</span>
+          <span class="filter-stamp" data-filter-stamp aria-hidden="true"></span>
+        </p>
+      </div>
     </nav>
 
-    <p class="archive-empty" data-archive-empty hidden>No projects in this section.</p>
+    <p class="archive-empty" data-archive-empty hidden>No projects match the current filter selection.</p>
 
-    <section class="archive-grid" aria-label="Projects in archive order">
-      {projects.map((project, index) => {
-        const workTypeForProject = project.data.workType ?? 'uncertain';
-        const disciplineCategoriesForProject = disciplineCategories
-          .filter((category) => category.matches(project))
-          .map((category) => category.id);
-        const allCategoriesForProject = [workTypeForProject, ...disciplineCategoriesForProject];
-        const media = project.data.thumbnail;
+    <!-- Floating Project Metadata Tooltip -->
+    <div class="project-tooltip" id="project-tooltip" aria-hidden="true" role="tooltip">
+      <div class="tooltip-inner">
+        <span class="tooltip-title" id="tooltip-title"></span>
+        <span class="tooltip-category" id="tooltip-category"></span>
+        <span class="tooltip-year" id="tooltip-year"></span>
+      </div>
+    </div>
+
+    <!-- Archive Modular Grid - ONE ENTRY PER PROJECT -->
+    <section class="archive-grid" aria-label="Projects in archive" data-archive-grid>
+      {projectsWithSize.map((item, index) => {
+        const project = item.project;
+        const discipline = project.data.discipline || 'mixed';
+        const workType = project.data.workType ?? 'client';
+        const allCategoriesForProject = [workType, discipline];
+        const year = project.data.year ?? ''; 
+        const thumbnail = project.data.thumbnail;
+
         return (
-          <a
-            href={withBase(`/projects/${project.data.slug ?? project.id}`)}
-            class="archive-item"
-            aria-label={`View ${project.data.title}`}
+          <article
+            class:list={['archive-fragment', `fragment-${item.gridSize}`]}
             data-archive-item
             data-categories={allCategoriesForProject.join(' ')}
-            data-rhythm={String((index % 8) + 1)}
+            data-mode={project._mode}
+            data-project-title={project.data.title}
+            data-project-category={discipline}
+            data-project-year={year}
+            data-project-index={index}
+            data-layout={index % 6}
           >
-            {media && (
-              <div class="media-wrapper">
-                <MediaBlock
-                  type={media.type}
-                  src={media.src}
-                  aspect={media.aspect}
-                  color={media.color}
-                  alt={media.alt || project.data.title}
-                  poster={media.poster}
-                  crop={media.crop}
-                  controls={false}
-                />
-              </div>
-            )}
-            <div class="item-meta">
-              <div class="item-topline">
-                <span class="item-counter" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
-                <span class="item-collection">{project.data.collection ?? 'Independent work'}</span>
-              </div>
-              <h2 class="item-title">
-                {project.data.title}<span class="item-arrow" aria-hidden="true">↗</span>
-              </h2>
-              <div class="item-details">
-                {project.data.roles.length > 0 && (
-                  <p class="item-roles">{project.data.roles.join(' / ')}</p>
-                )}
-                {(project.data.year || project.data.client) && (
-                  <p class="item-submeta">
-                    {project.data.client && <span>{project.data.client}</span>}
-                    {project.data.year && <span>{project.data.year}</span>}
-                  </p>
+            <a
+              href={withBase(`/projects/${project.data.slug ?? project.id}`)}
+              class="fragment-link"
+              aria-label={`View ${project.data.title}`}
+            >
+              <div class="fragment-media">
+                {thumbnail && (
+                  <MediaBlock
+                    type={thumbnail.type}
+                    src={thumbnail.src}
+                    aspect={thumbnail.aspect}
+                    color={thumbnail.color}
+                    alt={thumbnail.alt || project.data.title}
+                    poster={thumbnail.poster}
+                    videoId={thumbnail.videoId}
+                    controls={false}
+                    loading={index < 12 ? 'eager' : 'lazy'}
+                  />
                 )}
               </div>
-            </div>
-          </a>
+              <div class="fragment-label" aria-hidden="true">
+                <span class="fragment-label-title">{project.data.title}</span>
+                <span class="fragment-label-meta">{discipline}{year ? ` · ${year}` : ''}</span>
+              </div>
+            </a>
+          </article>
         );
       })}
     </section>
@@ -174,511 +241,518 @@ const disciplineCategories = [
 
 <style>
   .archive-container {
-    padding-top: clamp(2.5rem, 6vw, 5rem);
-    padding-bottom: clamp(4rem, 10vw, 8rem);
+    padding-top: clamp(1.5rem, 3vw, 2.5rem);
+    padding-bottom: clamp(3rem, 6vw, 5rem);
   }
 
+  /* Header */
   .archive-header {
-    margin-bottom: clamp(1.5rem, 3.5vw, 2.75rem);
+    margin-bottom: clamp(1rem, 2.5vw, 1.75rem);
   }
 
-  .archive-heading-row,
-  .archive-intro-row {
+  .archive-top-data {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    letter-spacing: 0.08em;
+    color: var(--color-muted);
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: 1rem;
+  }
+
+  .technical-kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--color-accent);
+    font-weight: 500;
+  }
+
+  .kicker-block {
+    font-size: 0.5rem;
+  }
+
+  .archive-heading-row {
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
-    gap: 2rem;
-  }
-
-  .archive-kicker {
-    margin-bottom: 0.55rem;
-    font-family: var(--font-mono);
-    font-size: 0.6875rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--color-accent);
+    gap: 1.5rem;
   }
 
   .archive-heading {
     font-family: var(--font-display);
-    font-size: clamp(5rem, 12vw, 9.5rem);
-    line-height: 0.78;
-    letter-spacing: -0.035em;
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    line-height: 0.85;
+    letter-spacing: 0.02em;
     text-transform: uppercase;
   }
 
-  .archive-heading span {
-    display: inline-block;
+  .heading-dot {
     color: var(--color-accent);
-    transform-origin: 50% 70%;
-    transition: transform 220ms cubic-bezier(0.2, 0.65, 0.3, 1);
   }
 
-  .archive-heading:hover span {
-    transform: rotate(45deg) scale(0.82);
+  .archive-register {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    font-family: var(--font-mono);
   }
 
-  .archive-count {
+  .register-label {
+    font-size: 0.5625rem;
+    color: var(--color-muted);
+    letter-spacing: 0.08em;
+  }
+
+  .register-val {
+    font-size: clamp(1.5rem, 3.5vw, 2.75rem);
+    font-weight: 600;
+    line-height: 1;
     color: var(--color-accent);
-    font-family: var(--font-display);
-    font-size: clamp(4rem, 9vw, 7rem);
-    line-height: 0.75;
-    letter-spacing: -0.04em;
     font-variant-numeric: tabular-nums;
   }
 
-  .archive-intro-row {
-    margin-top: 1.5rem;
-    align-items: baseline;
-  }
-
   .archive-intro {
+    margin-top: 0.75rem;
     font-family: var(--font-body);
-    font-size: clamp(1.15rem, 2.2vw, 1.75rem);
-    font-weight: 500;
-    letter-spacing: -0.045em;
-    max-width: 32rem;
-  }
-
-  .archive-aside {
-    color: var(--color-muted);
-    font-family: var(--font-body);
-    font-size: 0.8rem;
-    line-height: 1.45;
-    text-align: right;
+    font-size: clamp(0.9rem, 1.4vw, 1.1rem);
+    color: var(--color-text);
+    max-width: 48ch;
+    line-height: 1.5;
   }
 
   .header-rule {
     border: none;
-    border-bottom: 1px solid var(--color-accent);
-    margin-top: clamp(1.25rem, 3vw, 2rem);
+    border-bottom: 1px solid var(--color-border);
+    margin-top: clamp(1rem, 2.5vw, 1.5rem);
   }
 
+  /* Filter Apparatus */
   .archive-filters {
     display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: clamp(1.5rem, 4vw, 3rem) 1.5rem;
-    margin-bottom: clamp(1.25rem, 3vw, 2.5rem);
-    padding-bottom: 0.55rem;
-    border-bottom: 1px solid var(--color-border);
-  }
-
-  .filter-group {
-    display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 1rem;
+    margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
+    padding: 1rem 1.25rem;
+    border: 1px solid var(--color-border);
+    background-color: var(--color-surface);
   }
 
-  .filter-group-label {
+  .control-label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.5625rem;
+    letter-spacing: 0.08em;
+    color: var(--color-muted);
+    margin-bottom: 0.35rem;
+  }
+
+  .mode-switcher {
+    display: inline-flex;
+    border: 1px solid var(--color-border);
+    background-color: var(--color-bg);
+    width: 100%;
+    max-width: 26rem;
+  }
+
+  .mode-button {
+    flex: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    padding: 0.5rem 0.75rem;
+    border: 0;
+    background: transparent;
     color: var(--color-muted);
     font-family: var(--font-mono);
-    font-size: 0.58rem;
-    letter-spacing: 0.08em;
+    font-size: 0.625rem;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
+    cursor: pointer;
+    transition: background-color 0.16s ease, color 0.16s ease;
+  }
+
+  .mode-button:first-child {
+    border-right: 1px solid var(--color-border);
+  }
+
+  .mode-button[aria-pressed='true'] {
+    background-color: var(--color-text);
+    color: var(--color-surface-pure);
+  }
+
+  .mode-button[aria-pressed='true'] .mode-count {
+    color: var(--color-accent);
+  }
+
+  .mode-button:hover:not([aria-pressed='true']) {
+    color: var(--color-text);
+    background-color: var(--color-surface-hover);
+  }
+
+  .mode-count {
+    font-size: 0.55rem;
+    font-weight: 600;
   }
 
   .filter-options {
     display: flex;
     flex-wrap: wrap;
-    align-items: baseline;
-    gap: 0.5rem 1.4rem;
+    gap: 0.4rem;
   }
 
   .filter-button {
-    position: relative;
     display: inline-flex;
-    align-items: baseline;
+    align-items: center;
     gap: 0.35rem;
-    padding: 0.15rem 0;
-    border: 0;
-    background: transparent;
-    color: var(--color-muted);
-    font-family: var(--font-mono);
-    font-size: 0.68rem;
-    line-height: 1.5;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: color 160ms ease, transform 160ms ease;
-  }
-
-  .filter-button::after {
-    position: absolute;
-    right: 0;
-    bottom: -0.9rem;
-    left: 0;
-    height: 1px;
-    background: var(--color-accent);
-    content: '';
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 180ms ease;
-  }
-
-  .filter-button span {
-    font-family: var(--font-mono);
-    font-size: 0.58rem;
-    color: var(--color-muted);
-  }
-
-  .filter-button[aria-pressed='true'],
-  .filter-button:hover {
-    color: var(--color-accent);
-  }
-
-  .filter-button[aria-pressed='true']::after {
-    transform: scaleX(1);
-  }
-
-  .filter-button[aria-pressed='true'] {
-    color: var(--color-accent);
-  }
-
-  .filter-button:active {
-    transform: translateY(1px) scale(0.97);
-  }
-
-  .archive-results {
+    padding: 0.3rem 0.55rem;
+    border: 1px solid var(--color-border);
+    background-color: var(--color-bg);
     color: var(--color-muted);
     font-family: var(--font-mono);
     font-size: 0.625rem;
-    white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    transition: border-color 0.15s ease, color 0.15s ease, background-color 0.15s ease;
+  }
+
+  .filter-button:hover {
+    border-color: var(--color-text);
+    color: var(--color-text);
+  }
+
+  .filter-button[aria-pressed='true'] {
+    background-color: var(--color-accent);
+    border-color: var(--color-accent);
+    color: #FFFFFF;
+  }
+
+  .filter-button[aria-pressed='true'] .count-pill {
+    color: #FFFFFF;
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  .count-pill {
+    font-size: 0.55rem;
+    padding: 0.05rem 0.2rem;
+    background-color: var(--color-surface);
+    color: var(--color-muted);
+  }
+
+  .archive-status-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 0.6rem;
+    border-top: 1px solid var(--color-border);
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    color: var(--color-muted);
   }
 
   .filter-stamp {
     display: inline-block;
-    width: 0.38rem;
-    height: 0.38rem;
-    margin-left: 0.25rem;
-    background: var(--color-accent);
-    vertical-align: 0.03em;
-    transform: rotate(0);
-  }
-
-  .filter-stamp.is-turning {
-    animation: filter-stamp-turn 360ms cubic-bezier(0.2, 0.65, 0.3, 1);
-  }
-
-  @keyframes filter-stamp-turn {
-    45% { transform: rotate(135deg) scale(0.76); }
-    100% { transform: rotate(0) scale(1); }
-  }
-
-  .archive-grid {
-    display: grid;
-    grid-template-columns: repeat(12, minmax(0, 1fr));
-    gap: clamp(3rem, 7vw, 6rem) clamp(0.75rem, 2vw, 1.5rem);
-  }
-
-  .archive-item {
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
-    gap: 0.7rem;
-    text-decoration: none;
-    color: inherit;
-  }
-
-  .archive-item.is-entering {
-    animation: archive-arrive 420ms cubic-bezier(0.2, 0.75, 0.25, 1) both;
-    animation-delay: calc(var(--reveal-order, 0) * 24ms);
-  }
-
-  @keyframes archive-arrive {
-    from { opacity: 0; transform: translateY(0.8rem) rotate(0.5deg); }
-    to { opacity: 1; transform: translateY(0) rotate(0); }
-  }
-
-  .archive-item[data-rhythm='1'] {
-    grid-column: 1 / span 7;
-  }
-
-  .archive-item[data-rhythm='2'] {
-    grid-column: 9 / span 4;
-    align-self: center;
-  }
-
-  .archive-item[data-rhythm='3'] {
-    grid-column: 2 / span 4;
-  }
-
-  .archive-item[data-rhythm='4'] {
-    grid-column: 7 / span 6;
-    align-self: center;
-  }
-
-  .archive-item[data-rhythm='5'] {
-    grid-column: 1 / span 6;
-  }
-
-  .archive-item[data-rhythm='6'] {
-    grid-column: 8 / span 5;
-    align-self: center;
-  }
-
-  .archive-item[data-rhythm='7'] {
-    grid-column: 3 / span 8;
-  }
-
-  .archive-item[data-rhythm='8'] {
-    grid-column: 1 / span 5;
-  }
-
-  .media-wrapper {
-    width: 100%;
-    overflow: hidden;
-    background-color: var(--color-surface);
-  }
-
-  .media-wrapper :global(.media-block) {
-    background: transparent;
-  }
-
-  .item-topline {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 1rem;
-    min-height: 1.4rem;
-  }
-
-  .item-counter {
-    color: var(--color-accent);
-    font-family: var(--font-mono);
-    font-size: 0.66rem;
-    font-variant-numeric: tabular-nums;
-  }
-
-  .item-collection {
-    overflow: hidden;
-    color: var(--color-muted);
-    font-family: var(--font-mono);
-    font-size: 0.58rem;
-    letter-spacing: 0.045em;
-    text-align: right;
-    text-overflow: ellipsis;
-    text-transform: uppercase;
-    white-space: nowrap;
-  }
-
-  .item-meta {
-    border-top: 1px solid var(--color-border);
-    padding-top: 0.55rem;
-  }
-
-  .item-title {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 0.5rem;
-    margin-top: 0.3rem;
-    font-family: var(--font-display);
-    font-size: clamp(1.5rem, 2.65vw, 2.5rem);
-    line-height: 0.9;
-    letter-spacing: -0.015em;
-    color: var(--color-text);
-    transition: color 160ms ease;
-  }
-
-  .item-arrow {
-    flex: 0 0 auto;
-    color: var(--color-accent);
-    font-family: var(--font-body);
-    font-size: 0.55em;
-    opacity: 0;
-    transform: translate(-0.2rem, 0.2rem);
-    transition: opacity 160ms ease, transform 160ms ease;
-  }
-
-  .archive-item:hover .item-title,
-  .archive-item:focus-visible .item-title {
-    color: var(--color-accent);
-  }
-
-  .archive-item:hover .item-arrow,
-  .archive-item:focus-visible .item-arrow {
-    opacity: 1;
-    transform: translate(0, 0);
-  }
-
-  .item-counter {
-    display: inline-block;
-    transition: transform 180ms ease, color 180ms ease;
-  }
-
-  .archive-item:hover .item-counter,
-  .archive-item:focus-visible .item-counter {
-    color: var(--color-text);
-    transform: rotate(-6deg) translateY(-1px);
-  }
-
-  .item-details {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 0.35rem 0.75rem;
-    margin-top: 0.45rem;
-  }
-
-  .item-roles,
-  .item-submeta {
-    color: var(--color-muted);
-    font-family: var(--font-body);
-    font-size: 0.7rem;
-    line-height: 1.45;
-  }
-
-  .item-submeta {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-    gap: 0.35rem 0.7rem;
+    width: 5px;
+    height: 5px;
+    background-color: var(--color-accent);
+    margin-left: 0.3rem;
   }
 
   .archive-empty {
-    color: var(--color-muted);
+    padding: 3rem 0;
     font-family: var(--font-mono);
-    font-size: 0.8rem;
-    padding: 2rem 0;
+    font-size: 0.75rem;
+    color: var(--color-muted);
+    text-transform: uppercase;
+    text-align: center;
   }
 
-  @media (max-width: 850px) {
-    .archive-grid {
-      grid-template-columns: repeat(6, minmax(0, 1fr));
-    }
-
-    .archive-item[data-rhythm='1'] { grid-column: 1 / span 4; }
-    .archive-item[data-rhythm='2'] { grid-column: 5 / span 2; }
-    .archive-item[data-rhythm='3'] { grid-column: 2 / span 2; }
-    .archive-item[data-rhythm='4'] { grid-column: 4 / span 3; }
-    .archive-item[data-rhythm='5'] { grid-column: 1 / span 3; }
-    .archive-item[data-rhythm='6'] { grid-column: 4 / span 3; }
-    .archive-item[data-rhythm='7'] { grid-column: 2 / span 4; }
-    .archive-item[data-rhythm='8'] { grid-column: 1 / span 3; }
+  /* Floating Project Metadata Tooltip */
+  .project-tooltip {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 100;
+    transform: translate(-50%, -100%);
+    opacity: 0;
+    transition: opacity 180ms cubic-bezier(0.2, 0.65, 0.3, 1), transform 180ms cubic-bezier(0.2, 0.65, 0.3, 1);
+    will-change: transform, opacity;
   }
 
-  @media (max-width: 639px) {
-    .archive-container {
-      padding-top: 1.5rem;
-      padding-bottom: 4.5rem;
-    }
+  .project-tooltip.visible {
+    opacity: 1;
+  }
 
-    .archive-heading-row {
-      align-items: flex-end;
-      gap: 0.75rem;
-    }
+  .tooltip-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    padding: 0.5rem 0.75rem;
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+    box-shadow: 0 8px 24px -8px rgba(0, 0, 0, 0.35);
+    transition: opacity 120ms ease, transform 120ms ease;
+  }
 
-    .archive-kicker {
-      font-size: 0.5625rem;
-    }
+  .project-tooltip.is-changing .tooltip-inner {
+    opacity: 0.35;
+    transform: translateY(3px);
+  }
 
-    .archive-heading {
-      font-size: clamp(4.5rem, 22vw, 6.5rem);
-    }
+  .tooltip-title {
+    color: var(--color-text);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
 
-    .archive-count {
-      font-size: clamp(3.5rem, 18vw, 4.5rem);
-    }
+  .tooltip-category {
+    color: var(--color-accent);
+    text-transform: uppercase;
+  }
 
-    .archive-intro-row {
-      align-items: flex-end;
-      margin-top: 1rem;
-      gap: 1rem;
-    }
-
-    .archive-intro {
-      font-size: 1.05rem;
-      max-width: 16rem;
-    }
-
-    .archive-aside {
-      flex: 0 0 auto;
-      font-size: 0.58rem;
-    }
-
-    .archive-header {
-      margin-bottom: 1.1rem;
-    }
-
-    .archive-filters {
-      align-items: flex-start;
-      gap: 0.45rem;
-      margin-bottom: 1.1rem;
-      padding-bottom: 0.45rem;
-    }
-
-    .filter-group {
-      width: 100%;
-    }
-
-    .filter-options {
-      gap: 0.2rem 0.72rem;
-    }
-
-    .filter-button {
-      font-size: 0.58rem;
-    }
-
-    .filter-button::after {
-      bottom: -0.25rem;
-    }
-
-    .archive-results {
-      width: 100%;
-      font-size: 0.57rem;
-    }
-
-    .archive-grid {
-      grid-template-columns: minmax(0, 1fr);
-      gap: 2.75rem;
-    }
-
-    .archive-item,
-    .archive-item[data-rhythm] {
-      grid-column: 1;
-      width: 100%;
-      align-self: auto;
-    }
-
-    .archive-item[data-rhythm='7'] {
-      width: 92%;
-      justify-self: end;
-    }
-
-    .item-title {
-      font-size: clamp(1.65rem, 7vw, 2.15rem);
-    }
-
-    .item-roles,
-    .item-submeta {
-      font-size: 0.66rem;
-    }
+  .tooltip-year {
+    color: var(--color-muted);
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .filter-button,
-    .item-title,
-    .item-arrow {
+    .project-tooltip {
       transition: none;
     }
 
-    .archive-item.is-entering {
-      animation: none;
+    .tooltip-inner {
+      transition: none;
+    }
+  }
+
+  /* Archive Modular Grid */
+  .archive-grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: clamp(0.75rem, 1.5vw, 1.5rem);
+    grid-auto-flow: dense;
+  }
+
+  /* Fragment Base */
+  .archive-fragment {
+    position: relative;
+    border: 1px solid var(--color-border);
+    background-color: var(--color-surface);
+    overflow: hidden;
+    transition: border-color 0.16s ease, box-shadow 0.16s ease;
+  }
+
+  .archive-fragment:hover {
+    border-color: var(--color-accent);
+    box-shadow: 0 4px 16px -4px rgba(0, 0, 0, 0.2);
+  }
+
+  .fragment-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    height: 100%;
+  }
+
+  .fragment-media {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .fragment-media :global(.media-block) {
+    background: transparent;
+    width: 100%;
+    height: 100%;
+  }
+
+  .fragment-media :global(.media-block img),
+  .fragment-media :global(.media-block video),
+  .fragment-media :global(.media-block iframe) {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+  }
+
+  .fragment-label {
+    display: none;
+  }
+
+  /* Grid Sizes - 12 column modular system */
+  .fragment-large {
+    grid-column: span 8;
+    aspect-ratio: 16 / 9;
+  }
+
+  .fragment-cinematic {
+    grid-column: span 8;
+    aspect-ratio: 21 / 9;
+  }
+
+  .fragment-medium {
+    grid-column: span 6;
+    aspect-ratio: 4 / 3;
+  }
+
+  .fragment-small {
+    grid-column: span 4;
+    aspect-ratio: 1 / 1;
+  }
+
+  .fragment-portrait {
+    grid-column: span 4;
+    aspect-ratio: 3 / 4;
+  }
+
+  .fragment-square {
+    grid-column: span 6;
+    aspect-ratio: 1 / 1;
+  }
+
+  @media (min-width: 901px) {
+    .archive-fragment[data-layout='0'] { grid-column: 1 / span 7; }
+    .archive-fragment[data-layout='1'] { grid-column: 7 / span 6; }
+    .archive-fragment[data-layout='2'] { grid-column: 2 / span 5; }
+    .archive-fragment[data-layout='3'] { grid-column: 8 / span 5; }
+    .archive-fragment[data-layout='4'] { grid-column: 1 / span 4; }
+    .archive-fragment[data-layout='5'] { grid-column: 6 / span 7; }
+  }
+
+  /* Reduced motion - disable hover transforms */
+  @media (prefers-reduced-motion: reduce) {
+    .archive-fragment:hover {
+      box-shadow: none;
+    }
+  }
+
+  /* Touch devices - no hover states */
+  @media (hover: none) {
+    .archive-fragment:hover {
+      border-color: var(--color-border);
+      box-shadow: none;
     }
 
-    .archive-heading:hover span,
-    .archive-item:hover .item-counter,
-    .archive-item:focus-visible .item-counter,
-    .archive-item:hover .item-arrow,
-    .archive-item:focus-visible .item-arrow {
-      transform: none;
+    .archive-fragment:active {
+      border-color: var(--color-accent);
+    }
+  }
+
+  /* Mobile / Tablet - Single column flow */
+  @media (max-width: 900px) {
+    .archive-grid {
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: clamp(0.5rem, 1.2vw, 1rem);
     }
 
-    .filter-stamp.is-turning {
-      animation: none;
-      transform: none;
+    .fragment-large,
+    .fragment-cinematic,
+    .fragment-medium,
+    .fragment-small,
+    .fragment-portrait,
+    .fragment-square {
+      grid-column: 1 / -1;
+    }
+
+    .fragment-large { aspect-ratio: 16 / 9; }
+    .fragment-cinematic { aspect-ratio: 21 / 9; }
+    .fragment-medium { aspect-ratio: 4 / 3; }
+    .fragment-small { aspect-ratio: 1 / 1; }
+    .fragment-portrait { aspect-ratio: 3 / 4; }
+    .fragment-square { aspect-ratio: 1 / 1; }
+  }
+
+  /* Mobile - Stack vertically, larger media */
+  @media (max-width: 640px) {
+    .archive-container {
+      padding-top: 1.25rem;
+      padding-bottom: 2rem;
+    }
+
+    .archive-top-data {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.35rem;
+    }
+
+    .archive-heading-row {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+
+    .archive-register {
+      align-items: flex-start;
+    }
+
+    .archive-heading {
+      font-size: clamp(2.5rem, 12vw, 4rem);
+    }
+
+    .register-val {
+      font-size: clamp(1.25rem, 6vw, 2rem);
+    }
+
+    .archive-filters {
+      padding: 0.75rem 1rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .mode-switcher {
+      max-width: 100%;
+    }
+
+    .filter-options {
+      gap: 0.35rem;
+    }
+
+    .filter-button {
+      padding: 0.25rem 0.5rem;
+      font-size: 0.5625rem;
+    }
+
+    .archive-grid {
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+    }
+
+    .archive-fragment {
+      aspect-ratio: 16 / 9 !important;
+    }
+
+    .project-tooltip {
+      display: none;
+    }
+
+    .fragment-label {
+      display: grid;
+      gap: 0.25rem;
+      padding: 0.65rem 0.75rem 0.7rem;
+      background: var(--color-surface);
+      border-top: 1px solid var(--color-border);
+    }
+
+    .fragment-label-title {
+      font-family: var(--font-headline);
+      font-size: 0.95rem;
+      line-height: 1.05;
+    }
+
+    .fragment-label-meta {
+      color: var(--color-muted);
+      font-family: var(--font-mono);
+      font-size: 0.5625rem;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
     }
   }
 </style>
@@ -691,73 +765,66 @@ const disciplineCategories = [
     const filterNav = archive.querySelector<HTMLElement>('[data-archive-filters]');
     const buttons = Array.from(archive.querySelectorAll<HTMLButtonElement>('[data-filter]'));
     const items = Array.from(archive.querySelectorAll<HTMLElement>('[data-archive-item]'));
-    const results = archive.querySelector<HTMLElement>('[data-archive-results]');
     const resultCopy = archive.querySelector<HTMLElement>('[data-result-copy]');
     const stamp = archive.querySelector<HTMLElement>('[data-filter-stamp]');
     const emptyState = archive.querySelector<HTMLElement>('[data-archive-empty]');
 
-    if (!filterNav || !results || !resultCopy || !stamp || !emptyState || buttons.length === 0 || items.length === 0) {
-      throw new Error('Archive filters could not find their required controls or project list.');
+    if (!filterNav || !resultCopy || !stamp || !emptyState || buttons.length === 0 || items.length === 0) {
+      return;
     }
 
     archive.dataset.filtersReady = 'true';
     filterNav.hidden = false;
 
-    let activeWorkType = 'all';
     let activeDiscipline = 'all';
+    let activeMode = 'all';
 
-    const applyFilter = () => {
-      let visibleIndex = 0;
-      const visibleItems = items.filter((item) => {
+    // Mode switcher functionality
+    const modeSwitcher = document.querySelector<HTMLElement>('[data-mode-switcher]');
+    if (modeSwitcher) {
+      const modeButtons = Array.from(modeSwitcher.querySelectorAll<HTMLButtonElement>('.mode-button'));
+
+      modeButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+          modeButtons.forEach((btn) => btn.setAttribute('aria-pressed', 'false'));
+          button.setAttribute('aria-pressed', 'true');
+
+          activeMode = button.getAttribute('data-mode') ?? 'all';
+          activeDiscipline = 'all';
+          applyFilters();
+        });
+      });
+    }
+
+    const applyFilters = () => {
+      let visibleCount = 0;
+      items.forEach((item) => {
         const categories = item.dataset.categories?.split(' ') ?? [];
-        const matchesWorkType = activeWorkType === 'all' || categories.includes(activeWorkType);
+        const projectMode = item.dataset.mode ?? 'commissions';
+
+        const matchesMode = activeMode === 'all' || projectMode === activeMode;
         const matchesDiscipline = activeDiscipline === 'all' || categories.includes(activeDiscipline);
-        const matches = matchesWorkType && matchesDiscipline;
-        item.hidden = !matches;
-        if (matches) {
-          item.dataset.rhythm = String((visibleIndex % 8) + 1);
-          item.style.setProperty('--reveal-order', String(visibleIndex % 8));
-          item.classList.remove('is-entering');
-          void item.offsetWidth;
-          item.classList.add('is-entering');
-          visibleIndex += 1;
-        }
-        return matches;
+
+        const isVisible = matchesMode && matchesDiscipline;
+        item.hidden = !isVisible;
+        if (isVisible) visibleCount++;
       });
 
+      // Update button states
       buttons.forEach((button) => {
         const group = button.dataset.filterGroup;
         const filter = button.dataset.filter ?? 'all';
-        const isActive = group === 'workType' ? filter === activeWorkType : filter === activeDiscipline;
+        const isActive = group === 'discipline' ? filter === activeDiscipline : false;
         button.setAttribute('aria-pressed', String(isActive));
       });
 
-      const activeLabels = [];
-      if (activeWorkType !== 'all') {
-        const btn = buttons.find(b => b.dataset.filterGroup === 'workType' && b.dataset.filter === activeWorkType);
-        if (btn) activeLabels.push(btn.textContent?.trim().split(' ')[0] ?? '');
-      }
-      if (activeDiscipline !== 'all') {
-        const btn = buttons.find(b => b.dataset.filterGroup === 'discipline' && b.dataset.filter === activeDiscipline);
-        if (btn) activeLabels.push(btn.textContent?.trim().split(' ')[0] ?? '');
-      }
-
-      resultCopy.textContent = activeLabels.length === 0
-        ? `Showing all ${visibleItems.length} projects`
-        : `Showing ${visibleItems.length} of ${items.length} projects (${activeLabels.join(', ')})`;
-      stamp.classList.remove('is-turning');
-      void stamp.offsetWidth;
-      stamp.classList.add('is-turning');
-      emptyState.hidden = visibleItems.length > 0;
+      // Update results status
+      const modeLabel = activeMode === 'all' ? 'All Work' : activeMode === 'personal' ? 'Personal Experiments' : 'Commissions';
+      resultCopy.textContent = `Showing ${visibleCount} items in ${modeLabel}${activeDiscipline !== 'all' ? ` (${activeDiscipline})` : ''}`;
+      emptyState.hidden = visibleCount > 0;
     };
 
-    items.forEach((item) => {
-      item.addEventListener('animationend', (event) => {
-        if (event.animationName === 'archive-arrive') item.classList.remove('is-entering');
-      });
-    });
-
-    stamp.addEventListener('animationend', () => stamp.classList.remove('is-turning'));
+    // Filter navigation click handler
     filterNav.addEventListener('click', (event) => {
       const target = event.target;
       if (!(target instanceof Element)) return;
@@ -765,16 +832,156 @@ const disciplineCategories = [
       if (button && filterNav.contains(button)) {
         const group = button.dataset.filterGroup;
         const filter = button.dataset.filter ?? 'all';
-        if (group === 'workType') activeWorkType = filter;
-        else if (group === 'discipline') activeDiscipline = filter;
-        applyFilter();
+
+        if (group === 'discipline') {
+          activeDiscipline = filter;
+          applyFilters();
+        }
       }
     });
 
-    // Initial apply to set correct button states
-    applyFilter();
+    // Initial run
+    applyFilters();
+  }
+
+  function setupProjectTooltip() {
+    const tooltip = document.getElementById('project-tooltip');
+    const titleEl = document.getElementById('tooltip-title');
+    const categoryEl = document.getElementById('tooltip-category');
+    const yearEl = document.getElementById('tooltip-year');
+
+    if (!tooltip || !titleEl || !categoryEl || !yearEl) return;
+
+    const items = document.querySelectorAll<HTMLElement>('[data-archive-item]');
+    if (items.length === 0) return;
+
+    let currentItem: HTMLElement | null = null;
+    let tooltipVisible = false;
+    let animationFrame = 0;
+    let targetX = 0;
+    let targetY = 0;
+    let currentX = 0;
+    let currentY = 0;
+
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const isTouch = window.matchMedia('(hover: none), (pointer: coarse)').matches;
+
+    if (isTouch) {
+      tooltip.style.display = 'none';
+      return;
+    }
+
+    const updateTooltipPosition = () => {
+      if (!tooltipVisible || !currentItem) return;
+
+      const rect = currentItem.getBoundingClientRect();
+      const tooltipRect = tooltip.getBoundingClientRect();
+
+      // Position tooltip near the item, avoiding edges
+      const viewportWidth = window.innerWidth;
+      const viewportHeight = window.innerHeight;
+      const tooltipWidth = tooltipRect.width;
+      const tooltipHeight = tooltipRect.height;
+
+      let x = rect.left + rect.width / 2;
+      let y = rect.top - 12; // 12px above the item
+
+      // Horizontal bounds
+      if (x - tooltipWidth / 2 < 12) x = 12 + tooltipWidth / 2;
+      if (x + tooltipWidth / 2 > viewportWidth - 12) x = viewportWidth - 12 - tooltipWidth / 2;
+
+      // Vertical bounds - if too close to top, show below
+      if (y - tooltipHeight < 12) {
+        y = rect.bottom + 12;
+      }
+
+      targetX = x;
+      targetY = y;
+
+      if (reducedMotion) {
+        currentX = targetX;
+        currentY = targetY;
+        tooltip.style.transform = `translate(${currentX - tooltipWidth / 2}px, ${currentY - tooltipHeight}px)`;
+      } else {
+        // Smooth interpolation
+        currentX += (targetX - currentX) * 0.18;
+        currentY += (targetY - currentY) * 0.18;
+        tooltip.style.transform = `translate(${currentX - tooltipWidth / 2}px, ${currentY - tooltipHeight}px)`;
+        animationFrame = requestAnimationFrame(updateTooltipPosition);
+      }
+    };
+
+    const showTooltip = (item: HTMLElement) => {
+      currentItem = item;
+      tooltip.classList.add('is-changing');
+      titleEl.textContent = item.dataset.projectTitle || '';
+      categoryEl.textContent = item.dataset.projectCategory || '';
+      yearEl.textContent = item.dataset.projectYear || '';
+
+      tooltip.classList.add('visible');
+      tooltipVisible = true;
+
+      requestAnimationFrame(() => tooltip.classList.remove('is-changing'));
+
+      if (!reducedMotion) {
+        updateTooltipPosition();
+      } else {
+        updateTooltipPosition();
+      }
+    };
+
+    const hideTooltip = () => {
+      tooltip.classList.remove('visible');
+      tooltipVisible = false;
+      currentItem = null;
+      if (animationFrame) {
+        cancelAnimationFrame(animationFrame);
+        animationFrame = 0;
+      }
+    };
+
+    items.forEach((item) => {
+      item.addEventListener('mouseenter', () => {
+        if (!item.hidden) {
+          showTooltip(item);
+        }
+      });
+
+      item.addEventListener('mouseleave', () => {
+        if (currentItem === item) {
+          hideTooltip();
+        }
+      });
+
+      item.addEventListener('focusin', () => {
+        if (!item.hidden) {
+          showTooltip(item);
+        }
+      });
+
+      item.addEventListener('focusout', () => {
+        if (currentItem === item) {
+          hideTooltip();
+        }
+      });
+    });
+
+    // Handle filter changes - hide tooltip if current item becomes hidden
+    const observer = new MutationObserver(() => {
+      if (currentItem && currentItem.hidden) {
+        hideTooltip();
+      }
+    });
+
+    items.forEach((item) => {
+      observer.observe(item, { attributes: true, attributeFilter: ['hidden'] });
+    });
   }
 
   setupArchiveFilters();
-  document.addEventListener('astro:page-load', setupArchiveFilters);
+  setupProjectTooltip();
+  document.addEventListener('astro:page-load', () => {
+    setupArchiveFilters();
+    setupProjectTooltip();
+  });
 </script>

@@ -1,0 +1,41 @@
+{
+  "slug": "personal-character-exploration",
+  "title": "Character Exploration",
+  "discipline": "character-design",
+  "projectType": "personal",
+  "composition": "single-artwork",
+  "presentation": "artwork",
+  "client": "Personal work",
+  "collection": "Personal works",
+  "workType": "personal",
+  "archiveOrder": 62,
+  "year": 2023,
+  "description": "EWSPLAT character design studies with expressive figure drawing.",
+  "roles": [
+    "Character design",
+    "Illustration"
+  ],
+  "thumbnail": {
+    "type": "image",
+    "src": "/images/portfolio/PersonalWorks/character-exploration.jpg",
+    "alt": "EWSPLAT character exploration",
+    "aspect": "4/3"
+  },
+  "hero": {
+    "type": "image",
+    "src": "/images/portfolio/PersonalWorks/character-exploration.jpg",
+    "alt": "EWSPLAT character exploration",
+    "aspect": "4/3"
+  },
+  "gallery": [
+    {
+      "type": "image",
+      "src": "/images/portfolio/PersonalWorks/character-exploration.jpg",
+      "alt": "EWSPLAT character exploration"
+    }
+  ],
+  "compositionPreferences": {
+    "layoutHint": "single",
+    "heroAspect": "4/3"
+  }
+}

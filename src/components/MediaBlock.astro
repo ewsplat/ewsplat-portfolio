@@ -3,7 +3,7 @@ import { withBase } from '../utils/site';
 
 export interface Props {
   src?: string;
-  type?: 'image' | 'gif' | 'video' | 'placeholder';
+  type?: 'image' | 'gif' | 'video' | 'placeholder' | 'youtube';
   aspect?: string;
   alt?: string;
   poster?: string;
@@ -11,8 +11,15 @@ export interface Props {
   objectFit?: 'cover' | 'contain' | 'none';
   crop?: boolean;
   controls?: boolean;
+  muted?: boolean;
+  loop?: boolean;
+  autoPlay?: boolean;
   loading?: 'lazy' | 'eager';
+  preload?: 'none' | 'metadata' | 'auto';
   response?: 'expressive' | 'tilt' | 'reveal-up' | 'reveal-side' | 'still';
+  tiltIntensity?: 'subtle' | 'medium' | 'strong';
+  // YouTube-specific
+  videoId?: string;
 }
 
 const {
@@ -25,21 +32,38 @@ const {
   objectFit = 'contain',
   crop = false,
   controls = true,
+  muted,
+  loop,
+  autoPlay,
   loading = 'lazy',
+  preload = 'metadata',
   response = 'still',
+  tiltIntensity = 'medium',
+  videoId,
 } = Astro.props;
+
+const prefersReducedMotion = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// Independent video behavior props: use explicit values if set, otherwise fall back to coupled behavior for backward compatibility
+const videoMuted = muted ?? controls;
+const videoLoop = loop ?? controls;
+const videoAutoPlay = autoPlay ?? (controls && !prefersReducedMotion);
 
 const fit = crop ? 'cover' : objectFit;
 const mediaStyle = fit ? `object-fit: ${fit};` : '';
-const effectiveAspect = aspect ?? (type === 'placeholder' ? '1/1' : undefined);
+const effectiveAspect = aspect ?? (type === 'youtube' ? '16/9' : type === 'placeholder' ? '1/1' : undefined);
 const wrapperStyle = effectiveAspect ? `aspect-ratio: ${effectiveAspect};` : undefined;
 const mediaSrc = src ? withBase(src) : undefined;
 const mediaPoster = poster ? withBase(poster) : undefined;
+const youtubeSrc = videoId ? `https://www.youtube-nocookie.com/embed/${videoId}?rel=0&playsinline=1` : undefined;
+const youtubePoster = mediaPoster ?? (videoId ? `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg` : undefined);
 ---
 
 <div
   class:list={['media-block', { 'has-aspect': Boolean(effectiveAspect) }]}
+  data-media-control={type === 'video' || type === 'gif' || type === 'youtube' ? 'true' : undefined}
   data-playful-media={type === 'image' || type === 'gif' ? response : undefined}
+  data-tilt-intensity={type === 'image' || type === 'gif' ? tiltIntensity : undefined}
   style={wrapperStyle}
 >
   {(type === 'image' || type === 'gif') && src && (
@@ -55,14 +79,36 @@ const mediaPoster = poster ? withBase(poster) : undefined;
     <video
       src={mediaSrc}
       poster={mediaPoster}
-      preload="none"
+      preload={preload}
       controls={controls}
       playsinline
+      muted={videoMuted}
+      loop={videoLoop}
+      autoPlay={videoAutoPlay}
       aria-label={alt || 'Project video'}
       style={mediaStyle}
     >
       Your browser does not support the video tag.
     </video>
+  )}
+
+  {type === 'youtube' && videoId && !controls && (
+    <img src={youtubePoster} alt={alt} loading={loading} style={mediaStyle} />
+  )}
+
+  {type === 'youtube' && videoId && controls && (
+    <div class="youtube-wrapper" style="width: 100%; height: 100%;">
+      <iframe
+        src={youtubeSrc}
+        title={alt || 'YouTube video'}
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allowfullscreen
+        loading={loading}
+        style="width: 100%; height: 100%; border: none;"
+      ></iframe>
+    </div>
   )}
 
   {type === 'placeholder' && (
@@ -106,5 +152,87 @@ const mediaPoster = poster ? withBase(poster) : undefined;
   .placeholder-content {
     width: 100%;
     height: 100%;
+  }
+
+  /* Tactile tilt — pointer-responsive 3D surface.
+     Consumes CSS custom properties set by setupArtworkInteractions() in interactions.ts.
+     The media-block itself is the tilt surface; the inner img/video stays flat and undistorted. */
+  .media-block[data-playful-media="tilt"],
+  .media-block[data-playful-media="expressive"] {
+    transition: transform 220ms cubic-bezier(0.22, 0.61, 0.36, 1),
+                box-shadow 220ms cubic-bezier(0.22, 0.61, 0.36, 1);
+    transform-style: preserve-3d;
+    will-change: transform, box-shadow;
+  }
+
+  .media-block[data-playful-media="tilt"],
+  .media-block[data-playful-media="expressive"]:hover {
+    box-shadow: 0 18px 40px -12px rgba(0, 0, 0, 0.28);
+  }
+
+  .media-block[data-playful-media="tilt"][style*="--media-tilt-x"],
+  .media-block[data-playful-media="expressive"][style*="--media-tilt-x"] {
+    transform:
+      perspective(900px)
+      rotateX(var(--media-tilt-y, 0deg))
+      rotateY(var(--media-tilt-x, 0deg))
+      translateY(var(--media-shift-y, 0px))
+      translateX(var(--media-shift-x, 0px));
+    box-shadow: 0 22px 48px -14px rgba(0, 0, 0, 0.32);
+  }
+
+  /* Reduced motion: disable tilt entirely, keep static presentation */
+  @media (prefers-reduced-motion: reduce) {
+    .media-block[data-playful-media="tilt"],
+    .media-block[data-playful-media="expressive"] {
+      transition: none;
+      will-change: auto;
+      transform: none;
+      box-shadow: none;
+    }
+  }
+
+  /* Touch devices: no tilt, no hover shadow — clean static presentation */
+  @media (hover: none), (pointer: coarse) {
+    .media-block[data-playful-media="tilt"],
+    .media-block[data-playful-media="expressive"]:hover {
+      box-shadow: none;
+    }
+  }
+
+  .media-toggle {
+    position: absolute;
+    bottom: 0.5rem;
+    right: 0.5rem;
+    width: 1.85rem;
+    height: 1.85rem;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 160ms ease, transform 160ms ease;
+    transform: translateY(0.2rem);
+    z-index: 10;
+  }
+
+  .media-block:hover .media-toggle,
+  .media-block:focus-within .media-toggle {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .media-toggle:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 0.2rem;
+  }
+
+  .media-toggle[aria-pressed='true'] {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: #FFFFFF;
   }
 </style>

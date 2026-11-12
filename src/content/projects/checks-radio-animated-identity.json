@@ -1,0 +1,48 @@
+{
+  "slug": "checks-radio-animated-identity",
+  "title": "Checks Radio - Animated Identity",
+  "discipline": "animation-motion",
+  "projectType": "client",
+  "composition": "motion",
+  "presentation": "sequence",
+  "client": "Checks Radio",
+  "collection": "Checks Downtown",
+  "workType": "client",
+  "archiveOrder": 43,
+  "homepageFeatured": false,
+  "description": "Animated identity material created for Checks Radio.",
+  "roles": [
+    "Animation",
+    "Motion design"
+  ],
+  "thumbnail": {
+    "type": "video",
+    "src": "/media/ClothingBrands/ChecksDowntown/ChecksRadio-AnimatedLogo/JustSpin.mp4",
+    "alt": "Checks Radio animated identity",
+    "aspect": "1/1"
+  },
+  "hero": {
+    "type": "video",
+    "src": "/media/ClothingBrands/ChecksDowntown/ChecksRadio-AnimatedLogo/JustSpin.mp4",
+    "alt": "Checks Radio animated identity — rotating logo motion",
+    "aspect": "1/1"
+  },
+  "gallery": [
+    {
+      "type": "video",
+      "src": "/media/ClothingBrands/ChecksDowntown/ChecksRadio-AnimatedLogo/1080_Signal_RaisingUp.mp4",
+      "alt": "Checks Radio animated identity — signal raising motion",
+      "aspect": "1/1"
+    },
+    {
+      "type": "video",
+      "src": "/media/ClothingBrands/ChecksDowntown/ChecksRadio-AnimatedLogo/Lofi.mp4",
+      "alt": "Checks Radio animated identity — lo-fi motion",
+      "aspect": "1/1"
+    }
+  ],
+  "compositionPreferences": {
+    "layoutHint": "hero-gallery",
+    "heroAspect": "1/1"
+  }
+}

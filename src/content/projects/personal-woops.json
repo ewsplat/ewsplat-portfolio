@@ -1,0 +1,42 @@
+{
+  "slug": "personal-woops",
+  "title": "Woops",
+  "discipline": "animation-motion",
+  "projectType": "experiment",
+  "composition": "motion",
+  "presentation": "sequence",
+  "client": "Personal work",
+  "collection": "Personal works",
+  "workType": "personal",
+  "archiveOrder": 101,
+  "draft": true,
+  "year": 2023,
+  "description": "Hand drawn animation experiment in rough frame by frame making.",
+  "roles": [
+    "Animation"
+  ],
+  "thumbnail": {
+    "type": "video",
+    "src": "/media/portfolio/personal/woops.mp4",
+    "alt": "Woops hand-drawn animation experiment",
+    "aspect": "16/9"
+  },
+  "hero": {
+    "type": "video",
+    "src": "/media/portfolio/personal/woops.mp4",
+    "aspect": "16/9",
+    "alt": "Woops hand-drawn animation experiment"
+  },
+  "gallery": [
+    {
+      "type": "video",
+      "src": "/media/portfolio/personal/woops.mp4",
+      "aspect": "16/9",
+      "alt": "Woops hand-drawn animation experiment"
+    }
+  ],
+  "compositionPreferences": {
+    "layoutHint": "hero-gallery",
+    "heroAspect": "16/9"
+  }
+}

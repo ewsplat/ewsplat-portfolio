@@ -1,0 +1,39 @@
+{
+  "slug": "mxfm-tee-illustration-apparel-graphics",
+  "title": "MXFM — Tee Illustration & Apparel Graphics",
+  "discipline": "illustration",
+  "projectType": "client",
+  "composition": "graphic-sequence",
+  "presentation": "artwork",
+  "client": "MXFM",
+  "collection": "MXFM",
+  "workType": "client",
+  "archiveOrder": 40,
+  "year": 2023,
+  "description": "Tee illustration and apparel graphics for MXFM, shown front and back.",
+  "roles": [
+    "Illustration",
+    "Apparel graphics"
+  ],
+  "thumbnail": {
+    "type": "image",
+    "src": "/images/portfolio/MXFM/MXFM_Tee_IllustrationDesign_Back.jpg",
+    "alt": "MXFM tee back illustration design"
+  },
+  "hero": {
+    "type": "image",
+    "src": "/images/portfolio/MXFM/MXFM_Tee_IllustrationDesign_Back.jpg",
+    "alt": "MXFM tee back illustration design"
+  },
+  "gallery": [
+    {
+      "type": "image",
+      "src": "/images/portfolio/MXFM/MXFM_Tee_IllustrationDesign_Back.jpg",
+      "alt": "MXFM tee back illustration design"
+    }
+  ],
+  "compositionPreferences": {
+    "layoutHint": "paired",
+    "heroAspect": "1/1"
+  }
+}

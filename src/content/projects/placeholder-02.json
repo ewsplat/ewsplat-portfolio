@@ -1,13 +1,17 @@
 {
+  "slug": "placeholder-02",
   "title": "Placeholder Project 02",
+  "discipline": "animation-motion",
+  "projectType": "experiment",
   "workType": "uncertain",
   "placeholder": true,
+  "draft": true,
+  "archiveOrder": 999,
   "thumbnail": { "type": "placeholder", "aspect": "16/9", "color": "#4b536b", "alt": "Placeholder thumbnail" },
   "hero": { "type": "placeholder", "aspect": "16/9", "color": "#4b536b", "alt": "Placeholder hero" },
   "gallery": [
     { "type": "placeholder", "aspect": "16/9", "color": "#4b536b" },
     { "type": "placeholder", "aspect": "1/1", "color": "#45554d" }
   ],
-  "featured": false,
-  "draft": true
+  "featured": false
 }

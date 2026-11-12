@@ -1,0 +1,40 @@
+{
+  "slug": "personal-crazy-scary",
+  "title": "Crazy, Scary, Spooky, Hilarious",
+  "discipline": "illustration",
+  "projectType": "experiment",
+  "composition": "single-artwork",
+  "presentation": "artwork",
+  "client": "Personal work",
+  "collection": "Personal works",
+  "workType": "personal",
+  "archiveOrder": 56,
+  "year": 2023,
+  "description": "Character study of exaggerated expressions: crazy, scary, spooky, hilarious.",
+  "roles": [
+    "Illustration"
+  ],
+  "thumbnail": {
+    "type": "image",
+    "src": "/images/portfolio/PersonalWorks/crazy-scary-spooky-hilarious.jpg",
+    "alt": "Crazy, scary, spooky, hilarious character study",
+    "aspect": "4/3"
+  },
+  "hero": {
+    "type": "image",
+    "src": "/images/portfolio/PersonalWorks/crazy-scary-spooky-hilarious.jpg",
+    "alt": "Crazy, scary, spooky, hilarious character study",
+    "aspect": "4/3"
+  },
+  "gallery": [
+    {
+      "type": "image",
+      "src": "/images/portfolio/PersonalWorks/crazy-scary-spooky-hilarious.jpg",
+      "alt": "Crazy, scary, spooky, hilarious character study"
+    }
+  ],
+  "compositionPreferences": {
+    "layoutHint": "single",
+    "heroAspect": "4/3"
+  }
+}

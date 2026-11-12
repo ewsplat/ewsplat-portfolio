@@ -1,19 +1,33 @@
 {
   "slug": "personal-dog",
   "title": "Dog",
+  "discipline": "illustration",
+  "projectType": "personal",
   "composition": "single-artwork",
+  "presentation": "artwork",
   "collection": "Personal works",
   "workType": "personal",
-  "archiveOrder": 11,
-  "roles": ["Illustration"],
+  "archiveOrder": 9,
+  "homepageFeatured": false,
+  "year": 2020,
+  "description": "Personal dog character illustration.",
+  "roles": [
+    "Illustration"
+  ],
   "thumbnail": {
     "type": "image",
     "src": "/images/portfolio/PersonalWorks/Dog.jpg",
-    "alt": "Dog character illustration"
+    "alt": "Dog character illustration",
+    "aspect": "4/3"
   },
   "hero": {
     "type": "image",
     "src": "/images/portfolio/PersonalWorks/Dog.jpg",
-    "alt": "Dog character illustration"
+    "alt": "Dog character illustration",
+    "aspect": "4/3"
+  },
+  "compositionPreferences": {
+    "layoutHint": "single",
+    "heroAspect": "4/3"
   }
 }

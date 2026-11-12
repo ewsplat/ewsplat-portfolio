@@ -1,0 +1,42 @@
+{
+  "slug": "kiljoy-event-campaign",
+  "title": "Kiljoy — Event Campaign",
+  "discipline": "campaigns-events",
+  "projectType": "client",
+  "composition": "motion",
+  "presentation": "campaign",
+  "client": "Kiljoy",
+  "collection": "Kiljoy",
+  "workType": "client",
+  "archiveOrder": 42,
+  "year": 2023,
+  "description": "Event campaign artwork and promotional motion for Kiljoy.",
+  "roles": [
+    "Design",
+    "Animation",
+    "Event promotion"
+  ],
+  "thumbnail": {
+    "type": "image",
+    "src": "/images/portfolio/Kiljoy/Killjoy_NZEVENT_FacebookBanner.jpg",
+    "alt": "Kiljoy event Facebook banner",
+    "aspect": "1200/628"
+  },
+  "hero": {
+    "type": "video",
+    "src": "/media/portfolio/kiljoy/Killjoy_NZEVENT_PromoVideo.mp4",
+    "alt": "Kiljoy event promotional video",
+    "aspect": "1/1"
+  },
+  "gallery": [
+    {
+      "type": "image",
+      "src": "/images/portfolio/Kiljoy/Killjoy_NZEVENT_FacebookBanner.jpg",
+      "alt": "Kiljoy event Facebook banner"
+    }
+  ],
+  "compositionPreferences": {
+    "layoutHint": "hero-gallery",
+    "heroAspect": "1/1"
+  }
+}

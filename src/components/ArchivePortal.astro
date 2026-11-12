@@ -1,0 +1,456 @@
+---
+import Layout from '../layouts/Layout.astro';
+import MediaBlock from '../components/MediaBlock.astro';
+import { withBase } from '../utils/site';
+
+interface PortalMedia {
+  type?: 'image' | 'gif' | 'video' | 'placeholder' | 'youtube';
+  src?: string;
+  poster?: string;
+  aspect?: string;
+  alt?: string;
+}
+
+interface PortalItem {
+  slug: string;
+  title: string;
+  discipline?: string;
+  year?: string;
+  media: PortalMedia;
+  longitude?: number;
+  latitude?: number;
+  depth?: number;
+  speedMultiplier?: number;
+  sizeClass?: 'prominent' | 'medium' | 'small';
+}
+
+const { items, totalPublishedCount } = Astro.props;
+
+function aspectRatioToPercent(ratio: string): string {
+  const parts = ratio.split('/');
+  if (parts.length === 2) {
+    const w = parseFloat(parts[0]);
+    const h = parseFloat(parts[1]);
+    if (h > 0) return `${(h / w) * 100}%`;
+  }
+  return '100%';
+}
+
+const enrichedItems = items.map((item, i) => {
+  const longitude = item.longitude ?? (i * 36 + (i * 7) % 36);
+  const latitude = item.latitude ?? ((i * 13) % 90) - 45;
+  const depth = item.depth ?? 0.8 + (i * 0.23) % 0.5;
+  const speedMultiplier = item.speedMultiplier ?? 0.7 + ((i * 17) % 6) / 10;
+  const sizeClass = item.sizeClass ?? (i < 3 ? 'prominent' : i < 8 ? 'medium' : 'small');
+  return { ...item, longitude, latitude, depth, speedMultiplier, sizeClass };
+});
+---
+
+<section class="archive-portal" aria-label="Archive gateway kinetic composition">
+  <div class="portal-shell">
+    <div class="portal-stage" data-portal-stage>
+      <div class="portal-sphere" data-portal-sphere>
+        {enrichedItems.map((item) => {
+          return (
+            <a
+              href={withBase('/archive')}
+              class="portal-fragment"
+              style={`--longitude: ${item.longitude}deg; --latitude: ${item.latitude}deg; --depth: ${item.depth}; --speed-mult: ${item.speedMultiplier}; --fragment-width: ${item.sizeClass === 'prominent' ? 'clamp(180px, 20vw, 260px)' : item.sizeClass === 'medium' ? 'clamp(130px, 14vw, 180px)' : 'clamp(90px, 10vw, 130px)'}; --portal-aspect: ${aspectRatioToPercent(item.media.aspect ?? '4/3')}`}
+              data-portal-slug={item.slug}
+              aria-label={`View ${item.title} — EWSPLAT archive`}
+            >
+              <span class="portal-frame">
+                <MediaBlock
+                  type={item.media.type}
+                  src={item.media.src}
+                  poster={item.media.poster}
+                  aspect={item.media.aspect}
+                  alt={item.media.alt}
+                  controls={false}
+                  response="still"
+                  tiltIntensity="subtle"
+                  loading="eager"
+                />
+              </span>
+              <span class="portal-meta">
+                {item.title}{item.discipline ? ` · ${item.discipline}` : ''}{item.year ? ` · ${item.year}` : ''}
+              </span>
+            </a>
+          );
+        })}
+      </div>
+      <a href={withBase('/archive')} class="portal-invitation" aria-label={`Explore archive — ${totalPublishedCount} projects`}>
+        <span class="invitation-label">EWSPLAT ARCHIVE</span>
+        <span class="invitation-count">{totalPublishedCount}+ projects</span>
+        <span class="invitation-cta">EXPLORE THE ARCHIVE</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<script>
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const state = {
+    isReducedMotion: reducedMotion,
+    isPaused: false,
+    hoveredFragment: null,
+    baseSpeed: 0.0025,
+    startTime: performance.now(),
+    stageWidth: 0,
+    stageHeight: 0,
+    stageCenterX: 0,
+    stageCenterY: 0,
+    sphereTiltX: 0.15,
+    sphereTiltY: 0,
+    targetTiltX: 0.15,
+    targetTiltY: 0,
+    isDragging: false,
+    dragStartX: 0,
+    dragStartY: 0,
+    dragStartTiltX: 0,
+    dragStartTiltY: 0,
+  };
+
+  let animationId = null;
+  let baseSpeed = state.baseSpeed;
+  let hoveredFragment = null;
+  const sphereEl = document.querySelector('.portal-sphere');
+  const fragments = [];
+
+  function getStageRect() {
+    const stage = document.querySelector<HTMLElement>('.portal-stage');
+    if (stage) {
+      const rect = stage.getBoundingClientRect();
+      state.stageWidth = rect.width;
+      state.stageHeight = rect.height;
+      state.stageCenterX = state.stageWidth / 2;
+      state.stageCenterY = state.stageHeight / 2;
+    }
+  }
+
+  function sphericalToScreen(lon, lat, depth, cx, cy, scale) {
+    const lonRad = (lon * Math.PI) / 180;
+    const latRad = (lat * Math.PI) / 180;
+
+    const x3d = Math.cos(latRad) * Math.sin(lonRad);
+    const y3d = Math.sin(latRad);
+    const z3d = Math.cos(latRad) * Math.cos(lonRad);
+
+    const rotatedX = x3d * Math.cos(state.sphereTiltY) - z3d * Math.sin(state.sphereTiltY);
+    const rotatedZ = x3d * Math.sin(state.sphereTiltY) + z3d * Math.cos(state.sphereTiltY);
+    const rotatedY = y3d * Math.cos(state.sphereTiltX) - rotatedZ * Math.sin(state.sphereTiltX);
+
+    const scaleDepth = 0.72 + depth * 0.43;
+    const screenX = cx + rotatedX * scale * scaleDepth;
+    const screenY = cy + rotatedY * scale * scaleDepth;
+
+    return { x: screenX, y: screenY, z: rotatedY, scaleDepth };
+  }
+
+  function updateTransforms(now) {
+    const elapsed = now - state.startTime;
+    const fragments = Array.from(document.querySelectorAll('.portal-fragment'));
+
+    fragments.forEach((frag) => {
+      const longitude = parseFloat(frag.style.getPropertyValue('--longitude') || '0');
+      const latitude = parseFloat(frag.style.getPropertyValue('--latitude') || '0');
+      const depth = parseFloat(frag.style.getPropertyValue('--depth') || '1');
+      const speedMult = parseFloat(frag.style.getPropertyValue('--speed-mult') || '1');
+
+      const speedMultiplier = hoveredFragment === frag ? 0.03 : 1;
+      const angleIncrement = baseSpeed * speedMult * speedMultiplier;
+
+      const currentLon = longitude + angleIncrement * elapsed;
+
+      const scale = Math.min(state.stageWidth, state.stageHeight) * 0.35;
+      const pos = sphericalToScreen(currentLon, latitude, depth, state.stageCenterX, state.stageCenterY, scale);
+
+      const frame = frag.querySelector('.portal-frame');
+      if (frame && !frag.classList.contains('portal-fragment--hovered')) {
+        frame.style.transform = `scale(${pos.scaleDepth})`;
+      }
+
+      frag.style.transform = `translate3d(${pos.x}px, ${pos.y}px, 0) translate(-50%, -50%)`;
+      frag.style.zIndex = Math.round(50 + pos.z * 100);
+      frag.style.opacity = 0.6 + pos.z * 0.4;
+    });
+
+    if (!state.isPaused) {
+      const ease = 0.04;
+      state.sphereTiltX += (state.targetTiltX - state.sphereTiltX) * ease;
+      state.sphereTiltY += (state.targetTiltY - state.sphereTiltY) * ease;
+    }
+
+    animationId = requestAnimationFrame(updateTransforms);
+  }
+
+  getStageRect();
+  if (!reducedMotion) {
+    requestAnimationFrame(updateTransforms);
+  }
+
+  const stageEl = document.querySelector('.portal-stage');
+  if (stageEl && !reducedMotion) {
+    stageEl.addEventListener('mousemove', (e) => {
+      if (state.isDragging) return;
+      const rect = stageEl.getBoundingClientRect();
+      const cx = e.clientX - rect.left;
+      const cy = e.clientY - rect.top;
+      const nx = (cx - rect.width / 2) / (rect.width / 2);
+      const ny = (cy - rect.height / 2) / (rect.height / 2);
+      state.targetTiltX = 0.15 - ny * 0.25;
+      state.targetTiltY = nx * 0.25;
+    });
+
+    stageEl.addEventListener('mouseleave', () => {
+      if (!state.isDragging) {
+        state.targetTiltX = 0.15;
+        state.targetTiltY = 0;
+      }
+    });
+
+    stageEl.addEventListener('mousedown', (e) => {
+      if (e.target.closest('.portal-fragment')) return;
+      state.isDragging = true;
+      state.dragStartX = e.clientX;
+      state.dragStartY = e.clientY;
+      state.dragStartTiltX = state.sphereTiltX;
+      state.dragStartTiltY = state.sphereTiltY;
+      e.preventDefault();
+    });
+
+    window.addEventListener('mousemove', (e) => {
+      if (!state.isDragging) return;
+      const dx = (e.clientX - state.dragStartX) / (state.stageWidth / 2);
+      const dy = (e.clientY - state.dragStartY) / (state.stageHeight / 2);
+      state.sphereTiltX = state.dragStartTiltX - dy * 0.5;
+      state.sphereTiltY = state.dragStartTiltY + dx * 0.5;
+      state.targetTiltX = state.sphereTiltX;
+      state.targetTiltY = state.sphereTiltY;
+    });
+
+    window.addEventListener('mouseup', () => {
+      if (state.isDragging) {
+        state.isDragging = false;
+      }
+    });
+  }
+
+  const allFragments = Array.from(document.querySelectorAll('.portal-fragment'));
+  allFragments.forEach((frag) => {
+    frag.addEventListener('mouseenter', () => {
+      hoveredFragment = frag;
+      frag.classList.add('portal-fragment--hovered');
+    });
+
+    frag.addEventListener('mouseleave', () => {
+      hoveredFragment = null;
+      frag.classList.remove('portal-fragment--hovered');
+    });
+  });
+
+  const portalElement = document.querySelector<HTMLElement>('.archive-portal');
+  if (portalElement && !reducedMotion) {
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        state.isPaused = !entry.isIntersecting;
+        if (entry.isIntersecting && animationId === null) {
+          state.startTime = performance.now();
+          requestAnimationFrame(updateTransforms);
+        } else if (!entry.isIntersecting) {
+          cancelAnimationFrame(animationId);
+          animationId = null;
+        }
+      },
+      { rootMargin: '0px' }
+    );
+    io.observe(portalElement);
+  }
+
+  window.addEventListener('resize', getStageRect);
+</script>
+
+<style>
+  .archive-portal {
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .portal-stage {
+    position: relative;
+    width: 100%;
+    height: clamp(420px, 48vw, 620px);
+    overflow: hidden;
+    margin: 0 auto;
+    touch-action: none;
+  }
+
+  .portal-sphere {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  .portal-fragment {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: var(--fragment-width);
+    will-change: transform, opacity, z-index;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+  }
+
+  .portal-frame {
+    display: block;
+    width: 100%;
+    height: 0;
+    padding-bottom: var(--portal-aspect, 100%);
+    position: relative;
+    overflow: hidden;
+    transform-origin: center center;
+    will-change: transform;
+  }
+
+  .portal-frame :global(.media-block) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .portal-frame :global(.media-block img),
+  .portal-frame :global(.media-block video) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .portal-meta {
+    position: absolute;
+    bottom: 0.2rem;
+    left: 0.2rem;
+    font-size: 0.5rem;
+    color: var(--color-muted);
+    opacity: 0;
+    transition: opacity 0.12s ease;
+    pointer-events: none;
+    font-family: var(--font-mono);
+    white-space: nowrap;
+  }
+
+  .portal-fragment:hover .portal-meta {
+    opacity: 1;
+  }
+
+  .portal-fragment--hovered {
+    z-index: 200 !important;
+  }
+
+  .portal-fragment--hovered .portal-frame {
+    transform: scale(1.12) !important;
+    transition: transform 0.3s cubic-bezier(0.2, 0.65, 0.3, 1);
+  }
+
+  .portal-fragment--hovered .portal-meta {
+    opacity: 1;
+  }
+
+  .portal-invitation {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 1rem 2rem;
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
+    z-index: 150;
+    text-align: center;
+    pointer-events: auto;
+    text-decoration: none;
+    color: inherit;
+    opacity: 0.95;
+    transition: opacity 0.2s ease, border-color 0.2s ease, transform 0.3s cubic-bezier(0.2, 0.65, 0.3, 1);
+  }
+
+  .portal-invitation:hover {
+    border-color: var(--color-accent);
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.02);
+  }
+
+  .invitation-label {
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  .invitation-count {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    font-weight: 600;
+    line-height: 1;
+    color: var(--color-text);
+    letter-spacing: 0.02em;
+  }
+
+  .invitation-cta {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-accent);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .portal-fragment {
+      transition: none;
+    }
+
+    .portal-meta {
+      transition: none;
+      opacity: 1;
+    }
+
+    .portal-fragment--hovered .portal-frame {
+      transform: none !important;
+      transition: none;
+    }
+
+    .portal-fragment:hover .portal-meta {
+      opacity: 1;
+    }
+
+    .portal-invitation {
+      transition: none;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .portal-stage {
+      height: clamp(380px, 50vw, 520px);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .portal-stage {
+      height: clamp(320px, 55vw, 440px);
+    }
+
+    .portal-meta {
+      font-size: 0.45rem;
+      opacity: 1;
+    }
+
+    .invitation-cta {
+      display: none;
+    }
+  }
+</style>

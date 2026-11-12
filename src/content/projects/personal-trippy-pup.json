@@ -1,0 +1,40 @@
+{
+  "slug": "personal-trippy-pup",
+  "title": "Trippy Pup",
+  "discipline": "illustration",
+  "projectType": "experiment",
+  "composition": "single-artwork",
+  "presentation": "artwork",
+  "client": "Personal work",
+  "collection": "Personal works",
+  "workType": "personal",
+  "archiveOrder": 58,
+  "year": 2023,
+  "description": "Trippy, psychedelic character design in saturated colour and exaggerated expression.",
+  "roles": [
+    "Illustration"
+  ],
+  "thumbnail": {
+    "type": "image",
+    "src": "/images/portfolio/PersonalWorks/trippy-pup.webp",
+    "alt": "Trippy Pup character design",
+    "aspect": "4/3"
+  },
+  "hero": {
+    "type": "image",
+    "src": "/images/portfolio/PersonalWorks/trippy-pup.webp",
+    "alt": "Trippy Pup character design",
+    "aspect": "4/3"
+  },
+  "gallery": [
+    {
+      "type": "image",
+      "src": "/images/portfolio/PersonalWorks/trippy-pup.webp",
+      "alt": "Trippy Pup character design"
+    }
+  ],
+  "compositionPreferences": {
+    "layoutHint": "single",
+    "heroAspect": "4/3"
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "slug": "newground-product-renders-website-motion",
+  "title": "NewGround — Product Renders",
+  "discipline": "animation-motion",
+  "projectType": "client",
+  "composition": "motion",
+  "presentation": "sequence",
+  "client": "NewGround",
+  "collection": "Coffee product renders",
+  "workType": "client",
+  "archiveOrder": 44,
+  "homepageFeatured": false,
+  "description": "Product render and motion material for NewGround coffee packaging, including a product sequence and animated product assets.",
+  "roles": [
+    "Product rendering",
+    "Motion design"
+  ],
+  "thumbnail": {
+    "type": "video",
+    "src": "/media/coffee/NewGround_Coffee_ProductRenders/All_Products.mp4",
+    "alt": "NewGround coffee product render sequence",
+    "aspect": "1/1"
+  },
+  "hero": {
+    "type": "video",
+    "src": "/media/coffee/NewGround_Coffee_ProductRenders/All_Products.mp4",
+    "alt": "NewGround coffee product render sequence",
+    "aspect": "1/1"
+  },
+  "gallery": [
+    {
+      "type": "image",
+      "src": "/media/coffee/NewGround_Coffee_ProductRenders/APNG/Box1.png",
+      "alt": "NewGround product render — box one"
+    },
+    {
+      "type": "image",
+      "src": "/media/coffee/NewGround_Coffee_ProductRenders/APNG/Box2.png",
+      "alt": "NewGround product render — box two"
+    },
+    {
+      "type": "image",
+      "src": "/media/coffee/NewGround_Coffee_ProductRenders/APNG/Can1.png",
+      "alt": "NewGround product render — can one"
+    },
+    {
+      "type": "image",
+      "src": "/media/coffee/NewGround_Coffee_ProductRenders/APNG/Can2.png",
+      "alt": "NewGround product render — can two"
+    },
+    {
+      "type": "image",
+      "src": "/media/coffee/NewGround_Coffee_ProductRenders/APNG/Jar1.png",
+      "alt": "NewGround product render — jar one"
+    },
+    {
+      "type": "image",
+      "src": "/media/coffee/NewGround_Coffee_ProductRenders/APNG/Jar2.png",
+      "alt": "NewGround product render — jar two"
+    }
+  ],
+  "compositionPreferences": {
+    "layoutHint": "hero-gallery",
+    "heroAspect": "1/1"
+  }
+}

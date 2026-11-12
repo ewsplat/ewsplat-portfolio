@@ -1,23 +1,36 @@
 {
   "slug": "orange-fields",
   "title": "Orange Fields",
+  "discipline": "illustration",
+  "projectType": "personal",
   "composition": "single-artwork",
+  "presentation": "artwork",
   "collection": "Personal works",
   "workType": "personal",
   "archiveOrder": 2,
+  "homepageFeatured": true,
+  "homepageOrder": 1,
+  "year": 2020,
+  "description": "Personal illustration exploring colour, texture and atmospheric space. A study in orange tones and organic form.",
   "roles": [
     "Illustration"
   ],
   "thumbnail": {
     "type": "image",
     "src": "/images/portfolio/web/PersonalWorks/OrangeFields.webp",
-    "alt": "Orange Fields illustration"
+    "alt": "Orange Fields illustration",
+    "aspect": "4/3"
   },
   "hero": {
     "type": "image",
     "src": "/images/portfolio/web/PersonalWorks/OrangeFields.webp",
-    "alt": "Orange Fields illustration"
+    "alt": "Orange Fields illustration",
+    "aspect": "4/3"
   },
   "featured": true,
-  "featuredOrder": 2
+  "featuredOrder": 1,
+  "compositionPreferences": {
+    "layoutHint": "single",
+    "heroAspect": "4/3"
+  }
 }

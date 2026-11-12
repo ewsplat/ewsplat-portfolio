@@ -1,0 +1,44 @@
+{
+  "slug": "plans-after-20th-january-2023",
+  "title": "Plans After — 20 January 2023",
+  "discipline": "animation-motion",
+  "projectType": "client",
+  "composition": "motion",
+  "presentation": "execution",
+  "client": "Plans After",
+  "collection": "Plans After",
+  "workType": "client",
+  "archiveOrder": 51,
+  "year": 2023,
+  "description": "Animation for Plans After's 20 January event.",
+  "roles": [
+    "Creative direction",
+    "Design",
+    "Illustration",
+    "Animation"
+  ],
+  "thumbnail": {
+    "type": "video",
+    "src": "/media/portfolio/plans-after/plans-after-20thJan.mp4",
+    "alt": "Plans After January 2023 social media animation",
+    "aspect": "9/16"
+  },
+  "hero": {
+    "type": "video",
+    "src": "/media/portfolio/plans-after/plans-after-20thJan.mp4",
+    "aspect": "9/16",
+    "alt": "Plans After January 2023 social media animation"
+  },
+  "gallery": [
+    {
+      "type": "video",
+      "src": "/media/portfolio/plans-after/plans-after-20thJan.mp4",
+      "aspect": "9/16",
+      "alt": "Plans After January 2023 social media animation"
+    }
+  ],
+  "compositionPreferences": {
+    "layoutHint": "hero-gallery",
+    "heroAspect": "9/16"
+  }
+}

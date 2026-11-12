@@ -1,719 +1,1115 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import MediaBlock from '../components/MediaBlock.astro';
-import CharacterCameo from '../components/CharacterCameo.astro';
+import ArchivePortal from '../components/ArchivePortal.astro';
 import { withBase } from '../utils/site';
 import { getCollection } from 'astro:content';
 
 const allProjects = await getCollection('projects');
-const featuredProjects = allProjects
-  .filter((p) => !p.data.draft && p.data.featured)
-  .sort((a, b) => (a.data.featuredOrder ?? 99) - (b.data.featuredOrder ?? 99));
+const publishedProjects = allProjects
+  .filter((p) => !p.data.draft && !p.data.compositionTest && !p.data.placeholder)
+  .sort((a, b) => (a.data.archiveOrder ?? a.data.featuredOrder ?? 99) - (b.data.archiveOrder ?? b.data.featuredOrder ?? 99));
 
-const leadProject = featuredProjects[0];
-const remainingProjects = featuredProjects.slice(1);
-const publishedCount = allProjects.filter((project) => !project.data.draft).length;
-const pawaProject = allProjects.find((project) => (project.data.slug ?? project.id) === 'pawa-dog-3d-model');
+const totalPublishedCount = publishedProjects.length;
 
-if (
-  !pawaProject
-  || pawaProject.data.draft
-  || pawaProject.data.compositionTest
-  || !pawaProject.data.thumbnail
-) {
-  throw new Error('The homepage character cameo requires the published Pawa Dog thumbnail.');
+// Select homepage featured projects ordered by homepageOrder
+const homepageProjects = publishedProjects
+  .filter((p) => p.data.homepageFeatured === true)
+  .sort((a, b) => (a.data.homepageOrder ?? 99) - (b.data.homepageOrder ?? 99));
+
+const homepageSocialImage = homepageProjects[0]?.data.thumbnail?.src ?? homepageProjects[0]?.data.hero?.src;
+
+const projectHref = (project: any) =>
+  withBase(`/projects/${project?.data?.slug ?? project?.id}`);
+
+const getRoles = (project: any) => {
+  const roles = project?.data?.roles;
+  return Array.isArray(roles) && roles.length > 0 ? roles.join(', ') : '';
+};
+
+const getClient = (project: any) => project?.data?.client;
+
+// Editorial moment mapping: explicit dominant/secondary relationships per moment.
+// Asymmetry comes from scale, alignment and negative space — not arbitrary overlap.
+const momentPlan = [
+  { dominant: 0, secondary: 1, ratio: '8/4', secondaryOffset: 'lower' },
+  { dominant: 2, secondary: 3, ratio: '7/5', secondaryOffset: 'middle' },
+  { dominant: 4, secondary: 5, ratio: '6/6', secondaryOffset: 'middle' },
+  { dominant: 6, secondary: 8, ratio: '6/6', secondaryOffset: 'aligned' },
+  { dominant: 7, ratio: 'standalone' },
+];
+
+// Curated archive portal items: published projects that are NOT homepage-featured.
+// These become the kinetic fragments of the archive gateway.
+const portalProjectSlugs = [
+  'deepstate-rain',
+  'digital-farming-fence',
+  'how-we-can-be-bella-claxton',
+  'personal-morphing-characters',
+  'personal-sour-yuck',
+  'iloveugly-product-illustration',
+  'flux-eden-burns-event-artwork',
+  'kaylee-bell-cowboy-up',
+  'spinoff-nz-web-illustrations',
+  'ewsplat-motion-experiments',
+];
+
+interface PortalMedia {
+  type?: 'image' | 'gif' | 'video' | 'placeholder' | 'youtube';
+  src?: string;
+  poster?: string;
+  aspect?: string;
+  alt?: string;
 }
 
-const projectHref = (project: (typeof featuredProjects)[number]) =>
-  withBase(`/projects/${project.data.slug ?? project.id}`);
+interface PortalItem {
+  slug: string;
+  title: string;
+  discipline?: string;
+  year?: string;
+  media: PortalMedia;
+}
+
+const portalPublished = publishedProjects.filter((p) => p.data.homepageFeatured !== true);
+const portalItems: PortalItem[] = portalProjectSlugs
+  .map((slug) => {
+    const project = portalPublished.find((p) => p.data.slug === slug);
+    if (!project) return null;
+    const thumb = project.data.thumbnail;
+    return {
+      slug: project.data.slug,
+      title: project.data.title,
+      discipline: project.data.discipline,
+      year: project.data.year ?? '',
+      media: {
+        type: thumb?.type ?? 'image',
+        src: thumb?.src,
+        poster: thumb?.poster,
+        aspect: thumb?.aspect ?? '4/3',
+        alt: thumb?.alt ?? project.data.title,
+      },
+    } as PortalItem;
+  })
+  .filter((item): item is PortalItem => item !== null);
 ---
 
-<Layout title="EWSPLAT — Multidisciplinary Creative Practice">
-  <div class="container" data-home-interaction>
-    <section class="hero" aria-label="Introduction">
-      <div class="hero-topline">
-        <span>Independent creative practice</span>
-        <span>Wellington, New Zealand</span>
+<Layout title="EWSPLAT — Illustration, Character Design & Motion" description="Nic Little's independent creative practice in Wellington, illustration, character design, animation and graphic design.">
+  <div class="container home-page" data-home-interaction>
+
+    <!-- MASTHEAD -->
+    <header class="home-masthead" aria-label="EWSPLAT creative practice introduction">
+      <div class="masthead-headline-wrap">
+        <span class="home-eyebrow">EWSPLAT / INDEPENDENT CREATIVE PRACTICE / WLG—NZ</span>
+        <h1 class="masthead-title">
+          <span class="headline-line">ILLUSTRATION,<br>CHARACTER DESIGN,<br>ANIMATION +<br>GRAPHIC DESIGN.</span>
+        </h1>
       </div>
-      <h1 class="hero-title">
-        <button
-          type="button"
-          class="hero-wordmark-button"
-          data-wordmark-play
-          aria-label="EWSPLAT"
-          aria-describedby="wordmark-hint"
-          title="Play the selected-project ripple"
-        >
-          {'EWSPLAT'.split('').map((letter, index) => (
-            <span class="hero-letter" style={`--letter-index: ${index}`}>{letter}</span>
-          ))}
-        </button>
-      </h1>
-      <span class="visually-hidden" id="wordmark-hint">Activate to send a ripple through the seven selected projects.</span>
-      <span class="visually-hidden" data-ripple-status role="status" aria-live="polite"></span>
-      {leadProject && (
-        <div class="hero-feature">
-          <a
-            href={projectHref(leadProject)}
-            class="hero-artwork"
-            aria-label={`View ${leadProject.data.title}`}
-            data-featured-media="1"
-            style="--ripple-order: 1"
+    </header>
+
+    <!-- HOMEPAGE: Editorial moment sequence -->
+    <main class="home-moments" aria-label="Featured projects">
+      {momentPlan.map((moment, momentIndex) => {
+        const domProject = homepageProjects[moment.dominant];
+        const secProject = moment.secondary !== undefined ? homepageProjects[moment.secondary] : null;
+        return (
+          <section
+            class={`home-moment home-moment--${moment.ratio.replace(/\//, '-')} ${moment.secondaryOffset ? `home-moment--offset-${moment.secondaryOffset}` : ''}`}
+            data-moment={momentIndex + 1}
           >
-            {leadProject.data.thumbnail && (
-              <MediaBlock
-                type={leadProject.data.thumbnail.type}
-                src={leadProject.data.thumbnail.src}
-                aspect={leadProject.data.thumbnail.aspect}
-                color={leadProject.data.thumbnail.color}
-                alt={leadProject.data.thumbnail.alt || leadProject.data.title}
-                poster={leadProject.data.thumbnail.poster}
-                crop={leadProject.data.thumbnail.crop}
-                controls={false}
-                loading="eager"
-                response="expressive"
-              />
-            )}
-          </a>
-          <div class="hero-caption">
-            <div class="hero-index"><span>01</span><span>/ 07</span></div>
-            <p class="hero-intro">Illustration, character design, animation and graphic design — moving between disciplines as the work requires.</p>
-            <div class="hero-project">
-              <a href={projectHref(leadProject)} class="hero-project-title">
-                {leadProject.data.title}<span aria-hidden="true">↗</span>
-              </a>
-              {leadProject.data.roles.length > 0 && (
-                <p class="hero-project-roles">{leadProject.data.roles.join(' / ')}</p>
-              )}
-            </div>
-            <p class="hero-note">Commissioned and self-initiated work</p>
-          </div>
-        </div>
-      )}
-      <div class="hero-signoff">
-        <span>Seven selected projects</span>
-        <CharacterCameo
-          href={projectHref(pawaProject)}
-          src={pawaProject.data.thumbnail.src}
-          alt={pawaProject.data.thumbnail.alt || pawaProject.data.title}
-          name={pawaProject.data.title}
-          collection={pawaProject.data.collection || 'Character work'}
-        />
-        <span aria-hidden="true">↓</span>
-      </div>
-    </section>
-
-    <section class="selected-work" aria-label="More selected work">
-      <div class="section-heading">
-        <span>02—07 <i> / </i> Selected work</span>
-        <span>A mix of client commissions and personal experiments</span>
-      </div>
-      <div class="featured-sequence">
-        {remainingProjects.map((project) => (
-            <a
-              href={projectHref(project)}
-              class:list={['project-card', `featured-card-${project.data.featuredOrder}`]}
-              aria-label={`View ${project.data.title}`}
-              data-featured-media={String(project.data.featuredOrder ?? 0)}
-              style={`--ripple-order: ${project.data.featuredOrder ?? 0}`}
-            >
-              <span class="project-index" aria-hidden="true">
-                {String(project.data.featuredOrder ?? 0).padStart(2, '0')}
-              </span>
-              {project.data.thumbnail && (
-                <MediaBlock
-                  type={project.data.thumbnail.type}
-                  src={project.data.thumbnail.src}
-                  aspect={project.data.thumbnail.aspect}
-                  color={project.data.thumbnail.color}
-                  alt={project.data.thumbnail.alt || project.data.title}
-                  poster={project.data.thumbnail.poster}
-                  crop={project.data.thumbnail.crop}
-                  controls={false}
-                  response={
-                    project.data.featuredOrder === 4 ? 'tilt'
-                    : project.data.featuredOrder === 3 || project.data.featuredOrder === 7 ? 'reveal-side'
-                    : project.data.featuredOrder === 2 || project.data.featuredOrder === 6 ? 'reveal-up'
-                    : 'still'
-                  }
-                />
-              )}
-              <div class="project-info">
-                <span class="project-title">
-                  {project.data.title}<span class="project-arrow" aria-hidden="true">↗</span>
-                </span>
-                {project.data.roles.length > 0 && (
-                  <span class="project-roles">{project.data.roles.join(' / ')}</span>
-                )}
-              </div>
+            <article data-project-slug={domProject.data.slug}>
+              <a
+                href={projectHref(domProject)}
+                class="moment-link"
+                aria-label={`View ${domProject.data.title}`}
+              >
+                {(() => {
+                  const isStandalone = moment.ratio === 'standalone';
+                  const thumbnail = domProject.data.thumbnail;
+                  const isVideo = thumbnail?.type === 'video' || thumbnail?.type === 'youtube';
+                  const discipline = domProject.data.discipline || 'mixed';
+                  const roles = getRoles(domProject);
+                  const client = getClient(domProject);
+                  return (
+                    <div class={`project-card project-card--${isStandalone ? 'standalone' : 'dominant'}`}>
+                    <div class="project-card-media">
+                      {thumbnail && (
+                        <MediaBlock
+                          type={thumbnail.type}
+                          src={thumbnail.src}
+                          aspect={thumbnail.aspect}
+                          color={thumbnail.color}
+                          alt={thumbnail.alt || domProject.data.title}
+                          poster={thumbnail.poster}
+                          videoId={thumbnail.videoId}
+                          controls={false}
+                          loading="eager"
+                          response="expressive"
+                          tiltIntensity="medium"
+                        />
+                      )}
+                    </div>
+                    <div class="project-card-caption">
+                      <div class="project-discipline">{discipline}</div>
+                      <h2 class="project-title"><span>{domProject.data.title}</span></h2>
+                      <p class="project-meta">
+                        {roles && <span class="project-roles">{roles}</span>}
+                        {client && <span class="project-context">— {client}</span>}
+                      </p>
+                      <span class="project-view">View project →</span>
+                    </div>
+                  </div>
+                );
+              })()}
             </a>
-        ))}
-      </div>
-    </section>
+            </article>
+{momentIndex === 0 && (
+              <div class="yuck-wrapper">
+                <a href={withBase('/projects/personal-sour-yuck')} class="yuck-link" aria-label="View Sour Yuck! — Personal Work">
+                <div class="yuck-accent">
+                  <MediaBlock
+                    type="image"
+                    src="/images/portfolio/web/PersonalWorks/SourYuck!.webp"
+                    aspect="4/3"
+                    alt="Sour Yuck character accent"
+                    controls={false}
+                    loading="eager"
+                    response="still"
+                    tiltIntensity="subtle"
+                  />
+                </div>
+                <span class="yuck-label"><strong>SOUR YUCK!</strong><small>PERSONAL WORK</small></span>
+                </a>
+              </div>
+            )}
+            {secProject && (
+              <article data-project-slug={secProject.data.slug}>
+              <a
+                href={projectHref(secProject)}
+                class="moment-link"
+                aria-label={`View ${secProject.data.title}`}
+              >
+                {(() => {
+                  const thumbnail = secProject.data.thumbnail;
+                  const isVideo = thumbnail?.type === 'video' || thumbnail?.type === 'youtube';
+                  const discipline = secProject.data.discipline || 'mixed';
+                  const roles = getRoles(secProject);
+                  const client = getClient(secProject);
+                  return (
+                    <div class="project-card project-card--secondary">
+                      <div class="project-card-media">
+                        {thumbnail && (
+                          <MediaBlock
+                            type={thumbnail.type}
+                            src={thumbnail.src}
+                            aspect={thumbnail.aspect}
+                            color={thumbnail.color}
+                            alt={thumbnail.alt || secProject.data.title}
+                            poster={thumbnail.poster}
+                            videoId={thumbnail.videoId}
+                            controls={false}
+                            loading="eager"
+                            response={isVideo ? 'tilt' : 'reveal'}
+                            tiltIntensity="subtle"
+                          />
+                        )}
+                      </div>
+                      <div class="project-card-caption">
+                        <div class="project-discipline">{discipline}</div>
+                        <h2 class="project-title"><span>{secProject.data.title}</span></h2>
+                        <p class="project-meta">
+                          {roles && <span class="project-roles">{roles}</span>}
+                          {client && <span class="project-context">— {client}</span>}
+                        </p>
+                        <span class="project-view">View project →</span>
+                      </div>
+                    </div>
+                  );
+                })()}
+              </a>
+              </article>
+            )}
+          </section>
+        );
+      })}
+    </main>
 
-<section class="archive-section" aria-label="Continue to the archive">
-      <hr class="archive-rule" />
-      <div class="archive-link-wrapper">
-        <p class="archive-prompt">The full archive includes commissioned work, self-initiated projects and visual experiments.</p>
-        <a href={withBase('/archive')} class="archive-link">
-          <span>Open all {publishedCount} projects</span><span aria-hidden="true">↗</span>
-        </a>
-      </div>
-    </section>
+    <!-- ARCHIVE GATEWAY: kinetic orbital archive -->
+    <ArchivePortal
+      items={portalItems}
+      totalPublishedCount={totalPublishedCount}
+    />
+
   </div>
 </Layout>
 
 <style>
-  .hero {
-    padding: clamp(1.5rem, 4vw, 3.5rem) 0 0;
-  }
-
-  .hero-topline,
-  .section-heading {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 1rem;
-  }
-
-  .hero-topline,
-  .section-heading {
-    font-family: var(--font-body);
-    font-size: 0.6875rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-
-  .hero-topline {
-    color: var(--color-muted);
-  }
-
-  .hero-title {
-    font-family: var(--font-display);
-    font-size: clamp(7rem, 19vw, 17rem);
-    line-height: 0.76;
-    letter-spacing: -0.045em;
-    margin: 0.08em -0.045em clamp(1rem, 2.5vw, 2rem);
-    white-space: nowrap;
-  }
-
-  .hero-wordmark-button {
-    display: inline-block;
-    border: 0;
-    padding: 0;
-    background: transparent;
-    color: inherit;
-    font: inherit;
-    letter-spacing: inherit;
-    line-height: inherit;
-    white-space: inherit;
-    cursor: pointer;
-  }
-
-  .hero-wordmark-button:focus-visible {
-    outline: 0;
-    text-decoration: underline;
-    text-decoration-color: var(--color-accent);
-    text-decoration-thickness: 2px;
-    text-underline-offset: 0.08em;
-  }
-
-  .hero-letter {
-    display: inline-block;
-    transform-origin: 50% 80%;
-    transition: transform 190ms cubic-bezier(0.2, 0.65, 0.3, 1);
-  }
-
-  .hero-wordmark-button.is-jiggling .hero-letter {
-    animation: wordmark-nudge 480ms cubic-bezier(0.2, 0.75, 0.25, 1) both;
-    animation-delay: calc(var(--letter-index) * 22ms);
-  }
-
-  @keyframes wordmark-nudge {
-    0%, 100% { transform: translate3d(0, 0, 0) rotate(0) scale(1); }
-    28% { transform: translate3d(0, -0.09em, 0) rotate(-6deg) scale(1.025); }
-    52% { transform: translate3d(0, 0.025em, 0) rotate(3deg) scale(0.99); }
-    72% { transform: translate3d(0, -0.015em, 0) rotate(-1deg) scale(1.005); }
-  }
-
-  @media (hover: hover) {
-    .hero-letter:hover {
-      transform: translateY(-0.055em) rotate(-3deg);
-    }
-
-    .hero-letter:hover + .hero-letter {
-      transform: translateY(0.02em) rotate(1deg);
-    }
-  }
-
-  .hero-wordmark-button:active .hero-letter {
-    transform: translateY(-0.035em) rotate(-2deg);
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .hero-wordmark-button.is-jiggling .hero-letter,
-    [data-home-interaction].is-rippling [data-featured-media] img,
-    .hero-letter:hover,
-    .hero-letter:hover + .hero-letter,
-    .hero-wordmark-button:active .hero-letter,
-    [data-playful-media]:hover img,
-    [data-playful-media]:focus-visible img,
-    [data-featured-media] img,
-    .hero-artwork:hover :global(.media-block),
-    .hero-artwork:focus-visible :global(.media-block),
-    .project-card:hover .project-index,
-    .project-card:focus-visible .project-index,
-    .project-card:hover .project-arrow,
-    .project-card:focus-visible .project-arrow {
-      transform: none;
-    }
-  }
-
-  .hero-feature {
-    display: grid;
-    grid-template-columns: minmax(0, 1.12fr) minmax(15rem, 0.88fr);
-    gap: clamp(1.5rem, 5vw, 5rem);
-    align-items: end;
-    border-bottom: 1px solid var(--color-accent);
-    padding-bottom: clamp(1.5rem, 3vw, 2.5rem);
-  }
-
-  .hero-artwork {
-    display: flex;
-    align-items: flex-end;
-    min-width: 0;
-  }
-
-  .hero-artwork :global(.media-block) {
+  /* ==========================================================================
+     HOME PAGE BASE
+     ========================================================================== */
+  .home-page {
+    padding-bottom: clamp(3rem, 6vw, 5rem);
+    /* Homepage-specific: wider visual stage on desktop than the global container,
+       scoped to the homepage only so project pages remain unchanged. */
     width: 100%;
-    background: transparent;
-    transition: transform 350ms cubic-bezier(0.2, 0.65, 0.3, 1);
+    max-width: none;
+    margin: 0 auto;
+    padding-left: clamp(1.5rem, 3vw, 3rem);
+    padding-right: clamp(1.5rem, 3vw, 3rem);
+    overflow-x: clip;
   }
 
-  .hero-artwork :global(.media-block img) {
-    width: auto;
-    max-width: 100%;
-    max-height: 55svh;
+  @media (min-width: 1440px) {
+    .home-page {
+      max-width: 1600px;
+    }
   }
 
-  .hero-artwork:hover :global(.media-block),
-  .hero-artwork:focus-visible :global(.media-block) {
-    transform: translateY(-0.25rem);
+  /* MASTHEAD */
+  .home-masthead {
+    padding-top: clamp(2rem, 4vw, 3rem);
+    padding-bottom: clamp(2rem, 4vw, 3rem);
   }
 
-  .hero-caption {
+  .home-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    display: block;
+    margin-bottom: 0.5rem;
+    line-height: 1;
+  }
+
+  .masthead-headline-wrap {
+    display: block;
+  }
+
+  .headline-line {
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: 0.03em;
+    line-height: 1;
+    display: inline-block;
+    white-space: pre-line;
+    color: var(--color-text);
+    font-size: clamp(3rem, 6vw, 4.5rem);
+  }
+
+  .masthead-title {
+    margin: 0;
+  }
+
+  /* HOME MOMENTS: editorial sequence of paired moments.
+     Asymmetry comes from scale, alignment and negative space — not arbitrary overlap. */
+  .home-moments {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    gap: clamp(1.25rem, 3vw, 2.5rem);
-    padding-bottom: 0.25rem;
+    gap: clamp(2rem, 4vw, 4rem);
+    margin-bottom: clamp(2rem, 4vw, 3rem);
   }
 
-  .hero-index,
-  .project-index {
-    display: flex;
-    gap: 0.45rem;
-    align-items: baseline;
-    font-family: var(--font-mono);
-    font-size: 0.7rem;
-    color: var(--color-muted);
-  }
-
-  .hero-index span:first-child,
-  .project-index {
-    color: var(--color-accent);
-  }
-
-  .hero-intro {
-    max-width: 15ch;
-    font-family: var(--font-body);
-    font-size: clamp(1.45rem, 3.1vw, 2.75rem);
-    font-weight: 500;
-    letter-spacing: -0.065em;
-    line-height: 1.04;
-  }
-
-  .hero-project {
-    width: 100%;
-    padding-top: 0.8rem;
-    border-top: 1px solid var(--color-border);
-  }
-
-  .hero-project-title {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 1rem;
-    width: 100%;
-    font-family: var(--font-display);
-    font-size: clamp(2.25rem, 4.5vw, 4.25rem);
-    line-height: 0.92;
-    transition: color 160ms ease;
-  }
-
-  .hero-project-title:hover,
-  .hero-project-title:focus-visible {
-    color: var(--color-accent);
-  }
-
-  .hero-project-title span {
-    color: var(--color-accent);
-    font-family: var(--font-body);
-    font-size: 1rem;
-    transition: transform 160ms ease;
-  }
-
-  .hero-project-title:hover span,
-  .hero-project-title:focus-visible span {
-    transform: translate(0.2rem, -0.2rem);
-  }
-
-  .hero-project-roles,
-  .hero-note {
-    margin-top: 0.45rem;
-    color: var(--color-muted);
-    font-size: 0.8125rem;
-  }
-
-  .hero-note {
-    font-family: var(--font-mono);
-    font-size: 0.65rem;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-  }
-
-  .hero-signoff {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.7rem 0;
-    color: var(--color-muted);
-    font-family: var(--font-mono);
-    font-size: 0.65rem;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-  }
-
-  .section-heading {
-    padding-bottom: 0.75rem;
-    margin-bottom: clamp(1.5rem, 4vw, 3rem);
-    border-bottom: 1px solid var(--color-border);
-  }
-
-  .section-heading span:first-child {
-    color: var(--color-accent);
-  }
-
-  .section-heading i {
-    color: var(--color-muted);
-    font-style: normal;
-  }
-
-  .featured-sequence {
-    display: grid;
-    grid-template-columns: repeat(12, minmax(0, 1fr));
-    column-gap: clamp(1rem, 3vw, 2.5rem);
-    row-gap: clamp(3rem, 8vw, 7rem);
-    align-items: start;
-    padding-top: clamp(1rem, 3vw, 2.5rem);
-  }
-
-  .featured-card-2 {
-    grid-column: 1 / span 5;
-  }
-
-  .featured-card-3 {
-    grid-column: 8 / span 5;
-    margin-top: clamp(3rem, 9vw, 7rem);
-  }
-
-  .featured-card-4 {
-    grid-column: 2 / span 7;
-  }
-
-  .featured-card-5 {
-    grid-column: 9 / span 4;
-    margin-top: clamp(2rem, 6vw, 5rem);
-  }
-
-  .featured-card-6 {
-    grid-column: 1 / span 5;
-  }
-
-  .featured-card-7 {
-    grid-column: 8 / span 5;
-    margin-top: clamp(2rem, 6vw, 5rem);
-  }
-
-  .project-card {
+  .home-moment {
     position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 0.7rem;
+    display: grid;
+    align-items: start;
+    gap: clamp(1.5rem, 3vw, 2.5rem);
+  }
+
+  .home-moment--offset-lower {
+    align-items: end;
+  }
+
+  .home-moment--offset-lower .moment-link:nth-child(2) {
+    padding-top: clamp(2rem, 5vw, 4rem);
+  }
+
+  .home-moment--offset-middle .moment-link:nth-child(2) {
+    padding-top: clamp(1rem, 3vw, 2rem);
+  }
+
+  /* YUCK accent - small intentional overlap on Orange Fields moment */
+  .yuck-wrapper {
+    position: absolute;
+    left: min(61%, 42rem);
+    top: 54%;
+    width: clamp(88px, 11vw, 150px);
+    aspect-ratio: 1;
+    overflow: visible;
+    z-index: 25;
+  }
+
+  .yuck-accent {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: auto;
+    z-index: 25;
+    transition: transform 180ms ease;
+  }
+
+  .yuck-accent :global(.media-block) {
+    background: transparent;
+    width: 100%;
+    height: auto;
+  }
+
+  .yuck-accent :global(.media-block img) {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .yuck-link { position: relative; display: block; color: inherit; text-decoration: none; }
+  .yuck-label {
+    position: absolute; left: 0; bottom: -2.1rem; display: flex; flex-direction: column;
+    gap: 0.15rem; opacity: 0; color: var(--color-text); font-family: var(--font-mono);
+    font-size: 0.5rem; letter-spacing: 0.06em; text-transform: uppercase; transition: opacity 160ms ease;
+  }
+  .yuck-label small { color: var(--color-muted); font-size: inherit; }
+  @media (hover: hover) {
+    .yuck-link:hover .yuck-accent, .yuck-link:focus-visible .yuck-accent { transform: rotate(2deg) scale(1.04); }
+    .yuck-link:hover .yuck-label, .yuck-link:focus-visible .yuck-label { opacity: 1; }
+  }
+
+  .moment-link {
+    display: block;
     text-decoration: none;
     color: inherit;
   }
 
-  .project-index {
-    position: absolute;
-    z-index: 1;
-    top: 0.7rem;
-    left: 0.7rem;
-    padding: 0.25rem 0.4rem;
-    background: var(--color-bg);
-    font-size: 0.625rem;
-    transition: transform 180ms ease, background-color 180ms ease;
+  .project-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
   }
 
-  .project-card:hover .project-index,
-  .project-card:focus-visible .project-index {
-    background: var(--color-surface);
-    transform: rotate(-4deg);
-  }
-
-  .project-card .media-block {
+  .project-card--dominant .project-card-media {
     width: 100%;
+    overflow: hidden;
   }
 
-  .project-card:hover .project-title,
-  .project-card:focus-visible .project-title {
+  .project-card--dominant .project-card-media :global(.media-block) {
+    background: transparent;
+    width: 100%;
+    height: auto;
+  }
+
+  .project-card--dominant .project-card-media :global(.media-block img),
+  .project-card--dominant .project-card-media :global(.media-block video),
+  .project-card--dominant .project-card-media :global(.media-block iframe) {
+    object-fit: cover;
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .project-card--secondary {
+    width: 100%;
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    background-color: var(--color-surface);
+  }
+
+  .project-card--secondary .project-card-media {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .project-card--secondary .project-card-media :global(.media-block) {
+    background: transparent;
+    width: 100%;
+    height: 100%;
+  }
+
+  .project-card--secondary .project-card-media :global(.media-block img),
+  .project-card--secondary .project-card-media :global(.media-block video),
+  .project-card--secondary .project-card-media :global(.media-block iframe) {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+  }
+
+  .project-card--standalone {
+    width: 100%;
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    background-color: var(--color-surface);
+  }
+
+  .project-card--standalone .project-card-media {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .project-card--standalone .project-card-media :global(.media-block) {
+    background: transparent;
+    width: 100%;
+    height: auto;
+  }
+
+  .project-card--standalone .project-card-media :global(.media-block img),
+  .project-card--standalone .project-card-media :global(.media-block video),
+  .project-card--standalone .project-card-media :global(.media-block iframe) {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+  }
+
+  /* Fix: allow aspect-ratio to drive media height so no empty grey area shows */
+  .project-card--standalone .project-card-media :global(.media-block.has-aspect) {
+    aspect-ratio: var(--aspect-ratio, 4 / 3);
+  }
+
+  .project-card--standalone .project-card-media :global(.media-block.has-aspect) img,
+  .project-card--standalone .project-card-media :global(.media-block.has-aspect) video {
+    height: 100%;
+  }
+
+  .project-card-caption {
+    padding: clamp(0.65rem, 1.2vw, 0.9rem) clamp(1rem, 2vw, 1.25rem);
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .project-discipline {
+    font-family: var(--font-mono);
+    font-size: 0.5rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
     color: var(--color-accent);
   }
 
   .project-title {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 0.75rem;
-    font-family: var(--font-display);
-    font-weight: 400;
-    font-size: clamp(1.4rem, 2.3vw, 2rem);
-    line-height: 0.95;
+    font-family: var(--font-headline);
+    font-size: clamp(1.05rem, 1.8vw, 1.35rem);
+    font-weight: 500;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
     color: var(--color-text);
-    transition: color 0.15s ease;
   }
 
-  .project-info {
+  .project-title span {
+    display: block;
+  }
+
+  .project-meta {
     display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-  }
-
-  .project-arrow {
-    color: var(--color-accent);
-    font-family: var(--font-body);
-    font-size: 0.85rem;
-    transition: transform 160ms ease;
-  }
-
-  .project-card:hover .project-arrow,
-  .project-card:focus-visible .project-arrow {
-    transform: translate(0.2rem, -0.2rem);
+    flex-wrap: wrap;
+    gap: 0.15rem 0.3rem;
+    align-items: baseline;
+    font-family: var(--font-mono);
+    font-size: 0.5625rem;
+    letter-spacing: 0.03em;
+    color: var(--color-muted);
+    margin-top: 0.15rem;
   }
 
   .project-roles {
-    font-family: var(--font-body);
-    font-size: 0.8125rem;
+    color: var(--color-text);
+    font-weight: 500;
+  }
+
+  .project-context {
+    color: var(--color-muted);
+    opacity: 0.8;
+  }
+
+  .project-view {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-family: var(--font-mono);
+    font-size: 0.5625rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: var(--color-text);
+    border-bottom: 1px solid var(--color-text);
+    padding-bottom: 0.05rem;
+    margin-top: 0.25rem;
+    transition: color 0.16s ease, border-color 0.16s ease;
+    width: fit-content;
+  }
+
+  .project-view:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .yuck-accent, .yuck-label { transition: none; }
+    .project-card--secondary,
+    .project-card--standalone {
+      transition: none;
+    }
+  }
+
+  @media (hover: none) {
+    .project-card--secondary:active,
+    .project-card--standalone:active {
+      border-color: var(--color-accent);
+    }
+  }
+
+  /* Moment 1 — 8 / 4 */
+  .home-moment--8-4 {
+    grid-template-columns: 8fr 4fr;
+  }
+
+  .home-moment--offset-lower .moment-link:nth-child(2) {
+    padding-top: clamp(2rem, 5vw, 4rem);
+  }
+
+  /* Moment 2 — 7 / 5 */
+  .home-moment--7-5 {
+    grid-template-columns: 7fr 5fr;
+  }
+
+  /* Moment 3 — 6 / 6 */
+  .home-moment--6-6 {
+    grid-template-columns: 6fr 6fr;
+  }
+
+  /* Moment 4 — 6 / 6 */
+  .home-moment--6-6[data-moment="4"] {
+    grid-template-columns: 6fr 6fr;
+  }
+
+  /* Moment 5 — standalone */
+  .home-moment--standalone {
+    grid-template-columns: 1fr;
+  }
+
+  .home-moment--standalone .project-card--standalone .project-card-caption {
+    padding-top: clamp(1rem, 2vw, 1.5rem);
+  }
+
+  /* ==========================================================================
+     ARCHIVE CLUSTER GATEWAY
+     ========================================================================== */
+  .archive-cluster {
+    padding-top: clamp(2.5rem, 5vw, 4rem);
+    padding-bottom: clamp(2rem, 4vw, 3rem);
+  }
+
+  .cluster-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    border-radius: 0;
+  }
+
+  .cluster-field {
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    aspect-ratio: 4 / 3;
+    border: 1px solid var(--color-border);
+    background-color: var(--color-surface);
+    overflow: hidden;
+  }
+
+  .cluster-link:hover .cluster-field {
+    border-color: var(--color-accent);
+    box-shadow: 0 12px 40px -12px rgba(0, 0, 0, 0.3);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cluster-link:hover .cluster-field {
+      box-shadow: none;
+    }
+  }
+
+  @media (hover: none) {
+    .cluster-link:hover .cluster-field {
+      border-color: var(--color-border);
+      box-shadow: none;
+    }
+
+    .cluster-link:active .cluster-field {
+      border-color: var(--color-accent);
+    }
+  }
+
+  /* Fragment Base */
+  .cluster-fragment {
+    position: absolute;
+    overflow: hidden;
+    background-color: var(--color-surface-pure);
+    border: 1px solid var(--color-border);
+    transition: transform 0.3s cubic-bezier(0.2, 0.65, 0.3, 1),
+                box-shadow 0.3s cubic-bezier(0.2, 0.65, 0.3, 1),
+                border-color 0.2s ease,
+                z-index 0s;
+  }
+
+  .cluster-fragment :global(.media-block) {
+    background: transparent;
+    width: 100%;
+    height: 100%;
+  }
+
+  .cluster-fragment :global(.media-block img),
+  .cluster-fragment :global(.media-block video) {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Fragment Sizing */
+  .cluster-fragment--cinematic {
+    width: 42%;
+    aspect-ratio: 21 / 9;
+  }
+
+  .cluster-fragment--large {
+    width: 36%;
+    aspect-ratio: 16 / 9;
+  }
+
+  .cluster-fragment--medium {
+    width: 26%;
+    aspect-ratio: 4 / 3;
+  }
+
+  .cluster-fragment--portrait {
+    width: 20%;
+    aspect-ratio: 3 / 4;
+  }
+
+  .cluster-fragment--square {
+    width: 22%;
+    aspect-ratio: 1 / 1;
+  }
+
+  .cluster-fragment--small {
+    width: 18%;
+    aspect-ratio: 1 / 1;
+  }
+
+  /* Fragment positioning - carefully composed arrangement with visual rhythm */
+  /* Primary anchors: cinematic top-left, large bottom-right */
+  .cluster-fragment[data-fragment-type="primary"][style*="--fragment-index: 0"] {
+    top: 3%;
+    left: 2%;
+    z-index: 10;
+  }
+
+  .cluster-fragment[data-fragment-type="primary"][style*="--fragment-index: 1"] {
+    bottom: 3%;
+    right: 2%;
+    z-index: 10;
+  }
+
+  /* Secondary: bridging fragments creating visual connections */
+  .cluster-fragment[data-fragment-type="secondary"][style*="--fragment-index: 2"] {
+    top: 16%;
+    right: 3%;
+    z-index: 8;
+  }
+
+  .cluster-fragment[data-fragment-type="secondary"][style*="--fragment-index: 3"] {
+    top: 50%;
+    left: 2%;
+    z-index: 7;
+    transform: translateY(-50%);
+  }
+
+  .cluster-fragment[data-fragment-type="secondary"][style*="--fragment-index: 4"] {
+    bottom: 16%;
+    left: 3%;
+    z-index: 8;
+  }
+
+  /* Tertiary: detail fragments adding texture and counterpoint */
+  .cluster-fragment[data-fragment-type="tertiary"][style*="--fragment-index: 5"] {
+    top: 7%;
+    left: 46%;
+    z-index: 5;
+  }
+
+  .cluster-fragment[data-fragment-type="tertiary"][style*="--fragment-index: 6"] {
+    top: 30%;
+    right: 28%;
+    z-index: 5;
+  }
+
+  .cluster-fragment[data-fragment-type="tertiary"][style*="--fragment-index: 7"] {
+    top: 53%;
+    right: 10%;
+    z-index: 5;
+  }
+
+  .cluster-fragment[data-fragment-type="tertiary"][style*="--fragment-index: 8"] {
+    bottom: 10%;
+    left: 30%;
+    z-index: 5;
+  }
+
+  .cluster-fragment[data-fragment-type="tertiary"][style*="--fragment-index: 9"] {
+    bottom: 26%;
+    right: 18%;
+    z-index: 5;
+  }
+
+  /* Hover interactions on fragments */
+  @media (hover: hover) {
+    .cluster-link:hover .cluster-fragment {
+      border-color: var(--color-border);
+    }
+
+    .cluster-fragment:hover {
+      z-index: 20 !important;
+      border-color: var(--color-accent);
+      box-shadow: 0 8px 24px -8px rgba(0, 0, 0, 0.4);
+      transform: scale(1.02);
+    }
+  }
+
+  /* Central invitation */
+  .cluster-invitation {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 1.25rem 2rem;
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
+    z-index: 15;
+    text-align: center;
+    pointer-events: none;
+    opacity: 0.95;
+    transition: opacity 0.2s ease, border-color 0.2s ease, transform 0.3s cubic-bezier(0.2, 0.65, 0.3, 1);
+  }
+
+  .cluster-link:hover .cluster-invitation {
+    border-color: var(--color-accent);
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.02);
+  }
+
+  .invitation-label {
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
     color: var(--color-muted);
   }
 
-  .archive-section {
-    margin-top: clamp(4rem, 10vw, 9rem);
-    margin-bottom: 4rem;
-  }
-
-  .archive-rule {
-    border: none;
-    border-bottom: 1px solid var(--color-border);
-    margin-bottom: 1.25rem;
-  }
-
-  .archive-link-wrapper {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 1rem;
-  }
-
-  .archive-prompt {
-    font-family: var(--font-body);
-    font-size: clamp(1.2rem, 2.3vw, 1.8rem);
-    letter-spacing: -0.045em;
-  }
-
-  .archive-link {
-    display: flex;
-    gap: 1.5rem;
-    align-items: center;
-    padding: 0.75rem 0;
-    border-bottom: 1px solid var(--color-accent);
+  .invitation-count {
     font-family: var(--font-display);
-    font-size: clamp(1.4rem, 3vw, 2.2rem);
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    font-weight: 600;
     line-height: 1;
-    text-transform: uppercase;
-    transition: color 0.15s ease, gap 0.15s ease;
+    color: var(--color-text);
+    letter-spacing: 0.02em;
   }
 
-  .archive-link:hover {
+  .invitation-arrow {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
     color: var(--color-accent);
-    gap: 2rem;
+    animation: clusterArrowPulse 2s ease-in-out infinite;
   }
 
-  .archive-link span:last-child {
-    color: var(--color-accent);
+  @keyframes clusterArrowPulse {
+    0%, 100% { transform: translateX(0); opacity: 0.7; }
+    50% { transform: translateX(4px); opacity: 1; }
   }
 
-  .archive-link:hover {
-    color: var(--color-accent);
-    gap: 2rem;
-  }
-
-  @media (max-width: 639px) {
-    .hero {
-      padding: 2rem 0 0;
+  @media (prefers-reduced-motion: reduce) {
+    .invitation-arrow {
+      animation: none;
     }
 
-    .hero-topline,
-    .section-heading {
-      font-size: 0.55rem;
-      gap: 0.5rem;
+    .cluster-link:hover .cluster-invitation {
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  /* Mobile / Tablet - Simplified cluster */
+  @media (max-width: 900px) {
+    .yuck-wrapper { left: auto; right: 3%; top: 54%; }
+    .yuck-label { opacity: 1; }
+    .archive-cluster {
+      padding-top: clamp(2rem, 4vw, 3rem);
+      padding-bottom: clamp(1.5rem, 3vw, 2.5rem);
     }
 
-    .hero-title {
-      font-size: clamp(4.6rem, 18.5vw, 7.5rem);
-      margin: 0.5rem 0 1rem -0.045em;
+    .cluster-field {
+      aspect-ratio: 3 / 2;
     }
 
-    .hero-feature {
-      grid-template-columns: minmax(0, 1fr) minmax(7.5rem, 0.78fr);
-      gap: 1rem;
-      align-items: end;
+    .cluster-fragment--cinematic {
+      width: 50%;
+      aspect-ratio: 21 / 9;
+    }
+
+    .cluster-fragment--large {
+      width: 42%;
+      aspect-ratio: 16 / 9;
+    }
+
+    .cluster-fragment--medium {
+      width: 30%;
+      aspect-ratio: 4 / 3;
+    }
+
+    .cluster-fragment--portrait {
+      width: 24%;
+      aspect-ratio: 3 / 4;
+    }
+
+    .cluster-fragment--square {
+      width: 26%;
+      aspect-ratio: 1 / 1;
+    }
+
+    .cluster-fragment--small {
+      width: 22%;
+      aspect-ratio: 1 / 1;
+    }
+
+    .cluster-fragment[data-fragment-type="primary"][style*="--fragment-index: 0"] {
+      top: 2%;
+      left: 2%;
+    }
+
+    .cluster-fragment[data-fragment-type="primary"][style*="--fragment-index: 1"] {
+      bottom: 2%;
+      right: 2%;
+    }
+
+    .cluster-fragment[data-fragment-type="secondary"][style*="--fragment-index: 2"] {
+      top: 14%;
+      right: 3%;
+    }
+
+    .cluster-fragment[data-fragment-type="secondary"][style*="--fragment-index: 3"] {
+      top: 48%;
+      left: 2%;
+      transform: translateY(-50%);
+    }
+
+    .cluster-fragment[data-fragment-type="secondary"][style*="--fragment-index: 4"] {
+      bottom: 14%;
+      left: 3%;
+    }
+
+    .cluster-fragment[data-fragment-type="tertiary"][style*="--fragment-index: 5"] {
+      top: 5%;
+      left: 52%;
+    }
+
+    .cluster-fragment[data-fragment-type="tertiary"][style*="--fragment-index: 6"] {
+      top: 26%;
+      right: 26%;
+    }
+
+    .cluster-fragment[data-fragment-type="tertiary"][style*="--fragment-index: 7"] {
+      top: 50%;
+      right: 8%;
+    }
+
+    .cluster-fragment[data-fragment-type="tertiary"][style*="--fragment-index: 8"] {
+      bottom: 8%;
+      left: 32%;
+    }
+
+    .cluster-fragment[data-fragment-type="tertiary"][style*="--fragment-index: 9"] {
+      bottom: 22%;
+      right: 16%;
+    }
+
+    .cluster-invitation {
+      padding: 1rem 1.5rem;
+    }
+
+    .invitation-count {
+      font-size: clamp(1.25rem, 4vw, 1.75rem);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .archive-cluster {
+      padding-top: 1.75rem;
+      padding-bottom: 1.5rem;
+    }
+
+    .cluster-field {
+      aspect-ratio: 16 / 10;
+      border-radius: 0;
+    }
+
+    /* On mobile, show fewer fragments, larger */
+    .cluster-fragment--cinematic {
+      width: 60%;
+      aspect-ratio: 21 / 9;
+    }
+
+    .cluster-fragment--large {
+      width: 52%;
+      aspect-ratio: 16 / 9;
+    }
+
+    .cluster-fragment--medium {
+      width: 36%;
+      aspect-ratio: 4 / 3;
+    }
+
+    .cluster-fragment--portrait {
+      width: 28%;
+      aspect-ratio: 3 / 4;
+    }
+
+    .cluster-fragment--square {
+      width: 30%;
+      aspect-ratio: 1 / 1;
+    }
+
+    .cluster-fragment--small {
+      width: 26%;
+      aspect-ratio: 1 / 1;
+    }
+
+    /* Only show primary + 2 secondary + 2 tertiary on mobile */
+    .cluster-fragment[data-fragment-type="tertiary"][style*="--fragment-index: 7"],
+    .cluster-fragment[data-fragment-type="tertiary"][style*="--fragment-index: 8"],
+    .cluster-fragment[data-fragment-type="tertiary"][style*="--fragment-index: 9"] {
+      display: none;
+    }
+
+    .cluster-fragment[data-fragment-type="secondary"][style*="--fragment-index: 4"] {
+      display: none;
+    }
+
+    .cluster-fragment[data-fragment-type="primary"][style*="--fragment-index: 0"] {
+      top: 3%;
+      left: 3%;
+    }
+
+    .cluster-fragment[data-fragment-type="primary"][style*="--fragment-index: 1"] {
+      bottom: 3%;
+      right: 3%;
+    }
+
+    .cluster-fragment[data-fragment-type="secondary"][style*="--fragment-index: 2"] {
+      top: 12%;
+      right: 3%;
+    }
+
+    .cluster-fragment[data-fragment-type="secondary"][style*="--fragment-index: 3"] {
+      top: 44%;
+      left: 3%;
+      transform: translateY(-50%);
+    }
+
+    .cluster-fragment[data-fragment-type="tertiary"][style*="--fragment-index: 5"] {
+      top: 4%;
+      left: 58%;
+    }
+
+    .cluster-fragment[data-fragment-type="tertiary"][style*="--fragment-index: 6"] {
+      top: 24%;
+      right: 24%;
+    }
+
+    .cluster-invitation {
+      padding: 0.85rem 1.25rem;
+    }
+
+    .invitation-label {
+      font-size: 0.5625rem;
+    }
+
+    .invitation-count {
+      font-size: clamp(1.1rem, 5vw, 1.5rem);
+    }
+
+    .invitation-arrow {
+      display: none;
+    }
+  }
+
+  /* ==========================================================================
+     HOME MOMENTS RESPONSIVE
+     ========================================================================== */
+  @media (max-width: 1024px) {
+    .home-moment {
+      grid-template-columns: 1fr;
+      gap: clamp(0.75rem, 1.5vw, 1.25rem);
+    }
+
+    .home-moment--offset-lower .moment-link:nth-child(2),
+    .home-moment--offset-middle .moment-link:nth-child(2) {
+      padding-top: 0;
+    }
+
+    .yuck-accent {
+      display: none;
+    }
+
+    .project-card--secondary,
+    .project-card--standalone {
+      width: 100%;
+    }
+
+    .project-card--secondary .project-card-media,
+    .project-card--standalone .project-card-media {
+      height: clamp(240px, 35vw, 320px);
+    }
+
+    .project-card--standalone .project-card-media :global(.media-block img),
+    .project-card--standalone .project-card-media :global(.media-block video) {
+      height: clamp(240px, 35vw, 320px);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .home-masthead {
+      padding-top: 0.75rem;
       padding-bottom: 1rem;
     }
 
-    .hero-artwork :global(.media-block img) {
-      max-height: 43svh;
+    .home-eyebrow {
+      font-size: 0.5rem;
+      letter-spacing: 0.12em;
     }
 
-    .hero-caption {
-      gap: 1.25rem;
-      padding-bottom: 0;
+    .headline-line {
+      font-size: clamp(2.15rem, 9.5vw, 3rem);
     }
 
-    .hero-intro {
-      font-size: clamp(1.15rem, 5.5vw, 1.7rem);
-      letter-spacing: -0.06em;
+    .home-moment {
+      grid-template-columns: 1fr;
+      gap: 1rem;
     }
 
-    .hero-project-title {
-      font-size: clamp(1.8rem, 8vw, 2.6rem);
+    .project-card--secondary .project-card-media,
+    .project-card--standalone .project-card-media {
+      height: clamp(200px, 45vw, 280px);
     }
 
-    .hero-project-title span {
-      font-size: 0.8rem;
+    .project-card--standalone .project-card-media :global(.media-block img),
+    .project-card--standalone .project-card-media :global(.media-block video) {
+      height: clamp(200px, 45vw, 280px);
     }
 
-    .hero-note {
-      font-size: 0.55rem;
-    }
-
-    .featured-sequence {
-      grid-template-columns: repeat(6, minmax(0, 1fr));
-      gap: 2.5rem 0.75rem;
-      padding-top: 0.5rem;
-    }
-
-    .featured-card-2 {
-      grid-column: 1 / span 4;
-    }
-
-    .featured-card-3 {
-      grid-column: 3 / span 4;
-      margin-top: 0;
-    }
-
-    .featured-card-4 {
-      grid-column: 1 / span 5;
-    }
-
-    .featured-card-5 {
-      grid-column: 3 / span 4;
-      margin-top: 0;
-    }
-
-    .featured-card-6 {
-      grid-column: 1 / span 4;
-    }
-
-    .featured-card-7 {
-      grid-column: 3 / span 4;
-      margin-top: 0;
+    .project-card-caption {
+      padding: 0.65rem 0.85rem;
     }
 
     .project-title {
-      font-size: 1.4rem;
-    }
-
-    .project-roles {
-      font-size: 0.7rem;
-    }
-
-    .archive-section {
-      margin-top: 4rem;
-      margin-bottom: 2.5rem;
-    }
-
-    .archive-link-wrapper {
-      align-items: flex-start;
-      flex-direction: column;
-      gap: 0.75rem;
-    }
-  }
-
-  @media (max-width: 380px) {
-    .hero-topline {
-      font-size: 0.49rem;
-      letter-spacing: 0.04em;
-    }
-
-    .hero-feature {
-      grid-template-columns: minmax(0, 1fr) minmax(6.75rem, 0.82fr);
-      gap: 0.75rem;
-    }
-
-    .hero-intro {
-      font-size: 1.12rem;
-    }
-
-    .hero-project-title {
-      font-size: 1.7rem;
+      font-size: clamp(1.1rem, 5vw, 1.35rem);
     }
   }
 </style>
-
-<script>
-  const wordmark = document.querySelector<HTMLButtonElement>('[data-wordmark-play]');
-  const letters = wordmark?.querySelectorAll('.hero-letter');
-  const finalLetter = letters?.[letters.length - 1];
-  const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
-
-  if (wordmark && finalLetter && wordmark.dataset.playReady !== 'true') {
-    wordmark.dataset.playReady = 'true';
-    wordmark.addEventListener('click', () => {
-      if (motionPreference.matches) return;
-      wordmark.classList.remove('is-jiggling');
-      void wordmark.offsetWidth;
-      wordmark.classList.add('is-jiggling');
-    });
-    wordmark.addEventListener('animationend', (event) => {
-      if (event.target === finalLetter && event.animationName === 'wordmark-nudge') {
-        wordmark.classList.remove('is-jiggling');
-      }
-    });
-    motionPreference.addEventListener('change', (event) => {
-      if (event.matches) wordmark.classList.remove('is-jiggling');
-    });
-  }
-</script>

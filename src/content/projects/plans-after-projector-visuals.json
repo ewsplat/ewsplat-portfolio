@@ -1,17 +1,28 @@
 {
   "slug": "plans-after-projector-visuals",
   "title": "Plans After — Projector Visuals",
+  "discipline": "animation-motion",
+  "projectType": "client",
   "composition": "motion",
+  "presentation": "execution",
   "client": "Plans After",
   "collection": "Plans After",
   "workType": "client",
-  "archiveOrder": 23,
-  "description": "A looping visual piece for Plans After, part of EWSPLAT’s ongoing creative direction, design, illustration and animation work through Nexgen Touring.",
-  "roles": ["Creative direction", "Design", "Illustration", "Animation"],
+  "archiveOrder": 24,
+  "year": 2023,
+  "description": "Looping visual work created for Plans After.",
+  "roles": [
+    "Creative direction",
+    "Design",
+    "Illustration",
+    "Animation"
+  ],
   "thumbnail": {
-    "type": "image",
-    "src": "/images/portfolio/posters/plans-after-vj-loop.jpg",
-    "alt": "Still from Plans After projector visuals"
+    "type": "video",
+    "src": "/media/portfolio/plans-after-vj-loop.mp4",
+    "poster": "/images/portfolio/posters/plans-after-vj-loop.jpg",
+    "alt": "Still from Plans After projector visuals",
+    "aspect": "16/9"
   },
   "hero": {
     "type": "video",
@@ -19,5 +30,9 @@
     "poster": "/images/portfolio/posters/plans-after-vj-loop.jpg",
     "aspect": "16/9",
     "alt": "Plans After projector visual loop"
+  },
+  "compositionPreferences": {
+    "layoutHint": "hero-gallery",
+    "heroAspect": "16/9"
   }
 }

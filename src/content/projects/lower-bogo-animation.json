@@ -1,19 +1,25 @@
 {
   "slug": "lower-bogo-animation",
   "title": "Lower — Buy One Get One Free",
+  "discipline": "animation-motion",
+  "projectType": "client",
   "composition": "motion",
+  "presentation": "execution",
   "client": "Lower",
   "collection": "Lower",
   "workType": "client",
-  "archiveOrder": 40,
-  "description": "A social promotion animation for Lower, an established New Zealand clothing brand. EWSPLAT did not create Lower’s original identity.",
+  "archiveOrder": 31,
+  "year": 2024,
+  "description": "A social promotion animation for Lower, an established New Zealand clothing brand. EWSPLAT did not create Lower's original identity.",
   "roles": [
     "Promotional animation"
   ],
   "thumbnail": {
-    "type": "image",
-    "src": "/images/portfolio/posters/lower-bogo.jpg",
-    "alt": "Still from Lower’s Buy One Get One Free promotional animation"
+    "type": "video",
+    "src": "/media/portfolio/web/lower-bogo-animation.mp4",
+    "poster": "/images/portfolio/posters/lower-bogo.jpg",
+    "alt": "Still from Lower's Buy One Get One Free promotional animation",
+    "aspect": "9/16"
   },
   "hero": {
     "type": "video",
@@ -21,5 +27,9 @@
     "poster": "/images/portfolio/posters/lower-bogo.jpg",
     "aspect": "9/16",
     "alt": "Lower Buy One Get One Free promotional animation"
+  },
+  "compositionPreferences": {
+    "layoutHint": "hero-gallery",
+    "heroAspect": "9/16"
   }
 }

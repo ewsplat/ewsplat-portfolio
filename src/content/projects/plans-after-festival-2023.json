@@ -1,0 +1,47 @@
+{
+  "slug": "plans-after-festival-2023",
+  "title": "Plans After — Festival 2023",
+  "discipline": "animation-motion",
+  "projectType": "client",
+  "composition": "motion",
+  "presentation": "execution",
+  "client": "Plans After",
+  "collection": "Plans After",
+  "workType": "client",
+  "archiveOrder": 54,
+  "year": 2023,
+  "description": "Animation created for Plans After's Festival 2023 event.",
+  "roles": [
+    "Creative direction",
+    "Design",
+    "Illustration",
+    "Animation"
+  ],
+  "thumbnail": {
+    "type": "video",
+    "src": "/media/portfolio/plans-after/plans-after-Fest_2023.mp4",
+    "poster": "/images/portfolio/posters/plans-after-festival-poster.jpg",
+    "alt": "Plans After Festival 2023 social media animation",
+    "aspect": "9/16"
+  },
+  "hero": {
+    "type": "video",
+    "src": "/media/portfolio/plans-after/plans-after-Fest_2023.mp4",
+    "poster": "/images/portfolio/posters/plans-after-festival-poster.jpg",
+    "aspect": "9/16",
+    "alt": "Plans After Festival 2023 social media animation"
+  },
+  "gallery": [
+    {
+      "type": "video",
+      "src": "/media/portfolio/plans-after/plans-after-Fest_2023.mp4",
+      "poster": "/images/portfolio/posters/plans-after-festival-poster.jpg",
+      "aspect": "9/16",
+      "alt": "Plans After Festival 2023 social media animation"
+    }
+  ],
+  "compositionPreferences": {
+    "layoutHint": "hero-gallery",
+    "heroAspect": "9/16"
+  }
+}

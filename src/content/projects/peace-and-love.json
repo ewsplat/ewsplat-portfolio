@@ -1,23 +1,35 @@
 {
   "slug": "peace-and-love",
   "title": "Peace and Love",
+  "discipline": "illustration",
+  "projectType": "personal",
   "composition": "single-artwork",
+  "presentation": "artwork",
   "collection": "Personal works",
   "workType": "personal",
   "archiveOrder": 1,
+  "homepageFeatured": false,
+  "year": 2020,
+  "description": "Personal illustration made for the Peace and Love project.",
   "roles": [
     "Illustration"
   ],
   "thumbnail": {
     "type": "image",
     "src": "/images/portfolio/web/PersonalWorks/Peaceandlove.webp",
-    "alt": "Peace and Love illustration"
+    "alt": "Peace and Love illustration",
+    "aspect": "4/3"
   },
   "hero": {
     "type": "image",
     "src": "/images/portfolio/web/PersonalWorks/Peaceandlove.webp",
-    "alt": "Peace and Love illustration"
+    "alt": "Peace and Love illustration",
+    "aspect": "4/3"
   },
-  "featured": true,
-  "featuredOrder": 1
+  "featured": false,
+  "featuredOrder": 1,
+  "compositionPreferences": {
+    "layoutHint": "single",
+    "heroAspect": "4/3"
+  }
 }

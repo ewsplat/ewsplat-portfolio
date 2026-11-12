@@ -1,26 +1,40 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
 
 :root {
-  color-scheme: dark;
-  --color-bg: #212121;
-  --color-surface: #2b2a2b;
-  --color-text: #f1efed;
-  --color-muted: #b9adae;
-  --color-border: #484346;
-  --color-accent: #d87980;
-  --color-shadow: rgb(0 0 0 / 28%);
-  --font-display: 'Bebas Neue', sans-serif;
-  --font-body: 'Inter', sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
-}
+  /* Signature Brand Accent */
+  --color-blue: #0000FF;
+  --color-accent: #0000FF;
 
-[data-theme='light'] {
-  color-scheme: light;
-  --color-bg: #f0f2f5;
-  --color-surface: #e4e9ef;
-  --color-text: #212121;
-  --color-muted: #5d6873;
-  --color-border: #c6cfd8;
-  --color-accent: #007a7a;
-  --color-shadow: rgb(33 33 33 / 14%);
+  /* Restrained Warm Technical Surfaces & Inks */
+  --color-bg: #F6F6F4;
+  --color-surface: #EEEEEC;
+  --color-surface-hover: #E4E4E1;
+  --color-surface-pure: #FFFFFF;
+  --color-text: #111111;
+  --color-muted: #73736F;
+  --color-border: #DFDFDC;
+  --color-border-strong: #BCBCB7;
+  --color-white: #FFFFFF;
+
+  /* High-Contrast Technical Console Surfaces */
+  --color-dark-bg: #0C0C0E;
+  --color-dark-surface: #16161A;
+  --color-dark-border: #26262B;
+  --color-dark-text: #F2F2EE;
+  --color-dark-muted: #8E8E98;
+
+  /* Typography */
+  --font-display: 'Bebas Neue', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-headline: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+
+  /* Layout & Geometry */
+  --radius-none: 0px;
+  --hairline: 1px solid var(--color-border);
+  --hairline-accent: 1px solid var(--color-accent);
+
+  /* Easing & Physics */
+  --ease-tactile: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.45, 0.64, 1);
 }

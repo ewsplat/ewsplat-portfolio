@@ -1,0 +1,62 @@
+{
+  "slug": "iloveugly-product-illustration",
+  "title": "I Love Ugly — Apparel Illustration & Product Shoot",
+  "discipline": "illustration",
+  "projectType": "client",
+  "composition": "standard",
+  "presentation": "artwork",
+  "client": "I Love Ugly",
+  "collection": "I Love Ugly",
+  "workType": "client",
+  "archiveOrder": 15,
+  "homepageFeatured": false,
+  "year": 2022,
+  "description": "Graphic illustrations and character designs developed for I Love Ugly garment ranges, documented across the seasonal studio product photoshoot.",
+  "roles": [
+    "Illustration",
+    "Apparel design"
+  ],
+  "thumbnail": {
+    "type": "image",
+    "src": "/images/portfolio/ILoveUgly/iloveugly-shoot-01.jpg",
+    "alt": "I Love Ugly illustrated garment shoot",
+    "aspect": "3/4"
+  },
+  "hero": {
+    "type": "image",
+    "src": "/images/portfolio/ILoveUgly/iloveugly-shoot-02.jpg",
+    "alt": "I Love Ugly product photoshoot detail",
+    "aspect": "3/4"
+  },
+  "gallery": [
+    {
+      "type": "image",
+      "src": "/images/portfolio/ILoveUgly/iloveugly-shoot-01.jpg",
+      "alt": "I Love Ugly illustrated garment shoot"
+    },
+    {
+      "type": "image",
+      "src": "/images/portfolio/ILoveUgly/iloveugly-shoot-03.jpg",
+      "alt": "I Love Ugly product photoshoot detail 03"
+    },
+    {
+      "type": "image",
+      "src": "/images/portfolio/ILoveUgly/iloveugly-shoot-04.jpg",
+      "alt": "I Love Ugly product photoshoot detail 04"
+    },
+    {
+      "type": "image",
+      "src": "/images/portfolio/ILoveUgly/iloveugly-shoot-05.jpg",
+      "alt": "I Love Ugly product photoshoot detail 05"
+    },
+    {
+      "type": "image",
+      "src": "/images/portfolio/ILoveUgly/iloveugly-shoot-06.jpg",
+      "alt": "I Love Ugly product photoshoot detail 06"
+    }
+  ],
+  "compositionPreferences": {
+    "layoutHint": "gallery",
+    "heroAspect": "3/4"
+  }
+}

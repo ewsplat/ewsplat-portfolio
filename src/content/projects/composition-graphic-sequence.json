@@ -1,12 +1,15 @@
 {
   "slug": "composition-graphic-sequence",
   "title": "Graphic sequence composition test",
+  "discipline": "graphic-design",
+  "projectType": "experiment",
   "description": "Placeholder only — a mixed-format editorial sequence.",
   "composition": "graphic-sequence",
   "compositionTest": true,
   "workType": "uncertain",
   "placeholder": true,
   "draft": true,
+  "archiveOrder": 999,
   "roles": ["Graphic design — placeholder metadata"],
   "sections": [
     {

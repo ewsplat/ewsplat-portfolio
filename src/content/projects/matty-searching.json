@@ -1,20 +1,37 @@
 {
   "slug": "matty-searching",
-  "title": "Matty the Friend — Searching",
+  "title": "Matty the Friend - Searching",
+  "discipline": "illustration",
+  "projectType": "personal",
   "composition": "single-artwork",
+  "presentation": "artwork",
   "collection": "Matty the Friend",
-  "workType": "uncertain",
+  "workType": "personal",
   "archiveOrder": 7,
+  "homepageFeatured": true,
+  "homepageOrder": 9,
+  "year": 2021,
+  "description": "Character illustration from the Matty the Friend series. Hand-drawn, digitally coloured.",
+  "roles": [
+    "Illustration",
+    "Character design"
+  ],
   "thumbnail": {
     "type": "image",
     "src": "/images/portfolio/web/MattyTheFriend/Searching.webp",
-    "alt": "Searching artwork for Matty the Friend"
+    "alt": "Matty the Friend Searching illustration",
+    "aspect": "3/4"
   },
   "hero": {
     "type": "image",
     "src": "/images/portfolio/web/MattyTheFriend/Searching.webp",
-    "alt": "Searching artwork for Matty the Friend"
+    "alt": "Matty the Friend Searching illustration",
+    "aspect": "3/4"
   },
   "featured": true,
-  "featuredOrder": 7
+  "featuredOrder": 7,
+  "compositionPreferences": {
+    "layoutHint": "single",
+    "heroAspect": "3/4"
+  }
 }

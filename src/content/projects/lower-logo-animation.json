@@ -1,21 +1,61 @@
 {
   "slug": "lower-logo-animation",
   "title": "Lower — Black-and-White Logo Animation",
+  "discipline": "animation-motion",
+  "projectType": "client",
   "composition": "motion",
+  "presentation": "execution",
   "client": "Lower",
   "collection": "Lower",
   "workType": "client",
-  "archiveOrder": 41,
-  "description": "Animated treatments of Lower’s existing identity for web, in-store screens and social media. EWSPLAT did not create the brand’s original identity.",
-  "roles": ["Logo animation"],
+  "archiveOrder": 32,
+  "homepageFeatured": true,
+  "homepageOrder": 7,
+  "year": 2024,
+  "description": "Animated treatments of Lower's existing identity for web, in-store screens and social media. EWSPLAT did not create the brand's original identity.",
+  "roles": [
+    "Logo animation"
+  ],
   "thumbnail": {
     "type": "gif",
-    "src": "/images/portfolio/Lower/Whitebackground.gif",
-    "alt": "Animated black-and-white Lower logo"
+    "src": "/media/ClothingBrands/Lower/2dAnimatedBlackandWhiteLogo/Whitebackground.gif",
+    "alt": "Animated black-and-white Lower logo",
+    "aspect": "1/1"
   },
   "hero": {
-    "type": "gif",
-    "src": "/images/portfolio/Lower/Whitebackground.gif",
+    "type": "video",
+    "src": "/media/ClothingBrands/Lower/AnimatedLogo/Chrome-Blackbackground-Preview.mp4",
+    "poster": "/media/ClothingBrands/Lower/2dAnimatedBlackandWhiteLogo/Whitebackground.gif",
+    "aspect": "1/1",
     "alt": "Animated black-and-white Lower logo"
+  },
+  "gallery": [
+    {
+      "type": "gif",
+      "src": "/media/ClothingBrands/Lower/2dAnimatedBlackandWhiteLogo/Whitebackground.gif",
+      "alt": "Animated black-and-white Lower logo"
+    },
+    {
+      "type": "video",
+      "src": "/media/portfolio/lower-effn-3dlogos-web.mp4",
+      "aspect": "16/9",
+      "alt": "Lower Effn 3D logo end-cap"
+    },
+    {
+      "type": "image",
+      "src": "/media/ClothingBrands/Lower/Spin-Animatedlogo/Effn-Still.png",
+      "alt": "Lower Effn logo still"
+    },
+    {
+      "type": "image",
+      "src": "/media/ClothingBrands/Lower/Spin-Animatedlogo/Lower-Still.png",
+      "alt": "Lower logo still"
+    }
+  ],
+  "featured": true,
+  "featuredOrder": 2,
+  "compositionPreferences": {
+    "layoutHint": "hero-gallery",
+    "heroAspect": "1/1"
   }
 }

@@ -1,0 +1,40 @@
+{
+  "slug": "personal-upscaled-tiger",
+  "title": "Upscaled Tiger",
+  "discipline": "illustration",
+  "projectType": "experiment",
+  "composition": "single-artwork",
+  "presentation": "artwork",
+  "client": "Personal work",
+  "collection": "Personal works",
+  "workType": "personal",
+  "archiveOrder": 61,
+  "year": 2023,
+  "description": "Upscaled tiger illustration in surreal animal subjects and expressive character design.",
+  "roles": [
+    "Illustration"
+  ],
+  "thumbnail": {
+    "type": "image",
+    "src": "/images/portfolio/PersonalWorks/Upscaled-Tiger.png",
+    "alt": "Upscaled tiger illustration",
+    "aspect": "4/3"
+  },
+  "hero": {
+    "type": "image",
+    "src": "/images/portfolio/PersonalWorks/Upscaled-Tiger.png",
+    "alt": "Upscaled tiger illustration",
+    "aspect": "4/3"
+  },
+  "gallery": [
+    {
+      "type": "image",
+      "src": "/images/portfolio/PersonalWorks/Upscaled-Tiger.png",
+      "alt": "Upscaled tiger illustration"
+    }
+  ],
+  "compositionPreferences": {
+    "layoutHint": "single",
+    "heroAspect": "4/3"
+  }
+}

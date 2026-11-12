@@ -1,0 +1,40 @@
+{
+  "slug": "personal-cheers",
+  "title": "Cheers",
+  "discipline": "illustration",
+  "projectType": "experiment",
+  "composition": "single-artwork",
+  "presentation": "artwork",
+  "client": "Personal work",
+  "collection": "Personal works",
+  "workType": "personal",
+  "archiveOrder": 55,
+  "year": 2023,
+  "description": "Two characters raising a glass in celebration.",
+  "roles": [
+    "Illustration"
+  ],
+  "thumbnail": {
+    "type": "image",
+    "src": "/images/portfolio/PersonalWorks/cheers.jpg",
+    "alt": "Cheers illustration",
+    "aspect": "4/3"
+  },
+  "hero": {
+    "type": "image",
+    "src": "/images/portfolio/PersonalWorks/cheers.jpg",
+    "alt": "Cheers illustration",
+    "aspect": "4/3"
+  },
+  "gallery": [
+    {
+      "type": "image",
+      "src": "/images/portfolio/PersonalWorks/cheers.jpg",
+      "alt": "Cheers illustration"
+    }
+  ],
+  "compositionPreferences": {
+    "layoutHint": "single",
+    "heroAspect": "4/3"
+  }
+}

@@ -1,0 +1,31 @@
+---
+import MediaBlock from './MediaBlock.astro';
+
+export interface Props {
+  videoId: string;
+  poster?: string;
+  title: string;
+  label?: string;
+  className?: string;
+}
+const { videoId, poster, title, label = title, className } = Astro.props;
+---
+
+<div class:list={['video-preview-container', className]}>
+  <MediaBlock type="youtube" videoId={videoId} poster={poster} alt={title} aspect="16/9" />
+  <p class="video-caption">
+    <a href={`https://youtu.be/${videoId}`} target="_blank" rel="noopener noreferrer">{label}</a>
+  </p>
+</div>
+
+<style>
+  .video-preview-container {
+    width: 100%;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+  .video-caption {
+    margin-top: 0.5rem;
+    font-size: 0.75rem;
+  }
+</style>

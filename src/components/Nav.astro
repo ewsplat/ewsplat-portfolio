@@ -1,43 +1,47 @@
 ---
 import { withBase } from '../utils/site';
 
-// Nav.astro - Primary site navigation with theme switcher and mobile menu
 const currentPath = Astro.url.pathname.replace(import.meta.env.BASE_URL, '/').replace(/\/$/, '') || '/';
 ---
+
 <header class="site-header">
   <nav class="nav-container container" aria-label="Primary navigation">
-    <a href={withBase('/')} class="wordmark" aria-label="EWSPLAT Homepage">EWSPLAT</a>
+    <div class="nav-left">
+      <a href={withBase('/')} class="wordmark" aria-label="EWSPLAT Homepage" data-wordmark-nav>
+        <img
+          src="/images/wordmark/frames/frame-000.png"
+          alt="EWSPLAT"
+          width={200}
+          height={80}
+        />
+      </a>
+      <span class="nav-tag" aria-hidden="true">WLG // NZ</span>
+    </div>
 
     <div class="desktop-menu">
       <ul class="nav-links">
-        <li><a href={withBase('/archive')} aria-current={currentPath === '/archive' ? 'page' : undefined}>Archive</a></li>
-        <li><a href={withBase('/about')} aria-current={currentPath === '/about' ? 'page' : undefined}>About</a></li>
-        <li><a href={withBase('/contact')} aria-current={currentPath === '/contact' ? 'page' : undefined}>Contact</a></li>
+        <li>
+          <a href={withBase('/archive')} aria-current={currentPath === '/archive' ? 'page' : undefined}>
+            <span class="link-label">Archive</span>
+          </a>
+        </li>
+        <li>
+          <a href={withBase('/about')} aria-current={currentPath === '/about' ? 'page' : undefined}>
+            <span class="link-label">About</span>
+          </a>
+        </li>
+        <li>
+          <a href={withBase('/contact')} aria-current={currentPath === '/contact' ? 'page' : undefined}>
+            <span class="link-label">Contact</span>
+          </a>
+        </li>
       </ul>
-      <button
-        class="theme-toggle"
-        aria-pressed="false"
-        aria-label="Toggle light/dark theme"
-        type="button"
-      >
-        <span class="theme-icon" aria-hidden="true">☼</span>
-        <span class="visually-hidden">Switch theme</span>
-      </button>
     </div>
 
     <div class="mobile-menu">
-      <button
-        class="theme-toggle"
-        aria-pressed="false"
-        aria-label="Toggle light/dark theme"
-        type="button"
-      >
-        <span class="theme-icon" aria-hidden="true">☼</span>
-        <span class="visually-hidden">Switch theme</span>
-      </button>
       <details class="mobile-nav-details">
         <summary aria-label="Toggle navigation menu" class="menu-toggle">
-          <svg class="hamburger-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <svg class="hamburger-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <line x1="3" y1="12" x2="21" y2="12"></line>
             <line x1="3" y1="6" x2="21" y2="6"></line>
             <line x1="3" y1="18" x2="21" y2="18"></line>
@@ -59,127 +63,127 @@ const currentPath = Astro.url.pathname.replace(import.meta.env.BASE_URL, '/').re
   .site-header {
     border-bottom: 1px solid var(--color-border);
     background-color: var(--color-bg);
-    position: relative;
-    z-index: 50;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(8px);
+    background-color: rgba(246, 246, 244, 0.94);
   }
 
   .nav-container {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 4rem;
+    height: 3.75rem;
+  }
+
+  .nav-left {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
   }
 
   .wordmark {
     position: relative;
-    font-family: var(--font-display);
-    font-size: 1.65rem;
-    letter-spacing: -0.035em;
-    color: var(--color-text);
+    display: inline-flex;
+    align-items: center;
+    height: 1.75rem;
+    max-height: 1.75rem;
     text-decoration: none;
     line-height: 1;
-    display: flex;
-    align-items: center;
-    gap: 0.35rem;
+    overflow: hidden;
   }
 
-  .wordmark:hover {
-    color: var(--color-accent);
+  .wordmark img {
+    height: 1.75rem;
+    width: auto;
+    display: block;
+    user-select: none;
+    pointer-events: auto;
   }
 
-  /* Desktop menu */
+  .nav-tag {
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    letter-spacing: 0.08em;
+    color: var(--color-muted);
+    padding: 0.15rem 0.4rem;
+    border: 1px solid var(--color-border);
+    background-color: var(--color-surface);
+    line-height: 1;
+  }
+
+  /* Desktop navigation links */
   .desktop-menu {
     display: flex;
     align-items: center;
-    gap: 2rem;
   }
 
   .nav-links {
     display: flex;
-    gap: 1.75rem;
+    gap: 2rem;
     list-style: none;
     margin: 0;
     padding: 0;
   }
 
-  .nav-links a,
-  .mobile-links a {
+  .nav-links a {
     position: relative;
     font-family: var(--font-mono);
     font-size: 0.75rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--color-text);
-    transition: color 0.15s ease;
+    padding: 0.35rem 0.2rem;
+    transition: color 0.16s ease, transform 0.16s ease;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.4rem;
   }
 
-  .nav-links a::after,
-  .mobile-links a::after {
+  .nav-idx {
+    font-size: 0.5625rem;
+    color: var(--color-muted);
+    opacity: 0.6;
+    transition: color 0.16s ease, opacity 0.16s ease;
+  }
+
+  .nav-links a:hover .nav-idx,
+  .nav-links a:focus-visible .nav-idx,
+  .nav-links a[aria-current='page'] .nav-idx {
+    color: var(--color-accent);
+    opacity: 1;
+  }
+
+  .nav-links a::after {
     position: absolute;
     right: 0;
-    bottom: -0.35rem;
+    bottom: 0;
     left: 0;
-    height: 1px;
+    height: 2px;
     background: var(--color-accent);
     content: '';
     transform: scaleX(0);
     transform-origin: left;
-    transition: transform 180ms ease;
+    transition: transform 180ms cubic-bezier(0.2, 0.75, 0.25, 1);
   }
 
   .nav-links a:hover,
-  .mobile-links a:hover,
-  .nav-links a:focus-visible,
-  .mobile-links a:focus-visible {
+  .nav-links a:focus-visible {
     color: var(--color-accent);
   }
 
-  .nav-links a[aria-current='page'],
-  .mobile-links a[aria-current='page'] {
-    color: var(--color-text);
-  }
-
   .nav-links a:hover::after,
-  .mobile-links a:hover::after,
   .nav-links a:focus-visible::after,
-  .mobile-links a:focus-visible::after,
-  .nav-links a[aria-current='page']::after,
-  .mobile-links a[aria-current='page']::after {
+  .nav-links a[aria-current='page']::after {
     transform: scaleX(1);
   }
 
-  /* Theme toggle button */
-  .theme-toggle {
-    background: transparent;
-    border: 1px solid var(--color-border);
-    border-radius: 0;
-    padding: 0.35rem 0.5rem;
-    font-size: 0.875rem;
-    line-height: 1;
-    cursor: pointer;
-    color: var(--color-text);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    transition: border-color 0.15s ease, background-color 0.15s ease;
+  .nav-links a[aria-current='page'] {
+    color: var(--color-accent);
   }
 
-  .theme-icon {
-    display: inline-block;
-    transition: transform 220ms cubic-bezier(0.2, 0.65, 0.3, 1);
-  }
-
-  .theme-toggle:hover {
-    border-color: var(--color-accent);
-    background-color: var(--color-surface);
-  }
-
-  .theme-toggle:hover .theme-icon,
-  .theme-toggle:focus-visible .theme-icon {
-    transform: rotate(45deg);
-  }
-
-  /* Mobile menu styles */
+  /* Mobile navigation */
   .mobile-menu {
     display: none;
   }
@@ -195,8 +199,8 @@ const currentPath = Astro.url.pathname.replace(import.meta.env.BASE_URL, '/').re
     align-items: center;
     justify-content: center;
     border: 1px solid var(--color-border);
-    border-radius: 0;
-    padding: 0.35rem 0.5rem;
+    background: var(--color-surface);
+    padding: 0.4rem 0.55rem;
     color: var(--color-text);
   }
 
@@ -204,17 +208,10 @@ const currentPath = Astro.url.pathname.replace(import.meta.env.BASE_URL, '/').re
     display: none;
   }
 
-  .mobile-nav-details summary:hover {
+  .mobile-nav-details summary:hover,
+  .mobile-nav-details summary:focus-visible {
     border-color: var(--color-accent);
-  }
-
-  .mobile-nav-details summary .hamburger-icon {
-    transition: transform 180ms ease;
-  }
-
-  .mobile-nav-details summary:hover .hamburger-icon,
-  .mobile-nav-details summary:focus-visible .hamburger-icon {
-    transform: scaleX(1.08);
+    color: var(--color-accent);
   }
 
   .mobile-dropdown {
@@ -223,10 +220,9 @@ const currentPath = Astro.url.pathname.replace(import.meta.env.BASE_URL, '/').re
     top: calc(100% + 0.5rem);
     background-color: var(--color-surface);
     border: 1px solid var(--color-border);
-    border-radius: 0;
-    min-width: 160px;
-    padding: 1rem;
-    box-shadow: 0 4px 12px var(--color-shadow);
+    min-width: 170px;
+    padding: 0.75rem;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
   }
 
   .mobile-links {
@@ -235,7 +231,24 @@ const currentPath = Astro.url.pathname.replace(import.meta.env.BASE_URL, '/').re
     padding: 0;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 0.75rem;
+  }
+
+  .mobile-links a {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-text);
+    padding: 0.25rem 0.5rem;
+    display: block;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+
+  .mobile-links a:hover,
+  .mobile-links a[aria-current='page'] {
+    background-color: var(--color-bg);
+    color: var(--color-accent);
   }
 
   @media (max-width: 639px) {
@@ -245,45 +258,9 @@ const currentPath = Astro.url.pathname.replace(import.meta.env.BASE_URL, '/').re
     .mobile-menu {
       display: flex;
       align-items: center;
-      gap: 0.75rem;
+    }
+    .nav-tag {
+      display: none;
     }
   }
 </style>
-
-<script>
-  function setupThemeToggles() {
-    const root = document.documentElement;
-    const toggles = document.querySelectorAll('.theme-toggle');
-
-    function updateState() {
-      const isLight = root.dataset.theme === 'light';
-      toggles.forEach((btn) => {
-        btn.setAttribute('aria-pressed', isLight ? 'true' : 'false');
-        btn.setAttribute('aria-label', isLight ? 'Switch to dark theme' : 'Switch to light theme');
-        const icon = btn.querySelector('.theme-icon');
-        if (icon) {
-          icon.textContent = isLight ? '☾' : '☼';
-        }
-      });
-    }
-
-    toggles.forEach((btn) => {
-      btn.addEventListener('click', () => {
-        const currentIsLight = root.dataset.theme === 'light';
-        const newTheme = currentIsLight ? 'dark' : 'light';
-        root.dataset.theme = newTheme;
-        try {
-          localStorage.setItem('ewsplat-theme', newTheme);
-        } catch (error) {
-          console.warn('Theme preference could not be saved.', error);
-        }
-        updateState();
-      });
-    });
-
-    updateState();
-  }
-
-  setupThemeToggles();
-  document.addEventListener('astro:after-swap', setupThemeToggles);
-</script>

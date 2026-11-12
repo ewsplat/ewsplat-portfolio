@@ -1,0 +1,42 @@
+{
+  "slug": "personal-pufferfish",
+  "title": "Pufferfish Swimming",
+  "discipline": "animation-motion",
+  "projectType": "experiment",
+  "composition": "motion",
+  "presentation": "sequence",
+  "client": "Personal work",
+  "collection": "Personal works",
+  "workType": "personal",
+  "archiveOrder": 98,
+  "draft": true,
+  "year": 2023,
+  "description": "Swimming animation of a pufferfish, studying movement and form.",
+  "roles": [
+    "Animation"
+  ],
+  "thumbnail": {
+    "type": "video",
+    "src": "/media/portfolio/personal/pufferfish-swimming.mp4",
+    "alt": "Pufferfish swimming animation exploration",
+    "aspect": "16/9"
+  },
+  "hero": {
+    "type": "video",
+    "src": "/media/portfolio/personal/pufferfish-swimming.mp4",
+    "aspect": "16/9",
+    "alt": "Pufferfish swimming animation exploration"
+  },
+  "gallery": [
+    {
+      "type": "video",
+      "src": "/media/portfolio/personal/pufferfish-swimming.mp4",
+      "aspect": "16/9",
+      "alt": "Pufferfish swimming animation exploration"
+    }
+  ],
+  "compositionPreferences": {
+    "layoutHint": "hero-gallery",
+    "heroAspect": "16/9"
+  }
+}

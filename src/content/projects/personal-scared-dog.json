@@ -1,21 +1,33 @@
 {
   "slug": "personal-scared-dog",
   "title": "Scared Dog",
+  "discipline": "illustration",
+  "projectType": "personal",
   "composition": "single-artwork",
+  "presentation": "artwork",
   "collection": "Personal works",
   "workType": "personal",
-  "archiveOrder": 14,
+  "archiveOrder": 12,
+  "homepageFeatured": false,
+  "year": 2020,
+  "description": "Personal illustration of a scared dog character.",
   "roles": [
     "Illustration"
   ],
   "thumbnail": {
     "type": "image",
     "src": "/images/portfolio/web/PersonalWorks/ScaredDog.webp",
-    "alt": "Scared Dog character illustration"
+    "alt": "Scared Dog character illustration",
+    "aspect": "4/3"
   },
   "hero": {
     "type": "image",
     "src": "/images/portfolio/web/PersonalWorks/ScaredDog.webp",
-    "alt": "Scared Dog character illustration"
+    "alt": "Scared Dog character illustration",
+    "aspect": "4/3"
+  },
+  "compositionPreferences": {
+    "layoutHint": "single",
+    "heroAspect": "4/3"
   }
 }

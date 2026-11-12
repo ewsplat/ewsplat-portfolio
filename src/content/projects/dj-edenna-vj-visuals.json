@@ -1,10 +1,45 @@
 {
   "slug": "dj-edenna-vj-visuals",
-  "title": "DJ Edenna — VJ Visuals",
+  "title": "DJ Edenna - VJ Visuals",
+  "discipline": "animation-motion",
+  "projectType": "client",
   "composition": "motion",
+  "presentation": "sequence",
   "client": "DJ Edenna",
   "collection": "Music visuals",
   "workType": "client",
-  "draft": true,
-  "description": "VJ visual treatment largely created from scratch. Logo authorship is unspecified."
+  "archiveOrder": 44,
+  "year": 2023,
+  "description": "VJ visual loops created and animated for DJ Edenna, using an existing supplied logo.",
+  "roles": [
+    "Animation",
+    "Motion design",
+    "VJ visuals"
+  ],
+  "thumbnail": {
+    "type": "video",
+    "src": "/media/portfolio/dj-edenna/fan-v2-update.mp4",
+    "poster": "/images/portfolio/posters/dj-edenna-fan-v2-update.jpg",
+    "alt": "DJ Edenna VJ visual loop",
+    "aspect": "16/9"
+  },
+  "hero": {
+    "type": "video",
+    "src": "/media/portfolio/dj-edenna/fan-v2-update.mp4",
+    "poster": "/images/portfolio/posters/dj-edenna-fan-v2-update.jpg",
+    "alt": "DJ Edenna VJ visual loop created and animated by EWSPLAT using an existing supplied logo",
+    "aspect": "16/9"
+  },
+  "gallery": [
+    {
+      "type": "video",
+      "src": "/media/portfolio/dj-edenna/glossyfix.mp4",
+      "alt": "DJ Edenna VJ visual loop - glossy variation",
+      "aspect": "16/9"
+    }
+  ],
+  "compositionPreferences": {
+    "layoutHint": "hero-gallery",
+    "heroAspect": "16/9"
+  }
 }

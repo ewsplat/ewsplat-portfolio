@@ -1,10 +1,15 @@
 {
   "slug": "found-store",
   "title": "Found Store — Garment Artwork",
+  "discipline": "graphic-design",
+  "projectType": "client",
   "composition": "graphic-sequence",
+  "presentation": "artwork",
   "collection": "Found Store",
   "workType": "client",
-  "archiveOrder": 50,
+  "archiveOrder": 41,
+  "homepageFeatured": false,
+  "year": 2024,
   "description": "Garment-back graphic and typography designed and illustrated by EWSPLAT, shown with the related photoshoot.",
   "roles": [
     "Garment graphic design",
@@ -13,13 +18,15 @@
   ],
   "thumbnail": {
     "type": "image",
-    "src": "/images/portfolio/web/FoundStore/Artwork.webp",
-    "alt": "Illustrated character and typography designed for the back of a garment"
+    "src": "/images/portfolio/FoundStore/Artwork.jpg",
+    "alt": "Illustrated character and typography designed for the back of a garment",
+    "aspect": "3/4"
   },
   "hero": {
     "type": "image",
-    "src": "/images/portfolio/web/FoundStore/Artwork.webp",
-    "alt": "Illustrated character and typography designed for the back of a garment"
+    "src": "/images/portfolio/FoundStore/Artwork.jpg",
+    "alt": "Illustrated character and typography designed for the back of a garment",
+    "aspect": "3/4"
   },
   "gallery": [
     {
@@ -27,5 +34,9 @@
       "src": "/images/portfolio/web/FoundStore/Photoshoot.webp",
       "alt": "Model wearing the garment with the related illustrated artwork"
     }
-  ]
+  ],
+  "compositionPreferences": {
+    "layoutHint": "paired",
+    "heroAspect": "3/4"
+  }
 }

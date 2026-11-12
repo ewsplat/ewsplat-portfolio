@@ -1,0 +1,49 @@
+{
+  "slug": "odd-company-drinks",
+  "title": "Odd Company — Drinks Campaign",
+  "discipline": "animation-motion",
+  "projectType": "client",
+  "composition": "motion",
+  "presentation": "campaign",
+  "client": "Odd Company",
+  "collection": "Odd Company",
+  "workType": "client",
+  "archiveOrder": 25,
+  "year": 2023,
+  "description": "Social and TVC motion content created for Odd Company's drinks campaign. A bold social-first animated sequence produced for the brand's launch campaign.",
+  "roles": [
+    "Creative direction",
+    "Design",
+    "Animation"
+  ],
+  "credits": [
+    {
+      "role": "Commissioned via",
+      "name": "Odd Company"
+    }
+  ],
+  "thumbnail": {
+    "type": "video",
+    "src": "/media/portfolio/odd-company/social-and-tvc-for-odd-company-drinks.mp4",
+    "alt": "Odd Company drinks campaign animation",
+    "aspect": "1/1"
+  },
+  "hero": {
+    "type": "video",
+    "src": "/media/portfolio/odd-company/social-and-tvc-for-odd-company-drinks.mp4",
+    "aspect": "1/1",
+    "alt": "Odd Company drinks campaign animation"
+  },
+  "gallery": [
+    {
+      "type": "video",
+      "src": "/media/portfolio/odd-company/social-and-tvc-for-odd-company-drinks.mp4",
+      "aspect": "1/1",
+      "alt": "Odd Company drinks campaign animation"
+    }
+  ],
+  "compositionPreferences": {
+    "layoutHint": "hero-gallery",
+    "heroAspect": "1/1"
+  }
+}

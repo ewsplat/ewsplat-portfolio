@@ -1,21 +1,33 @@
 {
   "slug": "personal-sour-yuck",
   "title": "Sour Yuck!",
+  "discipline": "illustration",
+  "projectType": "personal",
   "composition": "single-artwork",
+  "presentation": "artwork",
   "collection": "Personal works",
   "workType": "personal",
-  "archiveOrder": 16,
+  "archiveOrder": 17,
+  "homepageFeatured": false,
+  "year": 2020,
+  "description": "Personal character illustration for Sour Yuck!.",
   "roles": [
     "Illustration"
   ],
   "thumbnail": {
     "type": "image",
     "src": "/images/portfolio/web/PersonalWorks/SourYuck!.webp",
-    "alt": "Sour Yuck character illustration"
+    "alt": "Sour Yuck character illustration",
+    "aspect": "4/3"
   },
   "hero": {
     "type": "image",
     "src": "/images/portfolio/web/PersonalWorks/SourYuck!.webp",
-    "alt": "Sour Yuck character illustration"
+    "alt": "Sour Yuck character illustration",
+    "aspect": "4/3"
+  },
+  "compositionPreferences": {
+    "layoutHint": "single",
+    "heroAspect": "4/3"
   }
 }

@@ -1,0 +1,44 @@
+{
+  "slug": "personal-lowpoly-dog",
+  "title": "Low-Poly Dog",
+  "discipline": "character-design",
+  "projectType": "experiment",
+  "composition": "motion",
+  "presentation": "sequence",
+  "client": "Personal work",
+  "collection": "Personal works",
+  "workType": "personal",
+  "archiveOrder": 97,
+  "draft": true,
+  "year": 2023,
+  "description": "Low-poly dog character design experimenting with geometric forms.",
+  "roles": [
+    "Design",
+    "Illustration",
+    "3D"
+  ],
+  "thumbnail": {
+    "type": "video",
+    "src": "/media/portfolio/personal/lowpoly-dog-exploration.mp4",
+    "alt": "Low-Poly Dog character design exploration",
+    "aspect": "16/9"
+  },
+  "hero": {
+    "type": "video",
+    "src": "/media/portfolio/personal/lowpoly-dog-exploration.mp4",
+    "aspect": "16/9",
+    "alt": "Low-Poly Dog character design exploration"
+  },
+  "gallery": [
+    {
+      "type": "video",
+      "src": "/media/portfolio/personal/lowpoly-dog-exploration.mp4",
+      "aspect": "16/9",
+      "alt": "Low-Poly Dog character design exploration"
+    }
+  ],
+  "compositionPreferences": {
+    "layoutHint": "hero-gallery",
+    "heroAspect": "16/9"
+  }
+}

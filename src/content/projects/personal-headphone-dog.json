@@ -1,19 +1,33 @@
 {
   "slug": "personal-headphone-dog",
   "title": "Headphone Dog",
+  "discipline": "illustration",
+  "projectType": "personal",
   "composition": "single-artwork",
+  "presentation": "artwork",
   "collection": "Personal works",
   "workType": "personal",
-  "archiveOrder": 13,
-  "roles": ["Illustration"],
+  "archiveOrder": 11,
+  "homepageFeatured": false,
+  "year": 2020,
+  "description": "Personal illustration of a dog wearing headphones.",
+  "roles": [
+    "Illustration"
+  ],
   "thumbnail": {
     "type": "image",
     "src": "/images/portfolio/PersonalWorks/HeadphoneDog.jpg",
-    "alt": "Headphone Dog illustration"
+    "alt": "Headphone Dog illustration",
+    "aspect": "4/3"
   },
   "hero": {
     "type": "image",
     "src": "/images/portfolio/PersonalWorks/HeadphoneDog.jpg",
-    "alt": "Headphone Dog illustration"
+    "alt": "Headphone Dog illustration",
+    "aspect": "4/3"
+  },
+  "compositionPreferences": {
+    "layoutHint": "single",
+    "heroAspect": "4/3"
   }
 }

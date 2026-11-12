@@ -1,0 +1,40 @@
+{
+  "slug": "personal-wuu2",
+  "title": "Wuu2",
+  "discipline": "graphic-design",
+  "projectType": "experiment",
+  "composition": "single-artwork",
+  "presentation": "artwork",
+  "client": "Personal work",
+  "collection": "Personal works",
+  "workType": "personal",
+  "archiveOrder": 60,
+  "year": 2023,
+  "description": "Graphic pattern study in repetition, arrangement and visual rhythm.",
+  "roles": [
+    "Design"
+  ],
+  "thumbnail": {
+    "type": "image",
+    "src": "/images/portfolio/PersonalWorks/wuu2.jpg",
+    "alt": "Wuu2 graphic pattern study",
+    "aspect": "1/1"
+  },
+  "hero": {
+    "type": "image",
+    "src": "/images/portfolio/PersonalWorks/wuu2.jpg",
+    "alt": "Wuu2 graphic pattern study",
+    "aspect": "1/1"
+  },
+  "gallery": [
+    {
+      "type": "image",
+      "src": "/images/portfolio/PersonalWorks/wuu2.jpg",
+      "alt": "Wuu2 graphic pattern study"
+    }
+  ],
+  "compositionPreferences": {
+    "layoutHint": "single",
+    "heroAspect": "1/1"
+  }
+}

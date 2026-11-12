@@ -1,0 +1,54 @@
+{
+  "slug": "wyld-coffee-product-renders",
+  "title": "WYLD — Coffee Product Renders",
+  "discipline": "animation-motion",
+  "projectType": "client",
+  "composition": "motion",
+  "presentation": "sequence",
+  "client": "WYLD",
+  "collection": "Coffee product renders",
+  "workType": "client",
+  "archiveOrder": 45,
+  "homepageFeatured": false,
+  "description": "Coffee product render motion for WYLD, developed across post and story formats.",
+  "roles": [
+    "Product rendering",
+    "Motion design"
+  ],
+  "thumbnail": {
+    "type": "video",
+    "src": "/media/coffee/WYLD_Coffee_ProductRenders/POST_WYLD.mp4",
+    "alt": "WYLD coffee product render — post format",
+    "aspect": "1/1"
+  },
+  "hero": {
+    "type": "video",
+    "src": "/media/coffee/WYLD_Coffee_ProductRenders/POST_WYLD.mp4",
+    "alt": "WYLD coffee product render — post format",
+    "aspect": "1/1"
+  },
+  "gallery": [
+    {
+      "type": "video",
+      "src": "/media/coffee/WYLD_Coffee_ProductRenders/POST_WC.mp4",
+      "alt": "WYLD coffee product render — alternate post format",
+      "aspect": "1/1"
+    },
+    {
+      "type": "video",
+      "src": "/media/coffee/WYLD_Coffee_ProductRenders/STORY_WYLD.mp4",
+      "alt": "WYLD coffee product render — story format",
+      "aspect": "9/16"
+    },
+    {
+      "type": "video",
+      "src": "/media/coffee/WYLD_Coffee_ProductRenders/Story_WC.mp4",
+      "alt": "WYLD coffee product render — alternate story format",
+      "aspect": "9/16"
+    }
+  ],
+  "compositionPreferences": {
+    "layoutHint": "hero-gallery",
+    "heroAspect": "1/1"
+  }
+}

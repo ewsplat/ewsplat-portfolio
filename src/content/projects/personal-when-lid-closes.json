@@ -1,0 +1,40 @@
+{
+  "slug": "personal-when-lid-closes",
+  "title": "When the Lid Closes",
+  "discipline": "illustration",
+  "projectType": "experiment",
+  "composition": "single-artwork",
+  "presentation": "artwork",
+  "client": "Personal work",
+  "collection": "Personal works",
+  "workType": "personal",
+  "archiveOrder": 59,
+  "year": 2023,
+  "description": "An illustration of a character or scene under a closing lid, playing with concealment and reveal.",
+  "roles": [
+    "Illustration"
+  ],
+  "thumbnail": {
+    "type": "image",
+    "src": "/images/portfolio/PersonalWorks/when-the-lid-closes.jpg",
+    "alt": "When the Lid Closes illustration",
+    "aspect": "4/3"
+  },
+  "hero": {
+    "type": "image",
+    "src": "/images/portfolio/PersonalWorks/when-the-lid-closes.jpg",
+    "alt": "When the Lid Closes illustration",
+    "aspect": "4/3"
+  },
+  "gallery": [
+    {
+      "type": "image",
+      "src": "/images/portfolio/PersonalWorks/when-the-lid-closes.jpg",
+      "alt": "When the Lid Closes illustration"
+    }
+  ],
+  "compositionPreferences": {
+    "layoutHint": "single",
+    "heroAspect": "4/3"
+  }
+}

@@ -1,21 +1,33 @@
 {
   "slug": "coffee-adventures",
   "title": "Coffee Adventures",
+  "discipline": "illustration",
+  "projectType": "personal",
   "composition": "single-artwork",
+  "presentation": "artwork",
   "collection": "Personal works",
   "workType": "personal",
-  "archiveOrder": 10,
+  "archiveOrder": 8,
+  "homepageFeatured": false,
+  "year": 2020,
+  "description": "Personal illustration made for Coffee Adventures.",
   "roles": [
     "Illustration"
   ],
   "thumbnail": {
     "type": "image",
     "src": "/images/portfolio/web/PersonalWorks/CoffeeAdventures.webp",
-    "alt": "Coffee Adventures illustration"
+    "alt": "Coffee Adventures illustration",
+    "aspect": "4/3"
   },
   "hero": {
     "type": "image",
     "src": "/images/portfolio/web/PersonalWorks/CoffeeAdventures.webp",
-    "alt": "Coffee Adventures illustration"
+    "alt": "Coffee Adventures illustration",
+    "aspect": "4/3"
+  },
+  "compositionPreferences": {
+    "layoutHint": "single",
+    "heroAspect": "4/3"
   }
 }

@@ -1,10 +1,14 @@
 {
   "slug": "flux-eden-burns-event-artwork",
   "title": "Flux — Eden Burns Event Artwork",
+  "discipline": "graphic-design",
+  "projectType": "client",
   "composition": "graphic-sequence",
+  "presentation": "artwork",
   "collection": "Flux",
   "workType": "client",
-  "archiveOrder": 70,
+  "archiveOrder": 49,
+  "year": 2023,
   "description": "Commissioned event flyer and banner artwork for an Eden Burns event, following a recommendation from Flux. The two banners are alternate versions.",
   "roles": [
     "Event flyer and banner"
@@ -12,12 +16,14 @@
   "thumbnail": {
     "type": "image",
     "src": "/images/portfolio/web/Flux/Banner1.webp",
-    "alt": "Event banner artwork for an Eden Burns event"
+    "alt": "Event banner artwork for an Eden Burns event",
+    "aspect": "4/3"
   },
   "hero": {
     "type": "image",
     "src": "/images/portfolio/web/Flux/Banner1.webp",
-    "alt": "Event banner artwork for an Eden Burns event"
+    "alt": "Event banner artwork for an Eden Burns event",
+    "aspect": "4/3"
   },
   "gallery": [
     {
@@ -25,5 +31,11 @@
       "src": "/images/portfolio/web/Flux/Banner2.webp",
       "alt": "Alternate event banner artwork"
     }
-  ]
+  ],
+  "featured": true,
+  "featuredOrder": 6,
+  "compositionPreferences": {
+    "layoutHint": "paired",
+    "heroAspect": "4/3"
+  }
 }

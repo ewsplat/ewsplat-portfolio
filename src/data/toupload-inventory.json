@@ -1,0 +1,1226 @@
+[
+  {
+    "relativePath": "Clothing\\ChecksDowntown\\Graphics_forGarments\\Checks_logotee\\Checks_cartoon-logoTee.jpeg",
+    "ext": ".jpeg",
+    "sizeBytes": 353631,
+    "width": 1080,
+    "height": 1350,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "Clothing\\ChecksDowntown\\Graphics_forGarments\\Checks_logotee\\Main_Artwork.jpg",
+    "ext": ".jpg",
+    "sizeBytes": 719264,
+    "width": 3693,
+    "height": 2335,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "Clothing\\ChecksDowntown\\Graphics_forGarments\\DogandCat_onChecksLogo\\Artwork_main.jpg",
+    "ext": ".jpg",
+    "sizeBytes": 970775,
+    "width": 2976,
+    "height": 3201,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "Clothing\\ChecksDowntown\\Graphics_forGarments\\DogandCat_onChecksLogo\\Photo_of_product.jpeg",
+    "ext": ".jpeg",
+    "sizeBytes": 473387,
+    "width": 1080,
+    "height": 1350,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "Clothing\\ILoveUgly\\IllustrationDesign_forClothing\\productshoot_001.jpg",
+    "ext": ".jpg",
+    "sizeBytes": 50566,
+    "width": 1080,
+    "height": 1080,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "Clothing\\ILoveUgly\\IllustrationDesign_forClothing\\productshoot_002.jpg",
+    "ext": ".jpg",
+    "sizeBytes": 107248,
+    "width": 984,
+    "height": 984,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "Clothing\\ILoveUgly\\IllustrationDesign_forClothing\\productshoot_003.jpg",
+    "ext": ".jpg",
+    "sizeBytes": 85928,
+    "width": 1080,
+    "height": 1080,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "Clothing\\ILoveUgly\\IllustrationDesign_forClothing\\productshoot_004.jpg",
+    "ext": ".jpg",
+    "sizeBytes": 89502,
+    "width": 969,
+    "height": 969,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "Clothing\\ILoveUgly\\IllustrationDesign_forClothing\\productshoot_005.jpg",
+    "ext": ".jpg",
+    "sizeBytes": 94003,
+    "width": 1066,
+    "height": 1066,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "Clothing\\ILoveUgly\\IllustrationDesign_forClothing\\productshoot_006.jpg",
+    "ext": ".jpg",
+    "sizeBytes": 93134,
+    "width": 1080,
+    "height": 1080,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "Clothing\\Paramount_Skateboards\\SocialMedia_AnimationContent_UnusedConcept.mp4",
+    "ext": ".mp4",
+    "sizeBytes": 11867798,
+    "width": 1080,
+    "height": 1080,
+    "duration": 10.3,
+    "mediaType": "video"
+  },
+  {
+    "relativePath": "Clothing\\Pawa\\Boy_Character3dmodel_ClientSuppliedCharacterDesign_IMadeThe3dModel\\Boy_render.mp4",
+    "ext": ".mp4",
+    "sizeBytes": 385994,
+    "width": 720,
+    "height": 900,
+    "duration": 5,
+    "mediaType": "video"
+  },
+  {
+    "relativePath": "CLUB121\\Event\\EdenBurns\\EdenBurns_Club121_Event_December_3rd_2022.mp4",
+    "ext": ".mp4",
+    "sizeBytes": 2472803,
+    "width": 720,
+    "height": 1280,
+    "duration": 13.4,
+    "mediaType": "video"
+  },
+  {
+    "relativePath": "CLUB121\\Event\\HurricaneEmily_DjClassesEvent\\SocialMediaClip_Promo_AnimatedVideo.mp4",
+    "ext": ".mp4",
+    "sizeBytes": 21444026,
+    "width": 1080,
+    "height": 1080,
+    "duration": 15.9,
+    "mediaType": "video"
+  },
+  {
+    "relativePath": "CLUB121\\Merch\\Hoodie1.mp4",
+    "ext": ".mp4",
+    "sizeBytes": 2239797,
+    "width": 720,
+    "height": 720,
+    "duration": 14,
+    "mediaType": "video"
+  },
+  {
+    "relativePath": "CLUB121\\Merch\\Hoodie2.mp4",
+    "ext": ".mp4",
+    "sizeBytes": 2124149,
+    "width": 720,
+    "height": 720,
+    "duration": 14,
+    "mediaType": "video"
+  },
+  {
+    "relativePath": "CLUB121\\Merch\\Tee1.mp4",
+    "ext": ".mp4",
+    "sizeBytes": 3024119,
+    "width": 720,
+    "height": 720,
+    "duration": 14,
+    "mediaType": "video"
+  },
+  {
+    "relativePath": "CLUB121\\Merch\\Tee2.mp4",
+    "ext": ".mp4",
+    "sizeBytes": 3009455,
+    "width": 720,
+    "height": 720,
+    "duration": 14,
+    "mediaType": "video"
+  },
+  {
+    "relativePath": "Coffee\\FlightCoffee_ProductRender\\FlightCoffee_ProductRender_forSocialMedia.mp4",
+    "ext": ".mp4",
+    "sizeBytes": 32824521,
+    "width": 1080,
+    "height": 1080,
+    "duration": 25,
+    "mediaType": "video"
+  },
+  {
+    "relativePath": "Coffee\\NewGround_Coffee_ProductRenders\\All_Products.mp4",
+    "ext": ".mp4",
+    "sizeBytes": 25222922,
+    "width": 1080,
+    "height": 1080,
+    "duration": 30.6,
+    "mediaType": "video"
+  },
+  {
+    "relativePath": "Coffee\\NewGround_Coffee_ProductRenders\\APNG\\Box1.png",
+    "ext": ".png",
+    "sizeBytes": 22553258,
+    "width": 700,
+    "height": 700,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "Coffee\\NewGround_Coffee_ProductRenders\\APNG\\Box2.png",
+    "ext": ".png",
+    "sizeBytes": 22375556,
+    "width": 700,
+    "height": 700,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "Coffee\\NewGround_Coffee_ProductRenders\\APNG\\Can1.png",
+    "ext": ".png",
+    "sizeBytes": 34021636,
+    "width": 700,
+    "height": 700,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "Coffee\\NewGround_Coffee_ProductRenders\\APNG\\Can2.png",
+    "ext": ".png",
+    "sizeBytes": 33967470,
+    "width": 700,
+    "height": 700,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "Coffee\\NewGround_Coffee_ProductRenders\\APNG\\Jar1.png",
+    "ext": ".png",
+    "sizeBytes": 24906989,
+    "width": 700,
+    "height": 700,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "Coffee\\NewGround_Coffee_ProductRenders\\APNG\\Jar2.png",
+    "ext": ".png",
+    "sizeBytes": 25084581,
+    "width": 700,
+    "height": 700,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "Coffee\\OzoneCoffee_ProductRender\\OzoneCoffee_ProductRender.mp4",
+    "ext": ".mp4",
+    "sizeBytes": 6492671,
+    "width": 1080,
+    "height": 1080,
+    "duration": 12,
+    "mediaType": "video"
+  },
+  {
+    "relativePath": "Coffee\\ProductRenders_viaNewGround_for_SupremeCoffee_Havana_andNewGroundCoffee\\BIB_Box_1.gif",
+    "ext": ".gif",
+    "sizeBytes": 10532058,
+    "width": 700,
+    "height": 700,
+    "duration": null,
+    "mediaType": "gif"
+  },
+  {
+    "relativePath": "Coffee\\ProductRenders_viaNewGround_for_SupremeCoffee_Havana_andNewGroundCoffee\\box.gif",
+    "ext": ".gif",
+    "sizeBytes": 8446462,
+    "width": 700,
+    "height": 700,
+    "duration": null,
+    "mediaType": "gif"
+  },
+  {
+    "relativePath": "Coffee\\ProductRenders_viaNewGround_for_SupremeCoffee_Havana_andNewGroundCoffee\\Can.gif",
+    "ext": ".gif",
+    "sizeBytes": 7299056,
+    "width": 700,
+    "height": 700,
+    "duration": null,
+    "mediaType": "gif"
+  },
+  {
+    "relativePath": "Coffee\\ProductRenders_viaNewGround_for_SupremeCoffee_Havana_andNewGroundCoffee\\Can2.gif",
+    "ext": ".gif",
+    "sizeBytes": 5442437,
+    "width": 700,
+    "height": 700,
+    "duration": null,
+    "mediaType": "gif"
+  },
+  {
+    "relativePath": "Coffee\\ProductRenders_viaNewGround_for_SupremeCoffee_Havana_andNewGroundCoffee\\Havana1.gif",
+    "ext": ".gif",
+    "sizeBytes": 6918615,
+    "width": 700,
+    "height": 700,
+    "duration": null,
+    "mediaType": "gif"
+  },
+  {
+    "relativePath": "Coffee\\ProductRenders_viaNewGround_for_SupremeCoffee_Havana_andNewGroundCoffee\\Havana2.gif",
+    "ext": ".gif",
+    "sizeBytes": 7086385,
+    "width": 700,
+    "height": 700,
+    "duration": null,
+    "mediaType": "gif"
+  },
+  {
+    "relativePath": "Coffee\\ProductRenders_viaNewGround_for_SupremeCoffee_Havana_andNewGroundCoffee\\sachet.gif",
+    "ext": ".gif",
+    "sizeBytes": 5536479,
+    "width": 700,
+    "height": 700,
+    "duration": null,
+    "mediaType": "gif"
+  },
+  {
+    "relativePath": "Coffee\\ProductRenders_viaNewGround_for_SupremeCoffee_Havana_andNewGroundCoffee\\supreme_box.gif",
+    "ext": ".gif",
+    "sizeBytes": 6752029,
+    "width": 700,
+    "height": 700,
+    "duration": null,
+    "mediaType": "gif"
+  },
+  {
+    "relativePath": "Coffee\\St.Ali_CoffeeCompany_ProductRender_forSocialMedia\\Clip.mp4",
+    "ext": ".mp4",
+    "sizeBytes": 9526452,
+    "width": 1080,
+    "height": 1080,
+    "duration": 6.7,
+    "mediaType": "video"
+  },
+  {
+    "relativePath": "Coffee\\WYLD_Coffee_ProductRenders\\Post_WC.mp4",
+    "ext": ".mp4",
+    "sizeBytes": 9886386,
+    "width": 1080,
+    "height": 1080,
+    "duration": 7,
+    "mediaType": "video"
+  },
+  {
+    "relativePath": "Coffee\\WYLD_Coffee_ProductRenders\\POST_WYLD.mp4",
+    "ext": ".mp4",
+    "sizeBytes": 11441883,
+    "width": 1080,
+    "height": 1080,
+    "duration": 8.7,
+    "mediaType": "video"
+  },
+  {
+    "relativePath": "Coffee\\WYLD_Coffee_ProductRenders\\Story_WC.mp4",
+    "ext": ".mp4",
+    "sizeBytes": 10140032,
+    "width": 1080,
+    "height": 1920,
+    "duration": 7,
+    "mediaType": "video"
+  },
+  {
+    "relativePath": "Coffee\\WYLD_Coffee_ProductRenders\\STORY_WYLD.mp4",
+    "ext": ".mp4",
+    "sizeBytes": 10746132,
+    "width": 1080,
+    "height": 1920,
+    "duration": 8.7,
+    "mediaType": "video"
+  },
+  {
+    "relativePath": "Events\\CommericalBay_x_EwSplat_HappyPlants\\carousel-post\\1.webp",
+    "ext": ".webp",
+    "sizeBytes": 46012,
+    "width": 1080,
+    "height": 1080,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "Events\\CommericalBay_x_EwSplat_HappyPlants\\carousel-post\\2.mp4",
+    "ext": ".mp4",
+    "sizeBytes": 1776051,
+    "width": 716,
+    "height": 716,
+    "duration": 9.4,
+    "mediaType": "video"
+  },
+  {
+    "relativePath": "Events\\CommericalBay_x_EwSplat_HappyPlants\\carousel-post\\3.mp4",
+    "ext": ".mp4",
+    "sizeBytes": 722937,
+    "width": 720,
+    "height": 720,
+    "duration": 12,
+    "mediaType": "video"
+  },
+  {
+    "relativePath": "Events\\CommericalBay_x_EwSplat_HappyPlants\\carousel-post\\4.webp",
+    "ext": ".webp",
+    "sizeBytes": 55110,
+    "width": 1080,
+    "height": 1080,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "Events\\CommericalBay_x_EwSplat_HappyPlants\\HappyPlants_WebsiteBanner.png",
+    "ext": ".png",
+    "sizeBytes": 3301449,
+    "width": 3045,
+    "height": 1487,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "Events\\CommericalBay_x_FifaWomansWorldCup\\Artwork_forPrintandSocials.jpg",
+    "ext": ".jpg",
+    "sizeBytes": 125137,
+    "width": 1440,
+    "height": 1439,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "Events\\CommericalBay_x_FifaWomansWorldCup\\Banner.jpg",
+    "ext": ".jpg",
+    "sizeBytes": 164513,
+    "width": 1048,
+    "height": 1048,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "Events\\CommericalBay_x_FifaWomansWorldCup\\Box_withprintedIllustration.jpg",
+    "ext": ".jpg",
+    "sizeBytes": 211753,
+    "width": 1125,
+    "height": 1125,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "Events\\Elsewhere_Festival_AKL\\Animated_3dGraphics_forWebsite.mp4",
+    "ext": ".mp4",
+    "sizeBytes": 4133164,
+    "width": 720,
+    "height": 720,
+    "duration": 45.6,
+    "mediaType": "video"
+  },
+  {
+    "relativePath": "Events\\Elsewhere_Festival_AKL\\Event_promoPost_IG.jpg",
+    "ext": ".jpg",
+    "sizeBytes": 158417,
+    "width": 1080,
+    "height": 1080,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "Events\\Elsewhere_Festival_AKL\\WIP_UnusedConcepts_\\igexport-CiYp3lvv6K2-2.jpg",
+    "ext": ".jpg",
+    "sizeBytes": 86928,
+    "width": 1080,
+    "height": 1080,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "Events\\Elsewhere_Festival_AKL\\WIP_UnusedConcepts_\\igexport-CiYp3lvv6K2-3.jpg",
+    "ext": ".jpg",
+    "sizeBytes": 66502,
+    "width": 1080,
+    "height": 1080,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "Events\\Elsewhere_Festival_AKL\\WIP_UnusedConcepts_\\igexport-CiYp3lvv6K2-4.jpg",
+    "ext": ".jpg",
+    "sizeBytes": 71469,
+    "width": 1080,
+    "height": 1080,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "Events\\Elsewhere_Festival_AKL\\WIP_UnusedConcepts_\\igexport-CiYp3lvv6K2-5.jpg",
+    "ext": ".jpg",
+    "sizeBytes": 68074,
+    "width": 1080,
+    "height": 1080,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "Events\\Elsewhere_Festival_AKL\\WIP_UnusedConcepts_\\igexport-CiYp3lvv6K2-6.jpg",
+    "ext": ".jpg",
+    "sizeBytes": 73091,
+    "width": 1080,
+    "height": 1080,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "Events\\Elsewhere_Festival_AKL\\WIP_UnusedConcepts_\\igexport-CiYp3lvv6K2-7.jpg",
+    "ext": ".jpg",
+    "sizeBytes": 72851,
+    "width": 1080,
+    "height": 1080,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "Events\\Elsewhere_Festival_AKL\\WIP_UnusedConcepts_\\igexport-CiYp3lvv6K2.jpg",
+    "ext": ".jpg",
+    "sizeBytes": 102070,
+    "width": 1080,
+    "height": 1080,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "Events\\Kiljoy(UK)_Event\\Killjoy_NZEVENT_FacebookBanner.jpg",
+    "ext": ".jpg",
+    "sizeBytes": 358622,
+    "width": 1200,
+    "height": 628,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "Events\\Kiljoy(UK)_Event\\Killjoy_NZEVENT_PromoVideo.mp4",
+    "ext": ".mp4",
+    "sizeBytes": 12768502,
+    "width": 1080,
+    "height": 1080,
+    "duration": 9.1,
+    "mediaType": "video"
+  },
+  {
+    "relativePath": "Events\\PlansAfter\\PlansAfter_@NormaTaps_Auckland_2024.mp4",
+    "ext": ".mp4",
+    "sizeBytes": 34744777,
+    "width": 1080,
+    "height": 1350,
+    "duration": 16.3,
+    "mediaType": "video"
+  },
+  {
+    "relativePath": "ewsplatlogoanimation_melt\\ewsplatlogoanimation_melt_00000.png",
+    "ext": ".png",
+    "sizeBytes": 114621,
+    "width": 4000,
+    "height": 1600,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "ewsplatlogoanimation_melt\\ewsplatlogoanimation_melt_00001.png",
+    "ext": ".png",
+    "sizeBytes": 114910,
+    "width": 4000,
+    "height": 1600,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "ewsplatlogoanimation_melt\\ewsplatlogoanimation_melt_00002.png",
+    "ext": ".png",
+    "sizeBytes": 114706,
+    "width": 4000,
+    "height": 1600,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "ewsplatlogoanimation_melt\\ewsplatlogoanimation_melt_00003.png",
+    "ext": ".png",
+    "sizeBytes": 114809,
+    "width": 4000,
+    "height": 1600,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "ewsplatlogoanimation_melt\\ewsplatlogoanimation_melt_00004.png",
+    "ext": ".png",
+    "sizeBytes": 114843,
+    "width": 4000,
+    "height": 1600,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "ewsplatlogoanimation_melt\\ewsplatlogoanimation_melt_00005.png",
+    "ext": ".png",
+    "sizeBytes": 114618,
+    "width": 4000,
+    "height": 1600,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "ewsplatlogoanimation_melt\\ewsplatlogoanimation_melt_00006.png",
+    "ext": ".png",
+    "sizeBytes": 114604,
+    "width": 4000,
+    "height": 1600,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "ewsplatlogoanimation_melt\\ewsplatlogoanimation_melt_00007.png",
+    "ext": ".png",
+    "sizeBytes": 114773,
+    "width": 4000,
+    "height": 1600,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "ewsplatlogoanimation_melt\\ewsplatlogoanimation_melt_00008.png",
+    "ext": ".png",
+    "sizeBytes": 116065,
+    "width": 4000,
+    "height": 1600,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "ewsplatlogoanimation_melt\\ewsplatlogoanimation_melt_00009.png",
+    "ext": ".png",
+    "sizeBytes": 116400,
+    "width": 4000,
+    "height": 1600,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "ewsplatlogoanimation_melt\\ewsplatlogoanimation_melt_00010.png",
+    "ext": ".png",
+    "sizeBytes": 118893,
+    "width": 4000,
+    "height": 1600,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "ewsplatlogoanimation_melt\\ewsplatlogoanimation_melt_00011.png",
+    "ext": ".png",
+    "sizeBytes": 118065,
+    "width": 4000,
+    "height": 1600,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "ewsplatlogoanimation_melt\\ewsplatlogoanimation_melt_00012.png",
+    "ext": ".png",
+    "sizeBytes": 119039,
+    "width": 4000,
+    "height": 1600,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "ewsplatlogoanimation_melt\\ewsplatlogoanimation_melt_00013.png",
+    "ext": ".png",
+    "sizeBytes": 120468,
+    "width": 4000,
+    "height": 1600,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "ewsplatlogoanimation_melt\\ewsplatlogoanimation_melt_00014.png",
+    "ext": ".png",
+    "sizeBytes": 119319,
+    "width": 4000,
+    "height": 1600,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "ewsplatlogoanimation_melt\\ewsplatlogoanimation_melt_00015.png",
+    "ext": ".png",
+    "sizeBytes": 118259,
+    "width": 4000,
+    "height": 1600,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "ewsplatlogoanimation_melt\\ewsplatlogoanimation_melt_00016.png",
+    "ext": ".png",
+    "sizeBytes": 116724,
+    "width": 4000,
+    "height": 1600,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "ewsplatlogoanimation_melt\\ewsplatlogoanimation_melt_00017.png",
+    "ext": ".png",
+    "sizeBytes": 115280,
+    "width": 4000,
+    "height": 1600,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "ewsplatlogoanimation_melt\\ewsplatlogoanimation_melt_00018.png",
+    "ext": ".png",
+    "sizeBytes": 113679,
+    "width": 4000,
+    "height": 1600,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "ewsplatlogoanimation_melt\\ewsplatlogoanimation_melt_00019.png",
+    "ext": ".png",
+    "sizeBytes": 107739,
+    "width": 4000,
+    "height": 1600,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "ewsplatlogoanimation_melt\\ewsplatlogoanimation_melt_00020.png",
+    "ext": ".png",
+    "sizeBytes": 83505,
+    "width": 4000,
+    "height": 1600,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "ewsplatlogoanimation_melt\\ewsplatlogoanimation_melt_00021.png",
+    "ext": ".png",
+    "sizeBytes": 52110,
+    "width": 4000,
+    "height": 1600,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "ewsplatlogoanimation_melt\\ewsplatlogoanimation_melt_00022.png",
+    "ext": ".png",
+    "sizeBytes": 44830,
+    "width": 4000,
+    "height": 1600,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "ewsplatlogoanimation_melt\\ewsplatlogoanimation_melt_00023.png",
+    "ext": ".png",
+    "sizeBytes": 40505,
+    "width": 4000,
+    "height": 1600,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "ewsplatlogoanimation_melt\\ewsplatlogoanimation_melt_00024.png",
+    "ext": ".png",
+    "sizeBytes": 36035,
+    "width": 4000,
+    "height": 1600,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "ewsplatlogoanimation_melt\\ewsplatlogoanimation_melt_00025.png",
+    "ext": ".png",
+    "sizeBytes": 33778,
+    "width": 4000,
+    "height": 1600,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "ewsplatlogoanimation_melt\\ewsplatlogoanimation_melt_00026.png",
+    "ext": ".png",
+    "sizeBytes": 31747,
+    "width": 4000,
+    "height": 1600,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "ewsplatlogoanimation_melt\\ewsplatlogoanimation_melt_00027.png",
+    "ext": ".png",
+    "sizeBytes": 31155,
+    "width": 4000,
+    "height": 1600,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "ewsplatlogoanimation_melt\\ewsplatlogoanimation_melt_00028.png",
+    "ext": ".png",
+    "sizeBytes": 31155,
+    "width": 4000,
+    "height": 1600,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "ewsplatlogoanimation_melt\\ewsplatlogoanimation_melt_00029.png",
+    "ext": ".png",
+    "sizeBytes": 31155,
+    "width": 4000,
+    "height": 1600,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "ewsplatlogoanimation_melt\\ewsplatlogoanimation_melt_00030.png",
+    "ext": ".png",
+    "sizeBytes": 31155,
+    "width": 4000,
+    "height": 1600,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "ewsplatlogoanimation_melt\\ewsplatlogoanimation_melt_00031.png",
+    "ext": ".png",
+    "sizeBytes": 31155,
+    "width": 4000,
+    "height": 1600,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "ewsplatlogoanimation_melt\\ewsplatlogoanimation_melt_00032.png",
+    "ext": ".png",
+    "sizeBytes": 31155,
+    "width": 4000,
+    "height": 1600,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "ewsplatlogoanimation_melt\\ewsplatlogoanimation_melt_00033.png",
+    "ext": ".png",
+    "sizeBytes": 31155,
+    "width": 4000,
+    "height": 1600,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "ewsplatlogoanimation_melt\\ewsplatlogoanimation_melt_00034.png",
+    "ext": ".png",
+    "sizeBytes": 31764,
+    "width": 4000,
+    "height": 1600,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "ewsplatlogoanimation_melt\\ewsplatlogoanimation_melt_00035.png",
+    "ext": ".png",
+    "sizeBytes": 33818,
+    "width": 4000,
+    "height": 1600,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "ewsplatlogoanimation_melt\\ewsplatlogoanimation_melt_00036.png",
+    "ext": ".png",
+    "sizeBytes": 36016,
+    "width": 4000,
+    "height": 1600,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "ewsplatlogoanimation_melt\\ewsplatlogoanimation_melt_00037.png",
+    "ext": ".png",
+    "sizeBytes": 40449,
+    "width": 4000,
+    "height": 1600,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "ewsplatlogoanimation_melt\\ewsplatlogoanimation_melt_00038.png",
+    "ext": ".png",
+    "sizeBytes": 44965,
+    "width": 4000,
+    "height": 1600,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "ewsplatlogoanimation_melt\\ewsplatlogoanimation_melt_00039.png",
+    "ext": ".png",
+    "sizeBytes": 52330,
+    "width": 4000,
+    "height": 1600,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "ewsplatlogoanimation_melt\\ewsplatlogoanimation_melt_00040.png",
+    "ext": ".png",
+    "sizeBytes": 83203,
+    "width": 4000,
+    "height": 1600,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "ewsplatlogoanimation_melt\\ewsplatlogoanimation_melt_00041.png",
+    "ext": ".png",
+    "sizeBytes": 107739,
+    "width": 4000,
+    "height": 1600,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "ewsplatlogoanimation_melt\\ewsplatlogoanimation_melt_00042.png",
+    "ext": ".png",
+    "sizeBytes": 113589,
+    "width": 4000,
+    "height": 1600,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "ewsplatlogoanimation_melt\\ewsplatlogoanimation_melt_00043.png",
+    "ext": ".png",
+    "sizeBytes": 115373,
+    "width": 4000,
+    "height": 1600,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "ewsplatlogoanimation_melt\\ewsplatlogoanimation_melt_00044.png",
+    "ext": ".png",
+    "sizeBytes": 116937,
+    "width": 4000,
+    "height": 1600,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "ewsplatlogoanimation_melt\\ewsplatlogoanimation_melt_00045.png",
+    "ext": ".png",
+    "sizeBytes": 118503,
+    "width": 4000,
+    "height": 1600,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "ewsplatlogoanimation_melt\\ewsplatlogoanimation_melt_00046.png",
+    "ext": ".png",
+    "sizeBytes": 119009,
+    "width": 4000,
+    "height": 1600,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "ewsplatlogoanimation_melt\\ewsplatlogoanimation_melt_00047.png",
+    "ext": ".png",
+    "sizeBytes": 120692,
+    "width": 4000,
+    "height": 1600,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "ewsplatlogoanimation_melt\\ewsplatlogoanimation_melt_00048.png",
+    "ext": ".png",
+    "sizeBytes": 118243,
+    "width": 4000,
+    "height": 1600,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "ewsplatlogoanimation_melt\\ewsplatlogoanimation_melt_00049.png",
+    "ext": ".png",
+    "sizeBytes": 118439,
+    "width": 4000,
+    "height": 1600,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "ewsplatlogoanimation_melt\\ewsplatlogoanimation_melt_00050.png",
+    "ext": ".png",
+    "sizeBytes": 118683,
+    "width": 4000,
+    "height": 1600,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "ewsplatlogoanimation_melt\\ewsplatlogoanimation_melt_00051.png",
+    "ext": ".png",
+    "sizeBytes": 116121,
+    "width": 4000,
+    "height": 1600,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "ewsplatlogoanimation_melt\\ewsplatlogoanimation_melt_00052.png",
+    "ext": ".png",
+    "sizeBytes": 115960,
+    "width": 4000,
+    "height": 1600,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "ewsplatlogoanimation_melt\\ewsplatlogoanimation_melt_00053.png",
+    "ext": ".png",
+    "sizeBytes": 114352,
+    "width": 4000,
+    "height": 1600,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "ewsplatlogoanimation_melt\\ewsplatlogoanimation_melt_00054.png",
+    "ext": ".png",
+    "sizeBytes": 115228,
+    "width": 4000,
+    "height": 1600,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "ewsplatlogoanimation_melt\\ewsplatlogoanimation_melt_00055.png",
+    "ext": ".png",
+    "sizeBytes": 114682,
+    "width": 4000,
+    "height": 1600,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "ewsplatlogoanimation_melt\\ewsplatlogoanimation_melt_00056.png",
+    "ext": ".png",
+    "sizeBytes": 114587,
+    "width": 4000,
+    "height": 1600,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "ewsplatlogoanimation_melt\\ewsplatlogoanimation_melt_00057.png",
+    "ext": ".png",
+    "sizeBytes": 114573,
+    "width": 4000,
+    "height": 1600,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "ewsplatlogoanimation_melt\\ewsplatlogoanimation_melt_00058.png",
+    "ext": ".png",
+    "sizeBytes": 115196,
+    "width": 4000,
+    "height": 1600,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "ewsplatlogoanimation_melt\\ewsplatlogoanimation_melt_00059.png",
+    "ext": ".png",
+    "sizeBytes": 115340,
+    "width": 4000,
+    "height": 1600,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "GoodBandit_Agency\\Patreon_DigitalSpaghetti\\SocialmediaContent_Quiz_tile.jpg",
+    "ext": ".jpg",
+    "sizeBytes": 1295988,
+    "width": 1080,
+    "height": 1350,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "LesMills_Gym\\AnimatedType_forSocialMedia_PaidAd\\BODYPUMP_HYPEREEL_PORTRAIT.mp4",
+    "ext": ".mp4",
+    "sizeBytes": 18524258,
+    "width": 1080,
+    "height": 1350,
+    "duration": 15,
+    "mediaType": "video"
+  },
+  {
+    "relativePath": "LesMills_Gym\\AnimatedType_forSocialMedia_PaidAd\\COMBO_HYPEREEL_16-9.mp4",
+    "ext": ".mp4",
+    "sizeBytes": 38160305,
+    "width": 1920,
+    "height": 1080,
+    "duration": 30,
+    "mediaType": "video"
+  },
+  {
+    "relativePath": "LesMills_Gym\\AnimatedType_forSocialMedia_PaidAd\\GRIT_HYPE_REEL_PORTRAIT.mp4",
+    "ext": ".mp4",
+    "sizeBytes": 18337073,
+    "width": 1080,
+    "height": 1350,
+    "duration": 15,
+    "mediaType": "video"
+  },
+  {
+    "relativePath": "LesMills_Gym\\AnimatedType_forSocialMedia_PaidAd\\TRAINER_6SEC_PORTRAIT.mp4",
+    "ext": ".mp4",
+    "sizeBytes": 10233117,
+    "width": 1080,
+    "height": 1350,
+    "duration": 10,
+    "mediaType": "video"
+  },
+  {
+    "relativePath": "PersonalWorks\\2d_Animation\\MophingCharacters_andSoundDesignexploration.mp4",
+    "ext": ".mp4",
+    "sizeBytes": 309631,
+    "width": 606,
+    "height": 1076,
+    "duration": 3,
+    "mediaType": "video"
+  },
+  {
+    "relativePath": "PersonalWorks\\Illustration\\ewsplat_character-exploration.jpg",
+    "ext": ".jpg",
+    "sizeBytes": 355101,
+    "width": 1080,
+    "height": 1350,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "PersonalWorks\\Illustration\\Upscaled-Tiger.png",
+    "ext": ".png",
+    "sizeBytes": 26873573,
+    "width": 19200,
+    "height": 4800,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "PersonalWorks\\Illustration_Design\\LikeWhatYouLike.jpg",
+    "ext": ".jpg",
+    "sizeBytes": 230716,
+    "width": 1348,
+    "height": 1682,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "PlayItStrange_NonProfit\\AnimatedLogoAndCharacter_PlayitStrangeNZ.mp4",
+    "ext": ".mp4",
+    "sizeBytes": 6331461,
+    "width": 1222,
+    "height": 1222,
+    "duration": 5.2,
+    "mediaType": "video"
+  },
+  {
+    "relativePath": "Spinoff_NZ\\Illustrationsfor_Spinoff_WebArticles_onMusicans\\Baynk.jpg",
+    "ext": ".jpg",
+    "sizeBytes": 127661,
+    "width": 1440,
+    "height": 1440,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "Spinoff_NZ\\Illustrationsfor_Spinoff_WebArticles_onMusicans\\JessB.jpg",
+    "ext": ".jpg",
+    "sizeBytes": 90664,
+    "width": 1080,
+    "height": 1080,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "Spinoff_NZ\\Illustrationsfor_Spinoff_WebArticles_onMusicans\\Lontalius.jpg",
+    "ext": ".jpg",
+    "sizeBytes": 94823,
+    "width": 1440,
+    "height": 1440,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "Spinoff_NZ\\Illustrationsfor_Spinoff_WebArticles_onMusicans\\Montell2099.jpg",
+    "ext": ".jpg",
+    "sizeBytes": 82376,
+    "width": 1000,
+    "height": 1000,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "Spinoff_NZ\\Illustrationsfor_Spinoff_WebArticles_onMusicans\\Paige.jpg",
+    "ext": ".jpg",
+    "sizeBytes": 193937,
+    "width": 1440,
+    "height": 1440,
+    "duration": null,
+    "mediaType": "image"
+  },
+  {
+    "relativePath": "Spinoff_NZ\\Illustrationsfor_Spinoff_WebArticles_onMusicans\\Sachi.jpg",
+    "ext": ".jpg",
+    "sizeBytes": 119005,
+    "width": 1440,
+    "height": 1440,
+    "duration": null,
+    "mediaType": "image"
+  }
+]

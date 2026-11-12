@@ -2,13 +2,24 @@
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import { withBase } from '../utils/site';
+import { getCollection } from 'astro:content';
 import '../styles/global.css';
 
 export interface Props {
   title?: string;
   description?: string;
+  type?: 'website' | 'article';
+  socialImage?: string;
 }
-const { title = 'EWSPLAT', description = 'Independent creative practice — illustration, animation, graphic design and visual experiments.' } = Astro.props;
+
+const { title = 'EWSPLAT', description = 'Independent creative practice - illustration, animation, graphic design and visual experiments.', type = 'website', socialImage } = Astro.props;
+const projectSlug = Astro.url.pathname.match(/^\/projects\/([^/]+)/)?.[1];
+const project = projectSlug ? (await getCollection('projects')).find((item) => (item.data.slug ?? item.id) === projectSlug) : undefined;
+const resolvedSocialImage = socialImage ?? project?.data.thumbnail?.src ?? project?.data.hero?.src;
+const siteOrigin = Astro.site?.toString().replace(/\/$/, '');
+const canonicalUrl = siteOrigin ? new URL(Astro.url.pathname, `${siteOrigin}/`).toString() : undefined;
+const absoluteSocialImage = resolvedSocialImage ? (/^(?:https?:)?\/\//i.test(resolvedSocialImage) ? resolvedSocialImage : siteOrigin ? new URL(withBase(resolvedSocialImage), `${siteOrigin}/`).toString() : undefined) : undefined;
+const jsonLd = { '@context': 'https://schema.org', '@type': type === 'article' ? 'CreativeWork' : 'WebPage', name: title, description, ...(canonicalUrl ? { url: canonicalUrl } : {}), ...(absoluteSocialImage ? { image: absoluteSocialImage } : {}), creator: { '@type': 'Person', name: 'Nic Little' } };
 ---
 <!doctype html>
 <html lang="en">
@@ -20,28 +31,23 @@ const { title = 'EWSPLAT', description = 'Independent creative practice — illu
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <!-- Prevent flash of wrong theme -->
-    <script is:inline>
-      (function () {
-        try {
-          var theme = new URLSearchParams(window.location.search).get('theme');
-          if (theme !== 'light' && theme !== 'dark') {
-            theme = localStorage.getItem('ewsplat-theme');
-          }
-          if (theme === 'light') document.documentElement.dataset.theme = 'light';
-          if (theme === 'dark') document.documentElement.dataset.theme = 'dark';
-        } catch (error) {
-          console.warn('Theme preference could not be loaded.', error);
-        }
-      })();
-    </script>
+    {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
+    <meta property="og:site_name" content="EWSPLAT" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content={type} />
+    {canonicalUrl && <meta property="og:url" content={canonicalUrl} />}
+    {absoluteSocialImage && <meta property="og:image" content={absoluteSocialImage} />}
+    <meta name="twitter:card" content={absoluteSocialImage ? 'summary_large_image' : 'summary'} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    {absoluteSocialImage && <meta name="twitter:image" content={absoluteSocialImage} />}
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </head>
   <body>
     <a class="skip-link" href="#main-content">Skip to content</a>
     <Nav />
-    <main id="main-content">
-      <slot />
-    </main>
+    <main id="main-content"><slot /></main>
     <Footer />
     <script>
       import '../scripts/interactions';

@@ -1,13 +1,16 @@
 {
   "slug": "plans-after-pubcrawl-london",
   "title": "Plans After — Pubcrawl London",
+  "discipline": "campaigns-events",
+  "projectType": "client",
   "composition": "graphic-sequence",
   "presentation": "campaign",
   "client": "Plans After",
   "collection": "Plans After",
   "workType": "client",
-  "archiveOrder": 22,
-  "description": "A distinct Plans After event campaign, developed through EWSPLAT’s ongoing work with Nexgen Touring across visual direction, design, illustration and animation.",
+  "archiveOrder": 23,
+  "year": 2023,
+  "description": "Campaign artwork for Plans After's Pubcrawl London event.",
   "roles": [
     "Creative direction",
     "Design",
@@ -17,12 +20,14 @@
   "thumbnail": {
     "type": "image",
     "src": "/images/portfolio/web/PlansAfter/Pubcrawl-London/Poster.webp",
-    "alt": "Plans After Pubcrawl London poster"
+    "alt": "Plans After Pubcrawl London poster",
+    "aspect": "4/3"
   },
   "hero": {
     "type": "image",
     "src": "/images/portfolio/web/PlansAfter/Pubcrawl-London/Poster.webp",
-    "alt": "Plans After Pubcrawl London poster"
+    "alt": "Plans After Pubcrawl London poster",
+    "aspect": "4/3"
   },
   "gallery": [
     {
@@ -30,5 +35,9 @@
       "src": "/images/portfolio/web/PlansAfter/Pubcrawl-London/Banner.webp",
       "alt": "Plans After Pubcrawl London banner"
     }
-  ]
+  ],
+  "compositionPreferences": {
+    "layoutHint": "paired",
+    "heroAspect": "4/3"
+  }
 }

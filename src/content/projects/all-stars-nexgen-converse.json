@@ -1,12 +1,17 @@
 {
   "slug": "all-stars-nexgen-converse",
   "title": "All Stars — Nexgen x Converse",
+  "discipline": "animation-motion",
+  "projectType": "client",
   "composition": "motion",
   "presentation": "campaign",
   "collection": "Nexgen Touring",
   "workType": "client",
-  "archiveOrder": 4,
-  "description": "A single campaign spanning design, 3D characters and animation. EWSPLAT created all creative output for the campaign.",
+  "archiveOrder": 3,
+  "homepageFeatured": true,
+  "homepageOrder": 3,
+  "year": 2022,
+  "description": "A single campaign spanning design, 3D characters, animation and Club 121 collaborative merchandise. EWSPLAT created all creative output for the campaign.",
   "roles": [
     "Design",
     "3D character work",
@@ -14,30 +19,64 @@
   ],
   "thumbnail": {
     "type": "image",
-    "src": "/images/portfolio/web/AllStars/Poster-static.webp",
-    "alt": "All Stars campaign poster"
+    "src": "/media/MusicFestivals-Gigs-Events/NexgenTouring/AllStars-Nexgen-x-Converse/Poster-static.jpg",
+    "alt": "All Stars campaign poster showing all characters",
+    "aspect": "1/1"
   },
   "hero": {
-    "type": "video",
-    "src": "/media/portfolio/web/all-stars-eden.mp4",
-    "poster": "/images/portfolio/web/posters/all-stars-eden.webp",
-    "aspect": "1/1",
-    "alt": "Animated artist tile from the All Stars campaign"
+    "type": "image",
+    "src": "/media/MusicFestivals-Gigs-Events/NexgenTouring/AllStars-Nexgen-x-Converse/Banner.jpg",
+    "aspect": "16/9",
+    "alt": "All Stars campaign banner"
   },
   "gallery": [
     {
-      "type": "video",
-      "src": "/media/portfolio/web/all-stars-simple-animation.mp4",
-      "poster": "/images/portfolio/web/posters/all-stars-simple-animation.webp",
-      "aspect": "9/16",
-      "alt": "Vertical campaign animation"
+      "type": "image",
+      "src": "/media/MusicFestivals-Gigs-Events/NexgenTouring/AllStars-Nexgen-x-Converse/Poster-static.jpg",
+      "aspect": "1/1",
+      "alt": "All Stars campaign poster"
     },
     {
-      "type": "image",
-      "src": "/images/portfolio/web/AllStars/Banner.webp",
-      "alt": "All Stars campaign banner"
+      "type": "video",
+      "src": "/media/MusicFestivals-Gigs-Events/NexgenTouring/AllStars-Nexgen-x-Converse/Nauti-ArtistTile.mp4",
+      "aspect": "9/16",
+      "alt": "Nauti artist tile animation"
+    },
+    {
+      "type": "video",
+      "src": "/media/MusicFestivals-Gigs-Events/NexgenTouring/AllStars-Nexgen-x-Converse/Eden-ArtistTile.mp4",
+      "aspect": "9/16",
+      "alt": "Eden artist tile animation"
+    },
+    {
+      "type": "video",
+      "src": "/media/MusicFestivals-Gigs-Events/NexgenTouring/AllStars-Nexgen-x-Converse/Witters-ArtistTile.mp4",
+      "aspect": "9/16",
+      "alt": "Witters artist tile animation"
+    },
+    {
+      "type": "video",
+      "src": "/media/MusicFestivals-Gigs-Events/NexgenTouring/AllStars-Nexgen-x-Converse/CassieHenderson-ArtistTile.mp4",
+      "aspect": "9/16",
+      "alt": "Cassie Henderson artist tile animation"
+    },
+    {
+      "type": "video",
+      "src": "/media/MusicFestivals-Gigs-Events/NexgenTouring/AllStars-Nexgen-x-Converse/Harrison-ArtistTile.mp4",
+      "aspect": "9/16",
+      "alt": "Harrison artist tile animation"
+    },
+    {
+      "type": "video",
+      "src": "/media/MusicFestivals-Gigs-Events/NexgenTouring/AllStars-Nexgen-x-Converse/Simple-Animation.mp4",
+      "aspect": "16/9",
+      "alt": "All Stars simple animation"
     }
   ],
   "featured": true,
-  "featuredOrder": 4
+  "featuredOrder": 4,
+  "compositionPreferences": {
+    "layoutHero": "hero-gallery",
+    "heroAspect": "16/9"
+  }
 }

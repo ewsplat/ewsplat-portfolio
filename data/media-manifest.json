@@ -1,0 +1,7 @@
+{
+  "version": "1.0.0",
+  "schema": "portable media manifest for EwSPLAT portfolio media processing",
+  "description": "Records Drive source metadata and processing history. Each entry keyed by Google Drive file ID. Never stores OAuth credentials or access tokens. Machine-specific temp paths and partial state excluded.",
+  "createdAt": "2026-11-10T00:25:00Z",
+  "assets": {}
+}

@@ -1,19 +1,48 @@
 {
   "slug": "digital-spagetti",
   "title": "Digital Spagetti",
+  "discipline": "graphic-design",
+  "projectType": "client",
   "composition": "graphic-sequence",
+  "presentation": "editorial",
   "collection": "Digital Spagetti",
-  "workType": "uncertain",
-  "archiveOrder": 3,
+  "workType": "client",
+  "archiveOrder": 6,
+  "homepageFeatured": false,
+  "year": 2020,
+  "description": "Graphic design, social media visual assets and layout for Digital Spaghetti quiz content. Creative direction supplied by GoodBandit.",
+  "roles": [
+    "Graphic design",
+    "Layout",
+    "Visual styling"
+  ],
+  "credits": [
+    {
+      "role": "Graphic Design & Visual Styling",
+      "name": "EWSPLAT"
+    },
+    {
+      "role": "Creative Direction",
+      "name": "GoodBandit"
+    }
+  ],
+  "links": [
+    {
+      "label": "Patreon",
+      "url": "https://www.patreon.com/cw/digitalspagetti"
+    }
+  ],
   "thumbnail": {
     "type": "image",
     "src": "/images/portfolio/web/DigitalSpagetti/1-x2.webp",
-    "alt": "First image in the Digital Spagetti sequence"
+    "alt": "First image in the Digital Spagetti sequence",
+    "aspect": "4/3"
   },
   "hero": {
     "type": "image",
     "src": "/images/portfolio/web/DigitalSpagetti/1-x2.webp",
-    "alt": "First image in the Digital Spagetti sequence"
+    "alt": "First image in the Digital Spagetti sequence",
+    "aspect": "4/3"
   },
   "sections": [
     {
@@ -47,6 +76,17 @@
       "alignment": "right"
     }
   ],
-  "featured": true,
-  "featuredOrder": 3
+  "gallery": [
+    {
+      "type": "image",
+      "src": "/images/portfolio/DigitalSpagetti/quiz-tile.jpg",
+      "alt": "Digital Spaghetti social media quiz tile"
+    }
+  ],
+  "featured": false,
+  "featuredOrder": 3,
+  "compositionPreferences": {
+    "layoutHint": "editorial",
+    "heroAspect": "4/3"
+  }
 }

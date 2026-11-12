@@ -1,19 +1,25 @@
 {
   "slug": "how-we-can-be-bella-claxton",
   "title": "How We Can Be — Bella Claxton Animation",
+  "discipline": "animation-motion",
+  "projectType": "client",
   "composition": "motion",
+  "presentation": "sequence",
   "client": "How We Can Be",
   "collection": "How We Can Be",
   "workType": "client",
-  "archiveOrder": 60,
+  "archiveOrder": 46,
+  "year": 2023,
   "description": "An animation featuring Bella Claxton, commissioned through How We Can Be.",
   "roles": [
     "Animation"
   ],
   "thumbnail": {
-    "type": "image",
-    "src": "/images/portfolio/web/posters/bella-claxton.webp",
-    "alt": "Still from the Bella Claxton animation"
+    "type": "video",
+    "src": "/media/portfolio/web/how-we-can-be-bella-claxton.mp4",
+    "poster": "/images/portfolio/web/posters/bella-claxton.webp",
+    "alt": "Still from the Bella Claxton animation",
+    "aspect": "1/1"
   },
   "hero": {
     "type": "video",
@@ -21,5 +27,9 @@
     "poster": "/images/portfolio/web/posters/bella-claxton.webp",
     "aspect": "1/1",
     "alt": "Bella Claxton animation"
+  },
+  "compositionPreferences": {
+    "layoutHint": "hero-gallery",
+    "heroAspect": "1/1"
   }
 }

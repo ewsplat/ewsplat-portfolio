@@ -1,10 +1,14 @@
 {
+  "slug": "placeholder-04",
   "title": "Placeholder Project 04",
+  "discipline": "animation-motion",
+  "projectType": "experiment",
   "workType": "uncertain",
   "placeholder": true,
+  "draft": true,
+  "archiveOrder": 999,
   "thumbnail": { "type": "placeholder", "aspect": "9/16", "color": "#3f5c58", "alt": "Placeholder thumbnail" },
   "hero": { "type": "placeholder", "aspect": "9/16", "color": "#3f5c58", "alt": "Placeholder hero" },
   "gallery": [],
-  "featured": false,
-  "draft": true
+  "featured": false
 }

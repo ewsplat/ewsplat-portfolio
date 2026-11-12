@@ -1,9 +1,11 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import MediaBlock from '../../components/MediaBlock.astro';
+import VideoPreview from '../../components/VideoPreview.astro';
 import ProjectNavigation from '../../components/ProjectNavigation.astro';
 import { withBase } from '../../utils/site';
 import { getCollection } from 'astro:content';
+import { youtubeVideoId } from '../../utils/youtube';
 
 export async function getStaticPaths() {
   const compareProjects = (a, b) =>
@@ -71,6 +73,24 @@ export async function getStaticPaths() {
 
 const { project, projectIndex, previous, next, related = [] } = Astro.props;
 const { data } = project;
+// Media records own their video IDs. Keep external watch links without embedding
+// the same video a second time below the credits.
+const embeddedVideoIds = new Set([
+  data.hero,
+  ...data.gallery,
+  ...data.sections.filter((section) => section.type === 'media').map((section) => section.media),
+].filter((item) => item?.type === 'youtube').map((item) => item.videoId));
+const secondaryYouTube = [];
+const regularLinks = [];
+for (const link of data.links) {
+  const videoId = youtubeVideoId(link.url);
+  if (videoId && !embeddedVideoIds.has(videoId)) {
+    secondaryYouTube.push({ ...link, videoId });
+    embeddedVideoIds.add(videoId);
+  } else {
+    regularLinks.push(link);
+  }
+}
 const presentation = data.presentation ?? {
   standard: 'editorial',
   'single-artwork': 'artwork',
@@ -112,6 +132,7 @@ const projectLink = (item: (typeof previous) & object) => ({
         <MediaBlock
           type={data.hero.type}
           src={data.hero.src}
+          videoId={data.hero.videoId}
           aspect={data.hero.aspect}
           color={data.hero.color}
           alt={data.hero.alt || data.title}
@@ -124,7 +145,7 @@ const projectLink = (item: (typeof previous) & object) => ({
 
     <header class="project-header">
       <div class="project-kicker">
-        <span>{data.placeholder ? 'Placeholder / visual study' : 'Selected project'}</span>
+        <span>{data.placeholder ? 'Placeholder / visual study' : 'Project'}</span>
         {!data.compositionTest && <span aria-hidden="true">{String(projectIndex).padStart(2, '0')}</span>}
       </div>
       <h1 class="project-title">{data.title}</h1>
@@ -139,8 +160,8 @@ const projectLink = (item: (typeof previous) & object) => ({
               <dt>Contribution</dt>
               <dd>
                 <ul class="contribution-list">
-                  {data.roles.map((role, index) => (
-                    <li><span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>{role}</li>
+                  {data.roles.map((role) => (
+                    <li>{role}</li>
                   ))}
                 </ul>
               </dd>
@@ -149,6 +170,7 @@ const projectLink = (item: (typeof previous) & object) => ({
         </dl>
       )}
     </header>
+
   </div>
 
   <div class="container project-content">
@@ -162,10 +184,10 @@ const projectLink = (item: (typeof previous) & object) => ({
         <div class:list={['gallery-grid', `gallery-${presentation}`]}>
           {data.gallery.map((item, i) => (
             <figure class:list={['gallery-item', `gallery-item-${galleryLayout(item.aspect)}`]}>
-              <span class="gallery-index" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
               <MediaBlock
                 type={item.type}
                 src={item.src}
+                videoId={item.videoId}
                 aspect={item.aspect}
                 color={item.color}
                 alt={item.alt || `${data.title} — image ${i + 1}`}
@@ -192,6 +214,7 @@ const projectLink = (item: (typeof previous) & object) => ({
               <MediaBlock
                 type={section.media.type}
                 src={section.media.src}
+                videoId={section.media.videoId}
                 aspect={section.media.aspect}
                 color={section.media.color}
                 alt={section.media.alt || data.title}
@@ -221,20 +244,38 @@ const projectLink = (item: (typeof previous) & object) => ({
       </section>
     )}
 
-    <!-- Links -->
+    <!-- Links and YouTube Embeds -->
     {data.links.length > 0 && (
-      <section class="project-links" aria-label="External links">
-        <hr class="section-rule" />
-        <ul class="links-list">
-          {data.links.map((link) => (
-            <li>
-              <a href={withBase(link.url)} target="_blank" rel="noopener noreferrer" class="external-link">
-                {link.label} ↗
-              </a>
-            </li>
-          ))}
-        </ul>
-      </section>
+        (secondaryYouTube.length > 0 || regularLinks.length > 0) && (
+          <section class="project-links" aria-label="External links and media">
+            <hr class="section-rule" />
+            <div class="project-links-content">
+              {secondaryYouTube.length > 0 && (
+                <div class="youtube-embeds">
+                  {secondaryYouTube.map((link) => (
+                      <VideoPreview
+                        videoId={link.videoId}
+                        poster={data.poster}
+                        title={link.label}
+                        label={link.label}
+                      />
+                  ))}
+                </div>
+              )}
+              {regularLinks.length > 0 && (
+                <ul class="links-list">
+                  {regularLinks.map((link) => (
+                    <li>
+                      <a href={withBase(link.url)} target="_blank" rel="noopener noreferrer" class="external-link">
+                        {link.label} ↗
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </section>
+        )
     )}
 
     <ProjectNavigation
@@ -597,26 +638,12 @@ const projectLink = (item: (typeof previous) & object) => ({
     margin: 0;
   }
 
-  .gallery-index {
-    display: inline-block;
-    color: var(--color-accent);
-    font-family: var(--font-mono);
-    font-size: 0.625rem;
-    letter-spacing: 0.08em;
-    transition: transform 180ms ease, color 180ms ease;
-  }
-
   .gallery-item :global(.media-block),
   .media-section :global(.media-block) {
     transition: transform 280ms cubic-bezier(0.2, 0.65, 0.3, 1);
   }
 
   @media (hover: hover) {
-    .gallery-item:hover .gallery-index {
-      color: var(--color-text);
-      transform: translateX(0.2rem);
-    }
-
     .gallery-item:hover :global(.media-block),
     .media-section:hover :global(.media-block) {
       transform: translateY(-0.25rem);
@@ -624,7 +651,6 @@ const projectLink = (item: (typeof previous) & object) => ({
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .gallery-item:hover .gallery-index,
     .gallery-item:hover :global(.media-block),
     .media-section:hover :global(.media-block) {
       transform: none;
@@ -771,6 +797,41 @@ const projectLink = (item: (typeof previous) & object) => ({
 
   .external-link:hover {
     text-decoration: underline;
+  }
+
+  .youtube-embeds {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .youtube-embed-figure {
+    margin: 0;
+  }
+
+  .youtube-embed-frame {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+  }
+
+  .youtube-embed-frame iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    background: #000;
+  }
+
+  .youtube-embed-caption {
+    margin-top: 0.75rem;
+    padding-top: 0.65rem;
+    border-top: 1px solid var(--color-border);
   }
 
   @media (max-width: 639px) {

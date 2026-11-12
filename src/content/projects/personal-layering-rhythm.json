@@ -1,0 +1,40 @@
+{
+  "slug": "personal-layering-rhythm",
+  "title": "Layering, Rhythm and Visual Clutter",
+  "discipline": "graphic-design",
+  "projectType": "experiment",
+  "composition": "single-artwork",
+  "presentation": "artwork",
+  "client": "Personal work",
+  "collection": "Personal works",
+  "workType": "personal",
+  "archiveOrder": 57,
+  "year": 2023,
+  "description": "Pattern study in layering, rhythm and visual density.",
+  "roles": [
+    "Illustration"
+  ],
+  "thumbnail": {
+    "type": "image",
+    "src": "/images/portfolio/PersonalWorks/layering-rhythm-visual-clutter.jpg",
+    "alt": "Layering, rhythm and visual clutter pattern study",
+    "aspect": "1/1"
+  },
+  "hero": {
+    "type": "image",
+    "src": "/images/portfolio/PersonalWorks/layering-rhythm-visual-clutter.jpg",
+    "alt": "Layering, rhythm and visual clutter pattern study",
+    "aspect": "1/1"
+  },
+  "gallery": [
+    {
+      "type": "image",
+      "src": "/images/portfolio/PersonalWorks/layering-rhythm-visual-clutter.jpg",
+      "alt": "Layering, rhythm and visual clutter pattern study"
+    }
+  ],
+  "compositionPreferences": {
+    "layoutHint": "single",
+    "heroAspect": "1/1"
+  }
+}

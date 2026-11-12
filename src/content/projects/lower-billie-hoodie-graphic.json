@@ -1,22 +1,33 @@
 {
   "slug": "lower-billie-hoodie-graphic",
   "title": "Lower — Billie Hood Graphic",
+  "discipline": "illustration",
+  "projectType": "client",
   "composition": "graphic-sequence",
+  "presentation": "artwork",
   "client": "Lower",
   "collection": "Lower",
   "workType": "client",
-  "archiveOrder": 42,
+  "archiveOrder": 33,
+  "homepageFeatured": true,
+  "homepageOrder": 6,
+  "year": 2024,
   "description": "Character illustration and apparel design for Lower.",
-  "roles": ["Illustration", "Apparel design"],
+  "roles": [
+    "Illustration",
+    "Apparel design"
+  ],
   "thumbnail": {
     "type": "image",
     "src": "/images/portfolio/Lower/BillieHoodieGraphic-DogIllustration.jpeg",
-    "alt": "Dog illustration for the Lower Billie hood graphic"
+    "alt": "Dog illustration for the Lower Billie hood graphic",
+    "aspect": "3/4"
   },
   "hero": {
     "type": "image",
     "src": "/images/portfolio/Lower/BillieHoodieGraphic-DogIllustration.jpeg",
-    "alt": "Dog illustration for the Lower Billie hood graphic"
+    "alt": "Dog illustration for the Lower Billie hood graphic",
+    "aspect": "3/4"
   },
   "gallery": [
     {
@@ -24,5 +35,11 @@
       "src": "/images/portfolio/Lower/BILLIE_HOOD_EWSPLAT_BLACK_2.jpeg",
       "alt": "Lower Billie hood graphic on a black garment"
     }
-  ]
+  ],
+  "featured": true,
+  "featuredOrder": 3,
+  "compositionPreferences": {
+    "layoutHint": "single",
+    "heroAspect": "3/4"
+  }
 }

@@ -1,0 +1,60 @@
+{
+  "slug": "commercial-bay-happy-plants",
+  "title": "Commercial Bay — Happy Plants Activation",
+  "discipline": "illustration",
+  "projectType": "client",
+  "composition": "graphic-sequence",
+  "presentation": "campaign",
+  "client": "Commercial Bay",
+  "collection": "Commercial Bay",
+  "workType": "client",
+  "archiveOrder": 27,
+  "homepageFeatured": false,
+  "year": 2023,
+  "description": "Visual identity, website banner illustration and social video animation loops for Commercial Bay's Happy Plants activation in central Auckland.",
+  "roles": [
+    "Character design",
+    "Illustration",
+    "Animation"
+  ],
+  "thumbnail": {
+    "type": "image",
+    "src": "/images/portfolio/CommercialBay/HappyPlants/happy-plants-banner.png",
+    "alt": "Happy Plants website banner illustration",
+    "aspect": "16/9"
+  },
+  "hero": {
+    "type": "video",
+    "src": "/media/portfolio/commercial-bay/happy-plants-02.mp4",
+    "poster": "/images/portfolio/CommercialBay/HappyPlants/happy-plants-banner.png",
+    "alt": "Happy Plants animated character loop",
+    "aspect": "16/9"
+  },
+  "gallery": [
+    {
+      "type": "image",
+      "src": "/images/portfolio/CommercialBay/HappyPlants/happy-plants-banner.png",
+      "alt": "Happy Plants website banner illustration"
+    },
+    {
+      "type": "image",
+      "src": "/images/portfolio/CommercialBay/HappyPlants/happy-plants-01.webp",
+      "alt": "Happy Plants promotional graphic"
+    },
+    {
+      "type": "video",
+      "src": "/media/portfolio/commercial-bay/happy-plants-03.mp4",
+      "poster": "/images/portfolio/CommercialBay/HappyPlants/happy-plants-01.webp",
+      "alt": "Happy Plants secondary animation clip"
+    },
+    {
+      "type": "image",
+      "src": "/images/portfolio/CommercialBay/HappyPlants/happy-plants-04.webp",
+      "alt": "Happy Plants event signage graphic"
+    }
+  ],
+  "compositionPreferences": {
+    "layoutHint": "editorial",
+    "heroAspect": "16/9"
+  }
+}

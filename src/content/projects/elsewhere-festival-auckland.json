@@ -1,0 +1,47 @@
+{
+  "slug": "elsewhere-festival-auckland",
+  "title": "Elsewhere Festival — Visual Identity & 3D Motion",
+  "discipline": "animation-motion",
+  "projectType": "client",
+  "composition": "motion",
+  "presentation": "campaign",
+  "client": "Elsewhere Festival",
+  "collection": "Elsewhere Festival",
+  "workType": "client",
+  "archiveOrder": 16,
+  "homepageFeatured": true,
+  "homepageOrder": 5,
+  "year": 2022,
+  "description": "3D animated graphics, website visual loops and event promotional artwork for Elsewhere electronic music festival in Auckland.",
+  "roles": [
+    "3D animation",
+    "Motion design",
+    "Event promotion"
+  ],
+  "thumbnail": {
+    "type": "video",
+    "src": "/media/portfolio/elsewhere-festival-3d.mp4",
+    "poster": "/images/portfolio/Elsewhere/elsewhere-festival-promo.jpg",
+    "alt": "Elsewhere Festival 3D website animation loop",
+    "aspect": "16/9"
+  },
+  "hero": {
+    "type": "video",
+    "src": "/media/portfolio/elsewhere-festival-3d.mp4",
+    "poster": "/images/portfolio/Elsewhere/elsewhere-festival-promo.jpg",
+    "alt": "Elsewhere Festival 3D website animation loop",
+    "aspect": "16/9"
+  },
+  "gallery": [
+    {
+      "type": "image",
+      "src": "/images/portfolio/Elsewhere/elsewhere-festival-promo.jpg",
+      "alt": "Elsewhere Festival promotional artwork"
+    }
+  ],
+  "featured": false,
+  "compositionPreferences": {
+    "layoutHint": "hero-gallery",
+    "heroAspect": "16/9"
+  }
+}

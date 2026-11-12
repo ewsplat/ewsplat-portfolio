@@ -1,15 +1,19 @@
 {
   "slug": "digital-farming-fence",
   "title": "Digital Farming Fence",
+  "discipline": "animation-motion",
+  "projectType": "client",
   "composition": "motion",
   "presentation": "execution",
   "year": 2025,
   "client": "Studio 024",
   "collection": "Studio 024",
   "workType": "client",
-  "archiveOrder": 31,
+  "archiveOrder": 30,
   "description": "March 2025 commission through Zac Suvalko at Studio 024 for an undisclosed end client. Studio 024 supplied the isometric illustration; EWSPLAT developed the hybrid 2D/3D Blender animation, including the cows, paddock movement, virtual fence and grazing effects, satellite and signal elements, information graphics and feedback refinements.",
-  "roles": ["Hybrid 2D/3D animation"],
+  "roles": [
+    "Hybrid 2D/3D animation"
+  ],
   "credits": [
     {
       "role": "Commissioned via",
@@ -21,9 +25,11 @@
     }
   ],
   "thumbnail": {
-    "type": "image",
-    "src": "/images/portfolio/posters/digital-farming-fence.jpg",
-    "alt": "Still from the Digital Farming Fence animation"
+    "type": "video",
+    "src": "/media/portfolio/digital-farming-fence.mp4",
+    "poster": "/images/portfolio/posters/digital-farming-fence.jpg",
+    "alt": "Still from the Digital Farming Fence animation",
+    "aspect": "1679/944"
   },
   "hero": {
     "type": "video",
@@ -31,5 +37,9 @@
     "poster": "/images/portfolio/posters/digital-farming-fence.jpg",
     "aspect": "1679/944",
     "alt": "Hybrid 2D and 3D Digital Farming Fence animation"
+  },
+  "compositionPreferences": {
+    "layoutHint": "hero-gallery",
+    "heroAspect": "1679/944"
   }
 }

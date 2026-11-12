@@ -1,12 +1,15 @@
 {
   "slug": "composition-motion",
   "title": "Motion project composition test",
+  "discipline": "animation-motion",
+  "projectType": "experiment",
   "description": "Placeholder only — a restrained opener for a landscape moving-image project.",
   "composition": "motion",
   "compositionTest": true,
   "workType": "uncertain",
   "placeholder": true,
   "draft": true,
+  "archiveOrder": 999,
   "roles": ["Animation — placeholder metadata"],
   "hero": {
     "type": "video",

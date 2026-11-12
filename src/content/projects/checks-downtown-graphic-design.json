@@ -1,0 +1,53 @@
+{
+  "slug": "checks-downtown-graphic-design",
+  "title": "Checks Downtown — Garment Graphics",
+  "discipline": "graphic-design",
+  "projectType": "client",
+  "composition": "standard",
+  "presentation": "artwork",
+  "client": "Checks Downtown",
+  "collection": "Checks Downtown",
+  "workType": "client",
+  "archiveOrder": 13,
+  "homepageFeatured": false,
+  "year": 2022,
+  "description": "Character illustrations, cartoon logos and graphics designed for Checks Downtown apparel releases, combining streetwear typography with playful alternative cartooning.",
+  "roles": [
+    "Graphic design",
+    "Illustration",
+    "Apparel design"
+  ],
+  "thumbnail": {
+    "type": "image",
+    "src": "/images/portfolio/ChecksDowntown/checks-cartoon-logotee.jpg",
+    "alt": "Checks Downtown cartoon logo tee product photo",
+    "aspect": "3/4"
+  },
+  "hero": {
+    "type": "image",
+    "src": "/images/portfolio/ChecksDowntown/checks-cartoon-artwork.jpg",
+    "alt": "Checks Downtown cartoon logo vector artwork",
+    "aspect": "3/4"
+  },
+  "gallery": [
+    {
+      "type": "image",
+      "src": "/images/portfolio/ChecksDowntown/checks-dogcat-artwork.jpg",
+      "alt": "Checks Downtown Dog and Cat character artwork"
+    },
+    {
+      "type": "image",
+      "src": "/images/portfolio/ChecksDowntown/checks-dogcat-product.jpg",
+      "alt": "Checks Downtown Dog and Cat garment product photo"
+    },
+    {
+      "type": "image",
+      "src": "/images/portfolio/ChecksDowntown/checks-cartoon-logotee.jpg",
+      "alt": "Checks Downtown cartoon logo tee"
+    }
+  ],
+  "compositionPreferences": {
+    "layoutHint": "gallery",
+    "heroAspect": "3/4"
+  }
+}
