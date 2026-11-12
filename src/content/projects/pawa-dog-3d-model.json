@@ -1,6 +1,6 @@
 {
   "slug": "pawa-dog-3d-model",
-  "title": "Pawa — 3D Character Work",
+  "title": "Pawa - 3D Character Work",
   "discipline": "character-design",
   "projectType": "experiment",
   "composition": "motion",
@@ -20,7 +20,7 @@
     "type": "video",
     "src": "/media/portfolio/web/pawa-dog-turnaround.mp4",
     "poster": "/images/portfolio/posters/pawa-dog-turnaround.jpg",
-    "alt": "Pawa 3D character work — dog turnaround",
+    "alt": "Pawa 3D character work - dog turnaround",
     "aspect": "27/20"
   },
   "hero": {
@@ -28,7 +28,7 @@
     "src": "/media/portfolio/web/pawa-dog-turnaround.mp4",
     "poster": "/images/portfolio/posters/pawa-dog-turnaround.jpg",
     "aspect": "27/20",
-    "alt": "Pawa 3D character work — dog turnaround"
+    "alt": "Pawa 3D character work - dog turnaround"
   },
   "featured": false,
   "featuredOrder": 6,
@@ -49,5 +49,12 @@
   "compositionPreferences": {
     "layoutHint": "hero-gallery",
     "heroAspect": "27/20"
-  }
+  },
+  "seoTags": [
+    "character design",
+    "3D modelling",
+    "character animation",
+    "3D character design",
+    "personal work"
+  ]
 }

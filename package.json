@@ -13,6 +13,7 @@
     "deploy:preview": "node scripts/deployment-centre.mjs preview",
     "deploy:credentials": "node scripts/deploy-credentials.mjs",
     "deploy:media": "node scripts/r2-media.mjs",
+    "publish": "node scripts/publish.mjs",
     "deploy:publish": "node scripts/deployment-centre.mjs publish",
     "preview": "astro preview",
     "test": "vitest run",

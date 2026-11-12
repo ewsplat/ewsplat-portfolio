@@ -1,6 +1,6 @@
 {
   "slug": "lower-logo-animation",
-  "title": "Lower — Black-and-White Logo Animation",
+  "title": "Lower - Black-and-White Logo Animation",
   "discipline": "animation-motion",
   "projectType": "client",
   "composition": "motion",
@@ -57,5 +57,12 @@
   "compositionPreferences": {
     "layoutHint": "hero-gallery",
     "heroAspect": "1/1"
-  }
+  },
+  "seoTags": [
+    "animation",
+    "motion design",
+    "logo animation",
+    "fashion graphics",
+    "Lower"
+  ]
 }

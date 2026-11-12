@@ -1,6 +1,6 @@
 {
   "slug": "lower-bogo-animation",
-  "title": "Lower — Buy One Get One Free",
+  "title": "Lower - Buy One Get One Free",
   "discipline": "animation-motion",
   "projectType": "client",
   "composition": "motion",
@@ -31,5 +31,12 @@
   "compositionPreferences": {
     "layoutHint": "hero-gallery",
     "heroAspect": "9/16"
-  }
+  },
+  "seoTags": [
+    "animation",
+    "motion design",
+    "promotional animation",
+    "fashion graphics",
+    "Lower"
+  ]
 }

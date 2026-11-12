@@ -1,6 +1,6 @@
 {
   "slug": "iloveugly-product-illustration",
-  "title": "I Love Ugly — Apparel Illustration & Product Shoot",
+  "title": "I Love Ugly - Apparel Illustration & Product Shoot",
   "discipline": "illustration",
   "projectType": "client",
   "composition": "standard",
@@ -58,5 +58,10 @@
   "compositionPreferences": {
     "layoutHint": "gallery",
     "heroAspect": "3/4"
-  }
+  },
+  "seoTags": [
+    "illustration",
+    "apparel graphics",
+    "I Love Ugly"
+  ]
 }

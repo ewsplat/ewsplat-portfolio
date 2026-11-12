@@ -1,6 +1,6 @@
 {
   "slug": "les-mills-animated-paid-ad-typography",
-  "title": "Les Mills — Animated Paid-Ad Typography",
+  "title": "Les Mills - Animated Paid-Ad Typography",
   "discipline": "animation-motion",
   "projectType": "client",
   "composition": "motion",
@@ -18,13 +18,13 @@
   "thumbnail": {
     "type": "video",
     "src": "/media/portfolio/les-mills/COMBO_HYPEREEL_16-9.mp4",
-    "alt": "Les Mills animated paid-ad typography — combo hypereel",
+    "alt": "Les Mills animated paid-ad typography - combo hypereel",
     "aspect": "16/9"
   },
   "hero": {
     "type": "video",
     "src": "/media/portfolio/les-mills/COMBO_HYPEREEL_16-9.mp4",
-    "alt": "Les Mills animated paid-ad typography — combo hypereel",
+    "alt": "Les Mills animated paid-ad typography - combo hypereel",
     "aspect": "16/9"
   },
   "gallery": [
@@ -50,5 +50,11 @@
   "compositionPreferences": {
     "layoutHint": "hero-gallery",
     "heroAspect": "16/9"
-  }
+  },
+  "seoTags": [
+    "animation",
+    "motion design",
+    "typography animation",
+    "Les Mills"
+  ]
 }

@@ -1,6 +1,6 @@
 {
   "slug": "commercial-bay-happy-plants",
-  "title": "Commercial Bay — Happy Plants Activation",
+  "title": "Commercial Bay - Happy Plants Activation",
   "discipline": "illustration",
   "projectType": "client",
   "composition": "graphic-sequence",
@@ -56,5 +56,12 @@
   "compositionPreferences": {
     "layoutHint": "editorial",
     "heroAspect": "16/9"
-  }
+  },
+  "seoTags": [
+    "illustration",
+    "character design",
+    "animation",
+    "retail campaign",
+    "Commercial Bay"
+  ]
 }

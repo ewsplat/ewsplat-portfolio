@@ -1,17 +1,18 @@
 {
   "slug": "all-stars-nexgen-converse",
-  "title": "All Stars — Nexgen x Converse",
+  "title": "All Stars - Nexgen x Converse",
   "discipline": "animation-motion",
   "projectType": "client",
   "composition": "motion",
   "presentation": "campaign",
+  "client": "Nexgen Touring",
   "collection": "Nexgen Touring",
   "workType": "client",
   "archiveOrder": 3,
   "homepageFeatured": true,
   "homepageOrder": 3,
   "year": 2022,
-  "description": "A single campaign spanning design, 3D characters, animation and Club 121 collaborative merchandise. EWSPLAT created all creative output for the campaign.",
+  "description": "Design, 3D character work and animation for Nexgen Touring's All Stars project in collaboration with Converse.",
   "roles": [
     "Design",
     "3D character work",
@@ -78,5 +79,13 @@
   "compositionPreferences": {
     "layoutHero": "hero-gallery",
     "heroAspect": "16/9"
-  }
+  },
+  "seoTags": [
+    "animation",
+    "motion design",
+    "design",
+    "3D character design",
+    "Nexgen Touring",
+    "Converse collaboration"
+  ]
 }

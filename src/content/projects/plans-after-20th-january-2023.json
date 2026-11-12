@@ -1,6 +1,6 @@
 {
   "slug": "plans-after-20th-january-2023",
-  "title": "Plans After — 20 January 2023",
+  "title": "Plans After - 20 January 2023",
   "discipline": "animation-motion",
   "projectType": "client",
   "composition": "motion",
@@ -40,5 +40,15 @@
   "compositionPreferences": {
     "layoutHint": "hero-gallery",
     "heroAspect": "9/16"
-  }
+  },
+  "seoTags": [
+    "animation",
+    "motion design",
+    "creative direction",
+    "design",
+    "illustration",
+    "festival visuals",
+    "music events",
+    "Plans After"
+  ]
 }

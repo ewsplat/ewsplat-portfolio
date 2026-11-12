@@ -1,5 +1,4 @@
 ---
-import Layout from '../layouts/Layout.astro';
 import MediaBlock from '../components/MediaBlock.astro';
 import { withBase } from '../utils/site';
 
@@ -9,6 +8,7 @@ interface PortalMedia {
   poster?: string;
   aspect?: string;
   alt?: string;
+  color?: string;
 }
 
 interface PortalItem {
@@ -17,440 +17,230 @@ interface PortalItem {
   discipline?: string;
   year?: string;
   media: PortalMedia;
-  longitude?: number;
-  latitude?: number;
-  depth?: number;
-  speedMultiplier?: number;
-  sizeClass?: 'prominent' | 'medium' | 'small';
 }
 
-const { items, totalPublishedCount } = Astro.props;
+const { items, totalPublishedCount } = Astro.props as { items: PortalItem[]; totalPublishedCount: number };
 
 function aspectRatioToPercent(ratio: string): string {
   const parts = ratio.split('/');
   if (parts.length === 2) {
-    const w = parseFloat(parts[0]);
-    const h = parseFloat(parts[1]);
-    if (h > 0) return `${(h / w) * 100}%`;
+    const width = parseFloat(parts[0]);
+    const height = parseFloat(parts[1]);
+    if (width > 0 && height > 0) return `${(height / width) * 100}%`;
   }
-  return '100%';
+  return '75%';
 }
 
-const enrichedItems = items.map((item, i) => {
-  const longitude = item.longitude ?? (i * 36 + (i * 7) % 36);
-  const latitude = item.latitude ?? ((i * 13) % 90) - 45;
-  const depth = item.depth ?? 0.8 + (i * 0.23) % 0.5;
-  const speedMultiplier = item.speedMultiplier ?? 0.7 + ((i * 17) % 6) / 10;
-  const sizeClass = item.sizeClass ?? (i < 3 ? 'prominent' : i < 8 ? 'medium' : 'small');
-  return { ...item, longitude, latitude, depth, speedMultiplier, sizeClass };
-});
+const orbitalItems = items.slice(0, 18);
 ---
 
-<section class="archive-portal" aria-label="Archive gateway kinetic composition">
-  <div class="portal-shell">
-    <div class="portal-stage" data-portal-stage>
-      <div class="portal-sphere" data-portal-sphere>
-        {enrichedItems.map((item) => {
-          return (
-            <a
-              href={withBase('/archive')}
-              class="portal-fragment"
-              style={`--longitude: ${item.longitude}deg; --latitude: ${item.latitude}deg; --depth: ${item.depth}; --speed-mult: ${item.speedMultiplier}; --fragment-width: ${item.sizeClass === 'prominent' ? 'clamp(180px, 20vw, 260px)' : item.sizeClass === 'medium' ? 'clamp(130px, 14vw, 180px)' : 'clamp(90px, 10vw, 130px)'}; --portal-aspect: ${aspectRatioToPercent(item.media.aspect ?? '4/3')}`}
-              data-portal-slug={item.slug}
-              aria-label={`View ${item.title} — EWSPLAT archive`}
-            >
-              <span class="portal-frame">
-                <MediaBlock
-                  type={item.media.type}
-                  src={item.media.src}
-                  poster={item.media.poster}
-                  aspect={item.media.aspect}
-                  alt={item.media.alt}
-                  controls={false}
-                  response="still"
-                  tiltIntensity="subtle"
-                  loading="eager"
-                />
-              </span>
-              <span class="portal-meta">
-                {item.title}{item.discipline ? ` · ${item.discipline}` : ''}{item.year ? ` · ${item.year}` : ''}
-              </span>
-            </a>
-          );
-        })}
-      </div>
-      <a href={withBase('/archive')} class="portal-invitation" aria-label={`Explore archive — ${totalPublishedCount} projects`}>
-        <span class="invitation-label">EWSPLAT ARCHIVE</span>
-        <span class="invitation-count">{totalPublishedCount}+ projects</span>
-        <span class="invitation-cta">EXPLORE THE ARCHIVE</span>
-      </a>
+<section class="archive-portal" aria-label="EWSPLAT orbital archive">
+  <div class="portal-heading">
+    <span>EWSPLAT / ORBITAL ARCHIVE</span>
+    <span aria-hidden="true">A LIVING INDEX OF THE WORK</span>
+  </div>
+  <div class="portal-stage" data-portal-stage>
+    <div class="portal-orbit" data-portal-orbit>
+      {orbitalItems.map((item, index) => (
+        <a
+          href={withBase(`/projects/${item.slug}`)}
+          class="portal-fragment"
+          style={`--orbit-index: ${index}; --fragment-width: ${index % 6 === 0 ? 'clamp(190px, 20vw, 260px)' : index % 3 === 0 ? 'clamp(135px, 14vw, 190px)' : 'clamp(94px, 10vw, 145px)'}; --portal-aspect: ${aspectRatioToPercent(item.media.aspect ?? '4/3')}`}
+          data-portal-fragment
+          data-portal-index={index}
+          aria-label={`View ${item.title}`}
+        >
+          <span class="portal-frame">
+            <MediaBlock
+              type={item.media.type}
+              src={item.media.src}
+              poster={item.media.poster}
+              aspect={item.media.aspect}
+              alt={item.media.alt ?? item.title}
+              color={item.media.color}
+              controls={false}
+              response="still"
+              loading={index < 8 ? 'eager' : 'lazy'}
+            />
+          </span>
+          <span class="portal-meta">
+            <strong>{item.title}</strong>
+            {item.discipline && <small>{item.discipline}{item.year ? ` / ${item.year}` : ''}</small>}
+          </span>
+        </a>
+      ))}
     </div>
+    <a href={withBase('/archive')} class="portal-invitation" aria-label={`Explore archive, ${totalPublishedCount} projects`}>
+      <span class="invitation-label">EWSPLAT / ARCHIVE</span>
+      <strong class="invitation-count">{totalPublishedCount}+ PROJECTS</strong>
+      <span class="invitation-cta">EXPLORE THE ARCHIVE <span aria-hidden="true">↗</span></span>
+    </a>
   </div>
 </section>
 
 <script>
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const portal = document.querySelector<HTMLElement>('[data-portal-stage]');
+  const fragments = Array.from(document.querySelectorAll<HTMLElement>('[data-portal-fragment]'));
 
-  const state = {
-    isReducedMotion: reducedMotion,
-    isPaused: false,
-    hoveredFragment: null,
-    baseSpeed: 0.0025,
-    startTime: performance.now(),
-    stageWidth: 0,
-    stageHeight: 0,
-    stageCenterX: 0,
-    stageCenterY: 0,
-    sphereTiltX: 0.15,
-    sphereTiltY: 0,
-    targetTiltX: 0.15,
-    targetTiltY: 0,
-    isDragging: false,
-    dragStartX: 0,
-    dragStartY: 0,
-    dragStartTiltX: 0,
-    dragStartTiltY: 0,
-  };
+  if (portal && fragments.length) {
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const verticalBiases = [-18, 11, -8, 19, -14, 6, 23, -4, 15, -21, 3, 18, -11, 8, -17, 13, -2, 21];
+    const depthBoundaries = [0.18, 0.38, 0.6, 0.8];
+    const depthHysteresis = 0.055;
+    const states = fragments.map(() => ({ pullX: 0, pullY: 0, lift: 0, focused: false, layer: -1, zIndex: -1 }));
+    let frameId = 0;
+    let lastTime = 0;
+    let elapsed = 0;
+    let isVisible = !reducedMotion.matches;
+    let stageWidth = 1;
+    let stageHeight = 1;
+    let pointerX = 0;
+    let pointerY = 0;
+    let pointerInside = false;
 
-  let animationId = null;
-  let baseSpeed = state.baseSpeed;
-  let hoveredFragment = null;
-  const sphereEl = document.querySelector('.portal-sphere');
-  const fragments = [];
+    const measure = () => {
+      stageWidth = portal.clientWidth || 1;
+      stageHeight = portal.clientHeight || 1;
+    };
 
-  function getStageRect() {
-    const stage = document.querySelector<HTMLElement>('.portal-stage');
-    if (stage) {
-      const rect = stage.getBoundingClientRect();
-      state.stageWidth = rect.width;
-      state.stageHeight = rect.height;
-      state.stageCenterX = state.stageWidth / 2;
-      state.stageCenterY = state.stageHeight / 2;
-    }
-  }
+    const stop = () => {
+      if (frameId) cancelAnimationFrame(frameId);
+      frameId = 0;
+      lastTime = 0;
+    };
 
-  function sphericalToScreen(lon, lat, depth, cx, cy, scale) {
-    const lonRad = (lon * Math.PI) / 180;
-    const latRad = (lat * Math.PI) / 180;
+    const start = () => {
+      if (!frameId && isVisible && !reducedMotion.matches) frameId = requestAnimationFrame(render);
+    };
 
-    const x3d = Math.cos(latRad) * Math.sin(lonRad);
-    const y3d = Math.sin(latRad);
-    const z3d = Math.cos(latRad) * Math.cos(lonRad);
-
-    const rotatedX = x3d * Math.cos(state.sphereTiltY) - z3d * Math.sin(state.sphereTiltY);
-    const rotatedZ = x3d * Math.sin(state.sphereTiltY) + z3d * Math.cos(state.sphereTiltY);
-    const rotatedY = y3d * Math.cos(state.sphereTiltX) - rotatedZ * Math.sin(state.sphereTiltX);
-
-    const scaleDepth = 0.72 + depth * 0.43;
-    const screenX = cx + rotatedX * scale * scaleDepth;
-    const screenY = cy + rotatedY * scale * scaleDepth;
-
-    return { x: screenX, y: screenY, z: rotatedY, scaleDepth };
-  }
-
-  function updateTransforms(now) {
-    const elapsed = now - state.startTime;
-    const fragments = Array.from(document.querySelectorAll('.portal-fragment'));
-
-    fragments.forEach((frag) => {
-      const longitude = parseFloat(frag.style.getPropertyValue('--longitude') || '0');
-      const latitude = parseFloat(frag.style.getPropertyValue('--latitude') || '0');
-      const depth = parseFloat(frag.style.getPropertyValue('--depth') || '1');
-      const speedMult = parseFloat(frag.style.getPropertyValue('--speed-mult') || '1');
-
-      const speedMultiplier = hoveredFragment === frag ? 0.03 : 1;
-      const angleIncrement = baseSpeed * speedMult * speedMultiplier;
-
-      const currentLon = longitude + angleIncrement * elapsed;
-
-      const scale = Math.min(state.stageWidth, state.stageHeight) * 0.35;
-      const pos = sphericalToScreen(currentLon, latitude, depth, state.stageCenterX, state.stageCenterY, scale);
-
-      const frame = frag.querySelector('.portal-frame');
-      if (frame && !frag.classList.contains('portal-fragment--hovered')) {
-        frame.style.transform = `scale(${pos.scaleDepth})`;
+    const depthLayer = (z: number, state: typeof states[number]) => {
+      if (state.layer < 0) {
+        state.layer = depthBoundaries.findIndex((boundary) => z < boundary);
+        if (state.layer < 0) state.layer = depthBoundaries.length;
+        return state.layer;
       }
-
-      frag.style.transform = `translate3d(${pos.x}px, ${pos.y}px, 0) translate(-50%, -50%)`;
-      frag.style.zIndex = Math.round(50 + pos.z * 100);
-      frag.style.opacity = 0.6 + pos.z * 0.4;
-    });
-
-    if (!state.isPaused) {
-      const ease = 0.04;
-      state.sphereTiltX += (state.targetTiltX - state.sphereTiltX) * ease;
-      state.sphereTiltY += (state.targetTiltY - state.sphereTiltY) * ease;
-    }
-
-    animationId = requestAnimationFrame(updateTransforms);
-  }
-
-  getStageRect();
-  if (!reducedMotion) {
-    requestAnimationFrame(updateTransforms);
-  }
-
-  const stageEl = document.querySelector('.portal-stage');
-  if (stageEl && !reducedMotion) {
-    stageEl.addEventListener('mousemove', (e) => {
-      if (state.isDragging) return;
-      const rect = stageEl.getBoundingClientRect();
-      const cx = e.clientX - rect.left;
-      const cy = e.clientY - rect.top;
-      const nx = (cx - rect.width / 2) / (rect.width / 2);
-      const ny = (cy - rect.height / 2) / (rect.height / 2);
-      state.targetTiltX = 0.15 - ny * 0.25;
-      state.targetTiltY = nx * 0.25;
-    });
-
-    stageEl.addEventListener('mouseleave', () => {
-      if (!state.isDragging) {
-        state.targetTiltX = 0.15;
-        state.targetTiltY = 0;
+      while (state.layer < depthBoundaries.length && z > depthBoundaries[state.layer] + depthHysteresis) {
+        state.layer += 1;
       }
-    });
-
-    stageEl.addEventListener('mousedown', (e) => {
-      if (e.target.closest('.portal-fragment')) return;
-      state.isDragging = true;
-      state.dragStartX = e.clientX;
-      state.dragStartY = e.clientY;
-      state.dragStartTiltX = state.sphereTiltX;
-      state.dragStartTiltY = state.sphereTiltY;
-      e.preventDefault();
-    });
-
-    window.addEventListener('mousemove', (e) => {
-      if (!state.isDragging) return;
-      const dx = (e.clientX - state.dragStartX) / (state.stageWidth / 2);
-      const dy = (e.clientY - state.dragStartY) / (state.stageHeight / 2);
-      state.sphereTiltX = state.dragStartTiltX - dy * 0.5;
-      state.sphereTiltY = state.dragStartTiltY + dx * 0.5;
-      state.targetTiltX = state.sphereTiltX;
-      state.targetTiltY = state.sphereTiltY;
-    });
-
-    window.addEventListener('mouseup', () => {
-      if (state.isDragging) {
-        state.isDragging = false;
+      while (state.layer > 0 && z < depthBoundaries[state.layer - 1] - depthHysteresis) {
+        state.layer -= 1;
       }
-    });
-  }
+      return state.layer;
+    };
 
-  const allFragments = Array.from(document.querySelectorAll('.portal-fragment'));
-  allFragments.forEach((frag) => {
-    frag.addEventListener('mouseenter', () => {
-      hoveredFragment = frag;
-      frag.classList.add('portal-fragment--hovered');
-    });
+    const render = (time: number) => {
+      if (!lastTime) lastTime = time;
+      const delta = Math.min(time - lastTime, 80);
+      lastTime = time;
+      elapsed += delta;
+      const rotation = elapsed / 56000;
+      const compact = stageWidth < 640;
+      const attractionRadius = Math.min(190, stageWidth * 0.16);
+      const pointerParallaxX = pointerInside ? (pointerX / stageWidth - 0.5) * 10 : 0;
+      const pointerParallaxY = pointerInside ? (pointerY / stageHeight - 0.5) * 8 : 0;
 
-    frag.addEventListener('mouseleave', () => {
-      hoveredFragment = null;
-      frag.classList.remove('portal-fragment--hovered');
-    });
-  });
+      fragments.forEach((fragment, index) => {
+        const phase = index * 2.399;
+        const angle = rotation * Math.PI * 2 * (0.82 + (index % 4) * 0.06) + phase;
+        const band = ((index * 37) % 11) / 10 - 0.5;
+        const orbitWidth = (compact ? 0.22 : 0.29) + (index % 4) * 0.035;
+        const orbitHeight = (compact ? 0.13 : 0.18) + (index % 5) * 0.026;
+        const baseX = stageWidth * (0.5 + Math.cos(angle) * orbitWidth) + pointerParallaxX;
+        const baseY = stageHeight * (0.5 + (verticalBiases[index] ?? 0) / 100 + Math.sin(angle * 1.11 + band * 1.8) * orbitHeight) + pointerParallaxY;
+        const z = (Math.sin(angle + band * 2.5) + 1) / 2;
+        const state = states[index];
+        const dx = pointerX - baseX;
+        const dy = pointerY - baseY;
+        const distance = Math.hypot(dx, dy);
+        const proximity = pointerInside && distance < attractionRadius ? 1 - distance / attractionRadius : 0;
+        const targetPullX = proximity ? dx * proximity * 0.24 : 0;
+        const targetPullY = proximity ? dy * proximity * 0.24 : 0;
+        const targetLift = proximity ? 0.12 + proximity * 0.13 : 0;
+        const smoothing = Math.min(1, delta / 120);
+        state.pullX += (targetPullX - state.pullX) * smoothing;
+        state.pullY += (targetPullY - state.pullY) * smoothing;
+        state.lift += (targetLift - state.lift) * smoothing;
+        const scale = (0.42 + z * 0.98) * (1 + state.lift);
+        const opacity = Math.min(1, 0.2 + z * 0.8 + proximity * 0.1);
+        const focused = state.focused ? proximity > 0.18 : proximity > 0.28;
+        state.focused = focused;
+        const layer = depthLayer(z, state);
+        // Layers change only after a meaningful depth crossing. The index is a
+        // deterministic tie-breaker, preventing close fragments from swapping.
+        const nextZ = focused ? 100 + index : 10 + layer * 10 + index;
 
-  const portalElement = document.querySelector<HTMLElement>('.archive-portal');
-  if (portalElement && !reducedMotion) {
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        state.isPaused = !entry.isIntersecting;
-        if (entry.isIntersecting && animationId === null) {
-          state.startTime = performance.now();
-          requestAnimationFrame(updateTransforms);
-        } else if (!entry.isIntersecting) {
-          cancelAnimationFrame(animationId);
-          animationId = null;
+        fragment.style.transform = `translate3d(${baseX + state.pullX}px, ${baseY + state.pullY}px, 0) translate3d(-50%, -50%, 0) scale3d(${scale}, ${scale}, 1)`;
+        fragment.style.opacity = String(opacity);
+        if (state.zIndex !== nextZ) {
+          state.zIndex = nextZ;
+          fragment.style.zIndex = String(nextZ);
         }
-      },
-      { rootMargin: '0px' }
-    );
-    io.observe(portalElement);
-  }
+        fragment.classList.toggle('is-magnetic', focused);
+      });
+      if (isVisible && !reducedMotion.matches) {
+        frameId = requestAnimationFrame(render);
+      } else {
+        frameId = 0;
+      }
+    };
 
-  window.addEventListener('resize', getStageRect);
+    measure();
+    new ResizeObserver(measure).observe(portal);
+    portal.addEventListener('pointermove', (event) => {
+      const rect = portal.getBoundingClientRect();
+      pointerX = event.clientX - rect.left;
+      pointerY = event.clientY - rect.top;
+      pointerInside = true;
+    });
+    portal.addEventListener('pointerleave', () => { pointerInside = false; });
+    reducedMotion.addEventListener('change', (event) => {
+      isVisible = !event.matches;
+      if (event.matches) {
+        stop();
+        render(performance.now());
+      } else {
+        start();
+      }
+    });
+    new IntersectionObserver(([entry]) => {
+      isVisible = entry.isIntersecting && !reducedMotion.matches;
+      if (isVisible) start(); else stop();
+    }, { rootMargin: '160px' }).observe(portal);
+    if (reducedMotion.matches) render(performance.now()); else start();
+  }
 </script>
 
 <style>
-  .archive-portal {
-    width: 100%;
-    margin: 0 auto;
-  }
-
-  .portal-stage {
-    position: relative;
-    width: 100%;
-    height: clamp(420px, 48vw, 620px);
-    overflow: hidden;
-    margin: 0 auto;
-    touch-action: none;
-  }
-
-  .portal-sphere {
-    position: relative;
-    width: 100%;
-    height: 100%;
-  }
-
-  .portal-fragment {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: var(--fragment-width);
-    will-change: transform, opacity, z-index;
-    cursor: pointer;
-    transition: opacity 0.2s ease;
-  }
-
-  .portal-frame {
-    display: block;
-    width: 100%;
-    height: 0;
-    padding-bottom: var(--portal-aspect, 100%);
-    position: relative;
-    overflow: hidden;
-    transform-origin: center center;
-    will-change: transform;
-  }
-
-  .portal-frame :global(.media-block) {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-  }
-
-  .portal-frame :global(.media-block img),
-  .portal-frame :global(.media-block video) {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-
-  .portal-meta {
-    position: absolute;
-    bottom: 0.2rem;
-    left: 0.2rem;
-    font-size: 0.5rem;
-    color: var(--color-muted);
-    opacity: 0;
-    transition: opacity 0.12s ease;
-    pointer-events: none;
-    font-family: var(--font-mono);
-    white-space: nowrap;
-  }
-
-  .portal-fragment:hover .portal-meta {
-    opacity: 1;
-  }
-
-  .portal-fragment--hovered {
-    z-index: 200 !important;
-  }
-
-  .portal-fragment--hovered .portal-frame {
-    transform: scale(1.12) !important;
-    transition: transform 0.3s cubic-bezier(0.2, 0.65, 0.3, 1);
-  }
-
-  .portal-fragment--hovered .portal-meta {
-    opacity: 1;
-  }
-
-  .portal-invitation {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.35rem;
-    padding: 1rem 2rem;
-    background-color: var(--color-bg);
-    border: 1px solid var(--color-border);
-    z-index: 150;
-    text-align: center;
-    pointer-events: auto;
-    text-decoration: none;
-    color: inherit;
-    opacity: 0.95;
-    transition: opacity 0.2s ease, border-color 0.2s ease, transform 0.3s cubic-bezier(0.2, 0.65, 0.3, 1);
-  }
-
-  .portal-invitation:hover {
-    border-color: var(--color-accent);
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1.02);
-  }
-
-  .invitation-label {
-    font-family: var(--font-mono);
-    font-size: 0.625rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--color-muted);
-  }
-
-  .invitation-count {
-    font-family: var(--font-display);
-    font-size: clamp(1.5rem, 3vw, 2.25rem);
-    font-weight: 600;
-    line-height: 1;
-    color: var(--color-text);
-    letter-spacing: 0.02em;
-  }
-
-  .invitation-cta {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    color: var(--color-accent);
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .portal-fragment {
-      transition: none;
-    }
-
-    .portal-meta {
-      transition: none;
-      opacity: 1;
-    }
-
-    .portal-fragment--hovered .portal-frame {
-      transform: none !important;
-      transition: none;
-    }
-
-    .portal-fragment:hover .portal-meta {
-      opacity: 1;
-    }
-
-    .portal-invitation {
-      transition: none;
-    }
-  }
-
-  @media (max-width: 900px) {
-    .portal-stage {
-      height: clamp(380px, 50vw, 520px);
-    }
-  }
-
+  .archive-portal { width: 100%; margin: clamp(3rem, 8vw, 8rem) auto 0; padding-bottom: clamp(2rem, 6vw, 5rem); }
+  .portal-heading { display: flex; justify-content: space-between; gap: 1rem; margin-bottom: 0.75rem; color: var(--color-muted); font: 0.625rem/1.2 var(--font-mono); letter-spacing: 0.09em; text-transform: uppercase; }
+  .portal-stage { position: relative; height: clamp(470px, 46vw, 650px); overflow: hidden; isolation: isolate; background: var(--color-bg); border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border); perspective: 1100px; touch-action: pan-y; }
+  .portal-orbit { position: absolute; inset: 0; transform-style: preserve-3d; }
+  .portal-fragment { position: absolute; top: 0; left: 0; width: var(--fragment-width); opacity: 0.7; transform-origin: center; will-change: transform, opacity; }
+  .portal-fragment:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+  .portal-frame { position: relative; display: block; width: 100%; height: 0; padding-bottom: var(--portal-aspect, 75%); overflow: hidden; background: var(--color-surface); box-shadow: 0 18px 45px rgba(0, 0, 0, 0.08); }
+  .portal-frame :global(.media-block), .portal-frame :global(.media-block img), .portal-frame :global(.media-block video) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .portal-meta { position: absolute; right: 0; bottom: 0; left: 0; display: flex; justify-content: space-between; gap: 0.5rem; padding: 0.45rem 0.55rem; color: var(--color-bg); background: rgba(20, 20, 20, 0.82); font: 0.55rem/1.15 var(--font-mono); opacity: 0; transform: translateY(0.25rem); transition: opacity 220ms ease, transform 220ms ease; }
+  .portal-meta small { color: rgba(255,255,255,0.7); }
+  .portal-fragment.is-magnetic .portal-meta, .portal-fragment:hover .portal-meta, .portal-fragment:focus-visible .portal-meta { opacity: 1; transform: translateY(0); }
+  .portal-invitation { position: absolute; z-index: 80; top: 50%; left: 50%; display: grid; gap: 0.45rem; min-width: min(245px, 42vw); padding: 1.15rem 1.35rem 1.1rem; color: var(--color-text); background: color-mix(in srgb, var(--color-bg) 68%, transparent); border: 1px solid color-mix(in srgb, var(--color-text) 72%, transparent); text-align: center; text-decoration: none; transform: translate(-50%, -50%); transition: background 240ms ease, color 240ms ease, transform 240ms ease; backdrop-filter: blur(3px); }
+  .portal-invitation:hover, .portal-invitation:focus-visible { color: var(--color-bg); background: var(--color-text); transform: translate(-50%, -50%) translateY(-3px); }
+  .invitation-label, .invitation-cta { font: 0.625rem/1.2 var(--font-mono); letter-spacing: 0.09em; }
+  .invitation-label { color: var(--color-accent); }
+  .portal-invitation:hover .invitation-label { color: inherit; }
+  .invitation-count { font: 600 clamp(1.3rem, 3vw, 2.2rem)/1 var(--font-display); letter-spacing: -0.03em; }
+  .invitation-cta { color: var(--color-accent); }
+  .portal-invitation:hover .invitation-cta { color: inherit; }
   @media (max-width: 640px) {
-    .portal-stage {
-      height: clamp(320px, 55vw, 440px);
-    }
-
-    .portal-meta {
-      font-size: 0.45rem;
-      opacity: 1;
-    }
-
-    .invitation-cta {
-      display: none;
-    }
+    .portal-heading span:last-child { display: none; }
+    .portal-stage { height: 410px; }
+    .portal-orbit { inset: 0; }
+    .portal-fragment { width: clamp(86px, 26vw, 130px); }
+    .portal-fragment:nth-child(6n + 1) { width: clamp(150px, 42vw, 210px); }
+    .portal-invitation { min-width: 205px; }
+    .portal-meta { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .portal-fragment, .portal-invitation { transition: none; }
+    .portal-meta { opacity: 1; transform: none; }
   }
 </style>

@@ -1,6 +1,6 @@
 {
   "slug": "mxfm-tee-illustration-apparel-graphics",
-  "title": "MXFM — Tee Illustration & Apparel Graphics",
+  "title": "MXFM - Tee Illustration & Apparel Graphics",
   "discipline": "illustration",
   "projectType": "client",
   "composition": "graphic-sequence",
@@ -35,5 +35,10 @@
   "compositionPreferences": {
     "layoutHint": "paired",
     "heroAspect": "1/1"
-  }
+  },
+  "seoTags": [
+    "illustration",
+    "apparel graphics",
+    "MXFM"
+  ]
 }

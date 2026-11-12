@@ -1,6 +1,6 @@
 {
   "slug": "spinoff-nz-web-illustrations",
-  "title": "The Spinoff NZ — Musician Editorial Portraits",
+  "title": "The Spinoff NZ - Musician Editorial Portraits",
   "discipline": "illustration",
   "projectType": "client",
   "composition": "graphic-sequence",
@@ -58,5 +58,10 @@
   "compositionPreferences": {
     "layoutHint": "gallery",
     "heroAspect": "3/4"
-  }
+  },
+  "seoTags": [
+    "illustration",
+    "editorial portraiture",
+    "The Spinoff NZ"
+  ]
 }

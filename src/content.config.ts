@@ -79,6 +79,9 @@ const projects = defineCollection({
     homepageFeatured: z.boolean().default(false),
     homepageOrder: z.number().int().optional(),
     description: z.string().optional(),
+    // Internal semantic terms for sharing metadata and structured data. These
+    // are never rendered as a public keyword list.
+    seoTags: z.array(z.string()).max(12).default([]),
     roles: z.array(z.string()).default([]),
     poster: z.string().optional(),
     thumbnail: media.optional(),

@@ -1,6 +1,6 @@
 {
   "slug": "kiljoy-event-campaign",
-  "title": "Kiljoy — Event Campaign",
+  "title": "Kiljoy - Event Campaign",
   "discipline": "campaigns-events",
   "projectType": "client",
   "composition": "motion",
@@ -38,5 +38,13 @@
   "compositionPreferences": {
     "layoutHint": "hero-gallery",
     "heroAspect": "1/1"
-  }
+  },
+  "seoTags": [
+    "campaign design",
+    "event visuals",
+    "design",
+    "animation",
+    "event promotion",
+    "Kiljoy"
+  ]
 }

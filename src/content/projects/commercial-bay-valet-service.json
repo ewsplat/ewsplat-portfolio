@@ -1,6 +1,6 @@
 {
   "slug": "commercial-bay-valet-service",
-  "title": "Commercial Bay — Valet Service Social Promo",
+  "title": "Commercial Bay - Valet Service Social Promo",
   "discipline": "animation-motion",
   "projectType": "client",
   "composition": "motion",
@@ -41,5 +41,13 @@
   "compositionPreferences": {
     "layoutHint": "hero-gallery",
     "heroAspect": "1/1"
-  }
+  },
+  "seoTags": [
+    "animation",
+    "motion design",
+    "character design",
+    "illustration",
+    "retail campaign",
+    "Commercial Bay"
+  ]
 }

@@ -1,6 +1,6 @@
 {
   "slug": "plans-after-pa-festival",
-  "title": "Plans After — PA Festival",
+  "title": "Plans After - PA Festival",
   "discipline": "campaigns-events",
   "projectType": "client",
   "composition": "graphic-sequence",
@@ -43,5 +43,16 @@
   "compositionPreferences": {
     "layoutHint": "editorial",
     "heroAspect": "4/3"
-  }
+  },
+  "seoTags": [
+    "campaign design",
+    "event visuals",
+    "creative direction",
+    "design",
+    "illustration",
+    "animation",
+    "festival visuals",
+    "music events",
+    "Plans After"
+  ]
 }

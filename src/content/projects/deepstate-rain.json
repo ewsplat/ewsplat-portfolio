@@ -1,6 +1,6 @@
 {
   "slug": "deepstate-rain",
-  "title": "deepState — Rain",
+  "title": "deepState - Rain",
   "discipline": "animation-motion",
   "projectType": "client",
   "composition": "motion",
@@ -10,7 +10,7 @@
   "workType": "client",
   "archiveOrder": 36,
   "year": 2023,
-  "description": "Music video for deepState's single 'Rain', the title track from their forthcoming album. Made with support from NZ On Air Music. A slow, drifting journey built around mood, space, and environment — glowing butterflies, floating jellyfish, and empty saturated landscapes shaping the emotion.",
+  "description": "Music video for deepState's single 'Rain', the title track from their forthcoming album. Made with support from NZ On Air Music. A slow, drifting journey built around mood, space, and environment - glowing butterflies, floating jellyfish, and empty saturated landscapes shaping the emotion.",
   "roles": [
     "Direction",
     "Animation"
@@ -25,7 +25,7 @@
     "type": "youtube",
     "videoId": "q_PdKqG6NYY",
     "poster": "https://img.youtube.com/vi/q_PdKqG6NYY/maxresdefault.jpg",
-    "alt": "deepState — Rain poster",
+    "alt": "deepState - Rain poster",
     "aspect": "16/9"
   },
   "hero": {
@@ -33,7 +33,7 @@
     "videoId": "q_PdKqG6NYY",
     "poster": "https://img.youtube.com/vi/q_PdKqG6NYY/maxresdefault.jpg",
     "aspect": "16/9",
-    "alt": "deepState — Rain music video"
+    "alt": "deepState - Rain music video"
   },
   "credits": [
     {
@@ -56,5 +56,11 @@
   "compositionPreferences": {
     "layoutHint": "hero-gallery",
     "heroAspect": "16/9"
-  }
+  },
+  "seoTags": [
+    "animation",
+    "motion design",
+    "direction",
+    "deepState"
+  ]
 }

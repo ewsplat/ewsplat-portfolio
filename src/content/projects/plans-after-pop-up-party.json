@@ -1,6 +1,6 @@
 {
   "slug": "plans-after-pop-up-party",
-  "title": "Plans After — Pop-Up Party",
+  "title": "Plans After - Pop-Up Party",
   "discipline": "campaigns-events",
   "projectType": "client",
   "composition": "motion",
@@ -44,5 +44,16 @@
   "compositionPreferences": {
     "layoutHint": "hero-gallery",
     "heroAspect": "9/16"
-  }
+  },
+  "seoTags": [
+    "campaign design",
+    "event visuals",
+    "creative direction",
+    "design",
+    "illustration",
+    "animation",
+    "festival visuals",
+    "music events",
+    "Plans After"
+  ]
 }

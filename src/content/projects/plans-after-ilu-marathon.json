@@ -1,6 +1,6 @@
 {
   "slug": "plans-after-ilu-marathon",
-  "title": "Plans After — ILU Marathon",
+  "title": "Plans After - ILU Marathon",
   "discipline": "campaigns-events",
   "projectType": "client",
   "composition": "graphic-sequence",
@@ -42,5 +42,16 @@
   "compositionPreferences": {
     "layoutHint": "editorial",
     "heroAspect": "4/5"
-  }
+  },
+  "seoTags": [
+    "campaign design",
+    "event visuals",
+    "creative direction",
+    "design",
+    "illustration",
+    "animation",
+    "festival visuals",
+    "music events",
+    "Plans After"
+  ]
 }

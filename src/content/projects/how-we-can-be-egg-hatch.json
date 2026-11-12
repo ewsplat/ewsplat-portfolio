@@ -1,6 +1,6 @@
 {
   "slug": "how-we-can-be-egg-hatch",
-  "title": "How We Can Be — Egg Hatch Promotion",
+  "title": "How We Can Be - Egg Hatch Promotion",
   "discipline": "campaigns-events",
   "projectType": "client",
   "composition": "motion",
@@ -31,5 +31,12 @@
   "compositionPreferences": {
     "layoutHint": "hero-gallery",
     "heroAspect": "9/16"
-  }
+  },
+  "seoTags": [
+    "campaign design",
+    "event visuals",
+    "animation",
+    "personal illustration",
+    "How We Can Be"
+  ]
 }

@@ -1,6 +1,6 @@
 {
   "slug": "flux-eden-burns-event-artwork",
-  "title": "Flux — Eden Burns Event Artwork",
+  "title": "Flux - Eden Burns Event Artwork",
   "discipline": "graphic-design",
   "projectType": "client",
   "composition": "graphic-sequence",
@@ -37,5 +37,9 @@
   "compositionPreferences": {
     "layoutHint": "paired",
     "heroAspect": "4/3"
-  }
+  },
+  "seoTags": [
+    "graphic design",
+    "event graphics"
+  ]
 }

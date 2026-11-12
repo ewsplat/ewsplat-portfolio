@@ -24,25 +24,30 @@
   "hero": {
     "type": "video",
     "src": "/media/ClothingBrands/ChecksDowntown/ChecksRadio-AnimatedLogo/JustSpin.mp4",
-    "alt": "Checks Radio animated identity — rotating logo motion",
+    "alt": "Checks Radio animated identity - rotating logo motion",
     "aspect": "1/1"
   },
   "gallery": [
     {
       "type": "video",
       "src": "/media/ClothingBrands/ChecksDowntown/ChecksRadio-AnimatedLogo/1080_Signal_RaisingUp.mp4",
-      "alt": "Checks Radio animated identity — signal raising motion",
+      "alt": "Checks Radio animated identity - signal raising motion",
       "aspect": "1/1"
     },
     {
       "type": "video",
       "src": "/media/ClothingBrands/ChecksDowntown/ChecksRadio-AnimatedLogo/Lofi.mp4",
-      "alt": "Checks Radio animated identity — lo-fi motion",
+      "alt": "Checks Radio animated identity - lo-fi motion",
       "aspect": "1/1"
     }
   ],
   "compositionPreferences": {
     "layoutHint": "hero-gallery",
     "heroAspect": "1/1"
-  }
+  },
+  "seoTags": [
+    "animation",
+    "motion design",
+    "Checks Radio"
+  ]
 }

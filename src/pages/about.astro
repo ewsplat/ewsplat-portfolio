@@ -22,14 +22,14 @@ const selectedWorks = selectedSlugs.map((slug) => {
 ---
 
 <Layout
-  title="About — EWSPLAT"
-  description="Nic Little's independent creative practice in Wellington — illustration, animation, character design and graphic design."
+  title="About | EWSPLAT - Nic Little"
+  description="Nic Little's independent creative practice in Wellington, working across illustration, character design, animation, motion design, graphic design and 3D."
 >
   <div class="container about-container">
     <header class="about-hero">
       <p class="page-kicker">EWSPLAT / About</p>
       <h1 class="about-title">
-        Independent creative practice based in Wellington.<span aria-hidden="true">.</span>
+        Independent creative practice based in Wellington<span aria-hidden="true">.</span>
       </h1>
       <div class="hero-follow">
         <p class="hero-echo">Run by Nic Little since 2020.</p>
@@ -42,19 +42,19 @@ const selectedWorks = selectedSlugs.map((slug) => {
       <div class="practice-copy">
         <h2 id="practice-title">What I make.</h2>
         <p>
-          EWSPLAT is Nic Little's independent creative practice, working across illustration, character design, 2D and 3D animation,
-          motion design, graphic design, visual identities, 3D modelling and rendering, and interactive work.
+          EWSPLAT is my independent creative practice in Wellington. I work across illustration, character design, animation, motion,
+          graphic design, visual identities and 3D.
         </p>
         <p>
-          Projects can be a single piece of artwork, a character, a motion study or a broader visual system — with the form shaped by what
-          the work needs.
+          Projects range from working within an existing brief to developing the visual direction from the ground up. Project pages include
+          my role and relevant credits.
         </p>
       </div>
     </section>
 
     <section class="selected-work" aria-labelledby="selected-work-title">
       <div class="section-heading">
-        <h2 id="selected-work-title">Different forms, same collection.</h2>
+        <h2 id="selected-work-title">Selected work.</h2>
       </div>
       <div class="artwork-grid">
         {selectedWorks.map(({ project, thumbnail }, index) => {
@@ -93,37 +93,25 @@ const selectedWorks = selectedSlugs.map((slug) => {
 
     <section class="approach-section" aria-labelledby="approach-title">
       <div class="approach-content">
-        <h2 id="approach-title">Sometimes execution. Sometimes the whole visual language.</h2>
-        <div class="approach-columns">
-          <div class="approach-note">
-            <h3>A defined brief</h3>
-            <p>
-              Some projects are focused responses to an existing brief or supplied creative material.
-              The work stays clear about what was made for the project and what came from elsewhere.
-            </p>
-          </div>
-          <div class="approach-note">
-            <h3>From direction to making</h3>
-            <p>
-              Other projects bring visual direction and execution together — connecting design,
-              illustration, characters and animation when that combination suits the work.
-            </p>
-          </div>
-        </div>
-        <p class="approach-footnote">
-          Each project page describes the contribution and credits the work accordingly.
+        <h2 id="approach-title">How I work.</h2>
+        <p class="approach-copy">
+          I like moving between disciplines and choosing the right form for the idea. That might mean drawing characters, building
+          something in 3D, animating a supplied identity, designing campaign artwork or developing a project across several formats.
         </p>
       </div>
     </section>
 
     <section class="collaboration-section" aria-labelledby="collaboration-title">
       <div class="collaboration-content">
-        <h2 id="collaboration-title">Music, fashion, events, entertainment and commercial projects.</h2>
+        <h2 id="collaboration-title">Clients and collaborators.</h2>
         <p>
-          Selected clients and collaborators include Lower Clothing, Checks Downtown, Commercial Bay,
-          Newground Coffee, Plans After and others. Collaborations with agencies, studios and brands are welcome,
-          as are projects with independent clients. From a defined piece of making to a project that needs
-          several disciplines to connect.
+          Selected clients and collaborators include Lower Clothing, Checks Downtown, Commercial Bay, Newground Coffee and Plans After.
+        </p>
+        <p>
+          I've worked across music, fashion, events, entertainment and commercial projects, alongside an ongoing personal practice.
+        </p>
+        <p>
+          I'm open to collaborations with studios, agencies, brands and independent clients.
         </p>
       </div>
     </section>
@@ -431,37 +419,12 @@ const selectedWorks = selectedSlugs.map((slug) => {
     max-width: 16ch;
   }
 
-  .approach-columns {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: clamp(1.5rem, 4vw, 3.5rem);
-    margin-top: clamp(2rem, 5vw, 4rem);
-  }
-
-  .approach-note {
-    padding-top: 0.75rem;
-    border-top: 1px solid var(--color-accent);
-  }
-
-  .approach-note h3 {
-    font-family: var(--font-display);
-    font-size: clamp(1.7rem, 2.7vw, 2.5rem);
-    line-height: 0.95;
-    text-transform: uppercase;
-  }
-
-  .approach-note p,
-  .approach-footnote {
-    margin-top: 0.8rem;
+  .approach-copy {
+    max-width: 47rem;
+    margin-top: clamp(1.25rem, 3vw, 2rem);
     color: var(--color-muted);
-    font-size: 0.9rem;
+    font-size: clamp(1rem, 1.6vw, 1.25rem);
     line-height: 1.65;
-  }
-
-  .approach-footnote {
-    margin-top: 1.5rem;
-    font-family: var(--font-mono);
-    font-size: 0.65rem;
   }
 
   .collaboration-section {
@@ -632,12 +595,6 @@ const selectedWorks = selectedSlugs.map((slug) => {
 
     .artwork-media :global(img) {
       max-height: 68svh;
-    }
-
-    .approach-columns {
-      grid-template-columns: minmax(0, 1fr);
-      gap: 1.5rem;
-      margin-top: 2rem;
     }
 
     .contact-transition {

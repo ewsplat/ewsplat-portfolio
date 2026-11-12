@@ -1,6 +1,6 @@
 {
   "slug": "elsewhere-festival-auckland",
-  "title": "Elsewhere Festival — Visual Identity & 3D Motion",
+  "title": "Elsewhere Festival - Visual Identity & 3D Motion",
   "discipline": "animation-motion",
   "projectType": "client",
   "composition": "motion",
@@ -43,5 +43,12 @@
   "compositionPreferences": {
     "layoutHint": "hero-gallery",
     "heroAspect": "16/9"
-  }
+  },
+  "seoTags": [
+    "animation",
+    "motion design",
+    "3D animation",
+    "event promotion",
+    "Elsewhere Festival"
+  ]
 }

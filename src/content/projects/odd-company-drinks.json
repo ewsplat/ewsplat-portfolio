@@ -1,6 +1,6 @@
 {
   "slug": "odd-company-drinks",
-  "title": "Odd Company — Drinks Campaign",
+  "title": "Odd Company - Drinks Campaign",
   "discipline": "animation-motion",
   "projectType": "client",
   "composition": "motion",
@@ -45,5 +45,12 @@
   "compositionPreferences": {
     "layoutHint": "hero-gallery",
     "heroAspect": "1/1"
-  }
+  },
+  "seoTags": [
+    "animation",
+    "motion design",
+    "creative direction",
+    "design",
+    "Odd Company"
+  ]
 }

@@ -30,14 +30,21 @@ const getRoles = (project: any) => {
 const getClient = (project: any) => project?.data?.client;
 
 // Editorial moment mapping: explicit dominant/secondary relationships per moment.
-// Asymmetry comes from scale, alignment and negative space — not arbitrary overlap.
+// Asymmetry comes from scale, alignment and negative space - not arbitrary overlap.
 const momentPlan = [
   { dominant: 0, secondary: 1, ratio: '8/4', secondaryOffset: 'lower' },
   { dominant: 2, secondary: 3, ratio: '7/5', secondaryOffset: 'middle' },
   { dominant: 4, secondary: 5, ratio: '6/6', secondaryOffset: 'middle' },
+  { cinematic: true },
   { dominant: 6, secondary: 8, ratio: '6/6', secondaryOffset: 'aligned' },
   { dominant: 7, ratio: 'standalone' },
 ];
+
+const deepStateFeature = {
+  href: withBase('/projects/deepstate-now-that-youre-gone'),
+  src: withBase('/media/portfolio/deepstate/now-that-youre-gone-homepage.mp4'),
+  poster: withBase('/media/portfolio/deepstate/now-that-youre-gone-homepage-poster.webp'),
+};
 
 // Curated archive portal items: published projects that are NOT homepage-featured.
 // These become the kinetic fragments of the archive gateway.
@@ -52,6 +59,20 @@ const portalProjectSlugs = [
   'kaylee-bell-cowboy-up',
   'spinoff-nz-web-illustrations',
   'ewsplat-motion-experiments',
+  'checks-downtown-graphic-design',
+  'commercial-bay-happy-plants',
+  'commercial-bay-valet-service',
+  'lower-logo-animation',
+  'lower-billie-hoodie-graphic',
+  'wet-denim-again-and-again',
+  'play-it-strange-animated-logo-character',
+  'newground-product-renders-website-motion',
+  'wyld-coffee-product-renders',
+  'how-we-can-be-event-visuals',
+  'plans-after-projector-visuals',
+  'odd-company-drinks',
+  'personal-character-exploration',
+  'personal-trippy-pup',
 ];
 
 interface PortalMedia {
@@ -60,6 +81,7 @@ interface PortalMedia {
   poster?: string;
   aspect?: string;
   alt?: string;
+  color?: string;
 }
 
 interface PortalItem {
@@ -71,35 +93,80 @@ interface PortalItem {
 }
 
 const portalPublished = publishedProjects.filter((p) => p.data.homepageFeatured !== true);
+const localYouTubePosters: Record<string, string> = {
+  'deepstate-rain': '/media/portfolio/youtube-posters/deepstate-rain-maxres.jpg',
+  'deepstate-now-that-youre-gone': '/media/portfolio/youtube-posters/deepstate-now-that-youre-gone-maxres.jpg',
+  'wet-denim-again-and-again': '/media/portfolio/youtube-posters/wet-denim-again-and-again-maxres.jpg',
+};
+
+const isLocalSource = (src?: string) => Boolean(src && !/^(?:https?:)?\/\//i.test(src));
+const isPortalVisual = (media: any) => media
+  && media.type !== 'youtube'
+  && ['image', 'gif', 'video'].includes(media.type)
+  && isLocalSource(media.src);
+
+const selectPortalMedia = (project: any): PortalMedia => {
+  const directCandidates = [project.data.thumbnail, project.data.hero];
+  const supportingCandidates = [
+    ...(project.data.gallery ?? []),
+    ...(project.data.sections ?? [])
+      .filter((section: any) => section.type === 'media')
+      .map((section: any) => section.media),
+  ];
+  const localCandidate = [...directCandidates, ...supportingCandidates].find(isPortalVisual);
+  if (localCandidate) return localCandidate;
+
+  const localPoster = localYouTubePosters[project.data.slug ?? project.id];
+  if (localPoster) {
+    return {
+      type: 'image',
+      src: localPoster,
+      aspect: project.data.thumbnail?.aspect ?? project.data.hero?.aspect ?? '16/9',
+      alt: project.data.thumbnail?.alt ?? project.data.hero?.alt ?? `${project.data.title} preview`,
+    };
+  }
+
+  const localPosterCandidate = [...directCandidates, ...supportingCandidates]
+    .find((media: any) => isLocalSource(media?.poster));
+  if (localPosterCandidate?.poster) {
+    return {
+      type: 'image',
+      src: localPosterCandidate.poster,
+      aspect: localPosterCandidate.aspect ?? '4/3',
+      alt: localPosterCandidate.alt ?? `${project.data.title} preview`,
+    };
+  }
+
+  return {
+    type: 'placeholder',
+    aspect: '4/3',
+    alt: `${project.data.title} project preview`,
+    color: 'var(--color-surface)',
+  };
+};
+
 const portalItems: PortalItem[] = portalProjectSlugs
   .map((slug) => {
     const project = portalPublished.find((p) => p.data.slug === slug);
     if (!project) return null;
-    const thumb = project.data.thumbnail;
     return {
       slug: project.data.slug,
       title: project.data.title,
       discipline: project.data.discipline,
       year: project.data.year ?? '',
-      media: {
-        type: thumb?.type ?? 'image',
-        src: thumb?.src,
-        poster: thumb?.poster,
-        aspect: thumb?.aspect ?? '4/3',
-        alt: thumb?.alt ?? project.data.title,
-      },
+      media: selectPortalMedia(project),
     } as PortalItem;
   })
   .filter((item): item is PortalItem => item !== null);
 ---
 
-<Layout title="EWSPLAT — Illustration, Character Design & Motion" description="Nic Little's independent creative practice in Wellington, illustration, character design, animation and graphic design.">
+<Layout title="EWSPLAT | Nic Little - Illustration, Character Design, Animation and Graphic Design" description="EWSPLAT is Nic Little's independent creative practice in Wellington, New Zealand, working across illustration, character design, animation, motion, graphic design and 3D.">
   <div class="container home-page" data-home-interaction>
 
     <!-- MASTHEAD -->
     <header class="home-masthead" aria-label="EWSPLAT creative practice introduction">
       <div class="masthead-headline-wrap">
-        <span class="home-eyebrow">EWSPLAT / INDEPENDENT CREATIVE PRACTICE / WLG—NZ</span>
+        <span class="home-eyebrow">EWSPLAT / INDEPENDENT CREATIVE PRACTICE / WLG-NZ</span>
         <h1 class="masthead-title">
           <span class="headline-line">ILLUSTRATION,<br>CHARACTER DESIGN,<br>ANIMATION +<br>GRAPHIC DESIGN.</span>
         </h1>
@@ -109,6 +176,37 @@ const portalItems: PortalItem[] = portalProjectSlugs
     <!-- HOMEPAGE: Editorial moment sequence -->
     <main class="home-moments" aria-label="Featured projects">
       {momentPlan.map((moment, momentIndex) => {
+        if ('cinematic' in moment) {
+          return (
+            <section class="home-cinematic" aria-label="Featured music video">
+              <a
+                href={deepStateFeature.href}
+                class="home-cinematic-link"
+                aria-label="View deepState - Now That You're Gone project"
+              >
+                <div class="home-cinematic-media">
+                  <video
+                    src={deepStateFeature.src}
+                    poster={deepStateFeature.poster}
+                    autoplay
+                    muted
+                    loop
+                    playsinline
+                    preload="none"
+                    data-preview-video
+                    aria-hidden="true"
+                  ></video>
+                </div>
+                <div class="home-cinematic-caption">
+                  <span class="home-cinematic-kicker">Music video</span>
+                  <h2>deepState / Now That You're Gone</h2>
+                  <span class="home-cinematic-view">View project</span>
+                </div>
+              </a>
+            </section>
+          );
+        }
+
         const domProject = homepageProjects[moment.dominant];
         const secProject = moment.secondary !== undefined ? homepageProjects[moment.secondary] : null;
         return (
@@ -153,7 +251,7 @@ const portalItems: PortalItem[] = portalProjectSlugs
                       <h2 class="project-title"><span>{domProject.data.title}</span></h2>
                       <p class="project-meta">
                         {roles && <span class="project-roles">{roles}</span>}
-                        {client && <span class="project-context">— {client}</span>}
+                        {client && <span class="project-context">- {client}</span>}
                       </p>
                       <span class="project-view">View project →</span>
                     </div>
@@ -162,9 +260,9 @@ const portalItems: PortalItem[] = portalProjectSlugs
               })()}
             </a>
             </article>
-{momentIndex === 0 && (
+{false && (
               <div class="yuck-wrapper">
-                <a href={withBase('/projects/personal-sour-yuck')} class="yuck-link" aria-label="View Sour Yuck! — Personal Work">
+                <a href={withBase('/projects/personal-sour-yuck')} class="yuck-link" aria-label="View Sour Yuck! - Personal Work">
                 <div class="yuck-accent">
                   <MediaBlock
                     type="image"
@@ -218,7 +316,7 @@ const portalItems: PortalItem[] = portalProjectSlugs
                         <h2 class="project-title"><span>{secProject.data.title}</span></h2>
                         <p class="project-meta">
                           {roles && <span class="project-roles">{roles}</span>}
-                          {client && <span class="project-context">— {client}</span>}
+                          {client && <span class="project-context">- {client}</span>}
                         </p>
                         <span class="project-view">View project →</span>
                       </div>
@@ -231,6 +329,7 @@ const portalItems: PortalItem[] = portalProjectSlugs
           </section>
         );
       })}
+
     </main>
 
     <!-- ARCHIVE GATEWAY: kinetic orbital archive -->
@@ -301,12 +400,29 @@ const portalItems: PortalItem[] = portalProjectSlugs
   }
 
   /* HOME MOMENTS: editorial sequence of paired moments.
-     Asymmetry comes from scale, alignment and negative space — not arbitrary overlap. */
+     Asymmetry comes from scale, alignment and negative space - not arbitrary overlap. */
   .home-moments {
     display: flex;
     flex-direction: column;
     gap: clamp(2rem, 4vw, 4rem);
     margin-bottom: clamp(2rem, 4vw, 3rem);
+  }
+
+  /* Sour Yuck remains available through its project page and the Archive. */
+  .home-moment:first-child {
+    margin-bottom: 0;
+  }
+  .home-moment:first-child .yuck-wrapper {
+    top: calc(100% + 2rem);
+    left: 58%;
+    width: clamp(220px, 24vw, 340px);
+  }
+  .home-moment:first-child .yuck-accent {
+    transform: none;
+  }
+  .home-moment:first-child .yuck-link:hover .yuck-accent,
+  .home-moment:first-child .yuck-link:focus-visible .yuck-accent {
+    transform: translateY(-4px);
   }
 
   .home-moment {
@@ -331,8 +447,8 @@ const portalItems: PortalItem[] = portalProjectSlugs
   /* YUCK accent - small intentional overlap on Orange Fields moment */
   .yuck-wrapper {
     position: absolute;
-    left: min(61%, 42rem);
-    top: 54%;
+    left: min(68%, 48rem);
+    top: 48%;
     width: clamp(88px, 11vw, 150px);
     aspect-ratio: 1;
     overflow: visible;
@@ -345,7 +461,8 @@ const portalItems: PortalItem[] = portalProjectSlugs
     width: 100%;
     height: auto;
     z-index: 25;
-    transition: transform 180ms ease;
+    transform: translate(22%, -18%) rotate(-6deg);
+    transition: transform 260ms cubic-bezier(0.2, 0.75, 0.25, 1);
   }
 
   .yuck-accent :global(.media-block) {
@@ -368,7 +485,7 @@ const portalItems: PortalItem[] = portalProjectSlugs
   }
   .yuck-label small { color: var(--color-muted); font-size: inherit; }
   @media (hover: hover) {
-    .yuck-link:hover .yuck-accent, .yuck-link:focus-visible .yuck-accent { transform: rotate(2deg) scale(1.04); }
+    .yuck-link:hover .yuck-accent, .yuck-link:focus-visible .yuck-accent { transform: translate(22%, -18%) rotate(-2deg) scale(1.04); }
     .yuck-link:hover .yuck-label, .yuck-link:focus-visible .yuck-label { opacity: 1; }
   }
 
@@ -540,11 +657,90 @@ const portalItems: PortalItem[] = portalProjectSlugs
     border-color: var(--color-accent);
   }
 
+  /* One calm, screen-like interruption to the homepage's paired compositions. */
+  .home-cinematic {
+    width: min(78%, 1180px);
+    margin: clamp(5rem, 11vw, 10rem) auto;
+  }
+
+  .home-cinematic-link {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .home-cinematic-media {
+    overflow: hidden;
+    background: #160f16;
+    border: 1px solid var(--color-border);
+    aspect-ratio: 701 / 540;
+  }
+
+  .home-cinematic-media video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .home-cinematic-caption {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0.25rem 1rem;
+    align-items: baseline;
+    padding-top: 0.7rem;
+  }
+
+  .home-cinematic-kicker,
+  .home-cinematic-view {
+    font-family: var(--font-mono);
+    font-size: 0.5625rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .home-cinematic-kicker {
+    color: var(--color-accent);
+  }
+
+  .home-cinematic h2 {
+    grid-column: 1;
+    margin: 0;
+    font-family: var(--font-headline);
+    font-size: clamp(1.25rem, 2vw, 1.7rem);
+    font-weight: 500;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .home-cinematic-view {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    align-self: end;
+    color: var(--color-text);
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 0.1rem;
+    transition: color 160ms ease;
+  }
+
+  .home-cinematic-link:hover .home-cinematic-media {
+    border-color: var(--color-accent);
+  }
+
+  .home-cinematic-link:hover .home-cinematic-view {
+    color: var(--color-accent);
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .yuck-accent, .yuck-label { transition: none; }
     .project-card--secondary,
     .project-card--standalone {
       transition: none;
+    }
+
+    .home-cinematic-link:hover .home-cinematic-media {
+      border-color: var(--color-border);
     }
   }
 
@@ -553,9 +749,13 @@ const portalItems: PortalItem[] = portalProjectSlugs
     .project-card--standalone:active {
       border-color: var(--color-accent);
     }
+
+    .home-cinematic-link:active .home-cinematic-media {
+      border-color: var(--color-accent);
+    }
   }
 
-  /* Moment 1 — 8 / 4 */
+  /* Moment 1 - 8 / 4 */
   .home-moment--8-4 {
     grid-template-columns: 8fr 4fr;
   }
@@ -564,22 +764,22 @@ const portalItems: PortalItem[] = portalProjectSlugs
     padding-top: clamp(2rem, 5vw, 4rem);
   }
 
-  /* Moment 2 — 7 / 5 */
+  /* Moment 2 - 7 / 5 */
   .home-moment--7-5 {
     grid-template-columns: 7fr 5fr;
   }
 
-  /* Moment 3 — 6 / 6 */
+  /* Moment 3 - 6 / 6 */
   .home-moment--6-6 {
     grid-template-columns: 6fr 6fr;
   }
 
-  /* Moment 4 — 6 / 6 */
+  /* Moment 4 - 6 / 6 */
   .home-moment--6-6[data-moment="4"] {
     grid-template-columns: 6fr 6fr;
   }
 
-  /* Moment 5 — standalone */
+  /* Moment 5 - standalone */
   .home-moment--standalone {
     grid-template-columns: 1fr;
   }
@@ -838,7 +1038,8 @@ const portalItems: PortalItem[] = portalProjectSlugs
 
   /* Mobile / Tablet - Simplified cluster */
   @media (max-width: 900px) {
-    .yuck-wrapper { left: auto; right: 3%; top: 54%; }
+    .home-moment:first-child { margin-bottom: 0; }
+    .home-moment:first-child .yuck-wrapper { left: 0; right: auto; top: calc(100% + 1rem); width: clamp(210px, 55vw, 310px); }
     .yuck-label { opacity: 1; }
     .archive-cluster {
       padding-top: clamp(2rem, 4vw, 3rem);
@@ -1044,6 +1245,11 @@ const portalItems: PortalItem[] = portalProjectSlugs
      HOME MOMENTS RESPONSIVE
      ========================================================================== */
   @media (max-width: 1024px) {
+    .home-cinematic {
+      width: min(88%, 860px);
+      margin: clamp(4rem, 9vw, 6rem) auto;
+    }
+
     .home-moment {
       grid-template-columns: 1fr;
       gap: clamp(0.75rem, 1.5vw, 1.25rem);
@@ -1054,9 +1260,7 @@ const portalItems: PortalItem[] = portalProjectSlugs
       padding-top: 0;
     }
 
-    .yuck-accent {
-      display: none;
-    }
+    .yuck-accent { transform: translate(12%, -12%) rotate(-5deg); }
 
     .project-card--secondary,
     .project-card--standalone {
@@ -1075,6 +1279,20 @@ const portalItems: PortalItem[] = portalProjectSlugs
   }
 
   @media (max-width: 640px) {
+    .home-cinematic {
+      width: 100%;
+      margin: clamp(3rem, 12vw, 4.5rem) auto;
+    }
+
+    .home-cinematic-caption {
+      gap: 0.35rem 0.75rem;
+      padding-top: 0.6rem;
+    }
+
+    .home-cinematic h2 {
+      font-size: clamp(1.1rem, 5.1vw, 1.45rem);
+    }
+
     .home-masthead {
       padding-top: 0.75rem;
       padding-bottom: 1rem;

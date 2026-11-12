@@ -12,14 +12,47 @@ export interface Props {
   socialImage?: string;
 }
 
-const { title = 'EWSPLAT', description = 'Independent creative practice - illustration, animation, graphic design and visual experiments.', type = 'website', socialImage } = Astro.props;
+const { title = 'EWSPLAT | Nic Little', description = 'EWSPLAT is Nic Little\'s independent creative practice in Wellington, New Zealand.', type = 'website', socialImage } = Astro.props;
 const projectSlug = Astro.url.pathname.match(/^\/projects\/([^/]+)/)?.[1];
 const project = projectSlug ? (await getCollection('projects')).find((item) => (item.data.slug ?? item.id) === projectSlug) : undefined;
 const resolvedSocialImage = socialImage ?? project?.data.thumbnail?.src ?? project?.data.hero?.src;
 const siteOrigin = Astro.site?.toString().replace(/\/$/, '');
 const canonicalUrl = siteOrigin ? new URL(Astro.url.pathname, `${siteOrigin}/`).toString() : undefined;
 const absoluteSocialImage = resolvedSocialImage ? (/^(?:https?:)?\/\//i.test(resolvedSocialImage) ? resolvedSocialImage : siteOrigin ? new URL(withBase(resolvedSocialImage), `${siteOrigin}/`).toString() : undefined) : undefined;
-const jsonLd = { '@context': 'https://schema.org', '@type': type === 'article' ? 'CreativeWork' : 'WebPage', name: title, description, ...(canonicalUrl ? { url: canonicalUrl } : {}), ...(absoluteSocialImage ? { image: absoluteSocialImage } : {}), creator: { '@type': 'Person', name: 'Nic Little' } };
+const creator = {
+  '@type': 'Person',
+  name: 'Nic Little',
+  alternateName: 'EWSPLAT',
+  email: 'mailto:ewsplat@gmail.com',
+  homeLocation: { '@type': 'Place', name: 'Wellington, New Zealand' },
+  sameAs: ['https://www.instagram.com/ewsplat_/'],
+};
+const projectKeywords = project
+  ? [...new Set([...(project.data.seoTags ?? []), project.data.discipline, ...project.data.roles].filter(Boolean))]
+  : [];
+const pageSchema = {
+  '@context': 'https://schema.org',
+  '@type': type === 'article' ? 'CreativeWork' : 'WebPage',
+  name: title,
+  description,
+  ...(canonicalUrl ? { url: canonicalUrl } : {}),
+  ...(absoluteSocialImage ? { image: absoluteSocialImage } : {}),
+  creator,
+  ...(project?.data.year ? { dateCreated: String(project.data.year) } : {}),
+  ...(project?.data.discipline ? { genre: project.data.discipline } : {}),
+  ...(projectKeywords.length ? { keywords: projectKeywords.join(', ') } : {}),
+};
+const jsonLd = [
+  ...(Astro.url.pathname === '/' ? [{
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'EWSPLAT',
+    description: 'Independent creative practice by Nic Little in Wellington, New Zealand.',
+    ...(siteOrigin ? { url: new URL(withBase('/'), `${siteOrigin}/`).toString() } : {}),
+    publisher: creator,
+  }] : []),
+  pageSchema,
+];
 ---
 <!doctype html>
 <html lang="en">

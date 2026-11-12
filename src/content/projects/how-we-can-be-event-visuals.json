@@ -1,6 +1,6 @@
 {
   "slug": "how-we-can-be-event-visuals",
-  "title": "How We Can Be — Event Visuals",
+  "title": "How We Can Be - Event Visuals",
   "discipline": "campaigns-events",
   "projectType": "client",
   "composition": "motion",
@@ -40,5 +40,11 @@
   "compositionPreferences": {
     "layoutHint": "hero-gallery",
     "heroAspect": "9/16"
-  }
+  },
+  "seoTags": [
+    "campaign design",
+    "event visuals",
+    "personal illustration",
+    "How We Can Be"
+  ]
 }

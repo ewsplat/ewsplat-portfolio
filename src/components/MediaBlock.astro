@@ -45,9 +45,13 @@ const {
 const prefersReducedMotion = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 // Independent video behavior props: use explicit values if set, otherwise fall back to coupled behavior for backward compatibility
-const videoMuted = muted ?? controls;
-const videoLoop = loop ?? controls;
-const videoAutoPlay = autoPlay ?? (controls && !prefersReducedMotion);
+const isNativeVideo = type === 'video';
+const isPreviewVideo = isNativeVideo && controls === false;
+// Native portfolio motion should reveal itself. YouTube remains deliberately
+// user-controlled and is not included in this behaviour.
+const videoMuted = muted ?? isNativeVideo;
+const videoLoop = loop ?? isNativeVideo;
+const videoAutoPlay = autoPlay ?? isNativeVideo;
 
 const fit = crop ? 'cover' : objectFit;
 const mediaStyle = fit ? `object-fit: ${fit};` : '';
@@ -61,7 +65,9 @@ const youtubePoster = mediaPoster ?? (videoId ? `https://i.ytimg.com/vi/${videoI
 
 <div
   class:list={['media-block', { 'has-aspect': Boolean(effectiveAspect) }]}
-  data-media-control={type === 'video' || type === 'gif' || type === 'youtube' ? 'true' : undefined}
+  data-media-control={type === 'video' && controls ? 'true' : undefined}
+  data-preview-video={isPreviewVideo ? 'true' : undefined}
+  data-project-video={isNativeVideo && controls ? 'true' : undefined}
   data-playful-media={type === 'image' || type === 'gif' ? response : undefined}
   data-tilt-intensity={type === 'image' || type === 'gif' ? tiltIntensity : undefined}
   style={wrapperStyle}
@@ -85,6 +91,7 @@ const youtubePoster = mediaPoster ?? (videoId ? `https://i.ytimg.com/vi/${videoI
       muted={videoMuted}
       loop={videoLoop}
       autoPlay={videoAutoPlay}
+      data-preview-video={isPreviewVideo ? 'true' : undefined}
       aria-label={alt || 'Project video'}
       style={mediaStyle}
     >
@@ -154,7 +161,7 @@ const youtubePoster = mediaPoster ?? (videoId ? `https://i.ytimg.com/vi/${videoI
     height: 100%;
   }
 
-  /* Tactile tilt — pointer-responsive 3D surface.
+  /* Tactile tilt - pointer-responsive 3D surface.
      Consumes CSS custom properties set by setupArtworkInteractions() in interactions.ts.
      The media-block itself is the tilt surface; the inner img/video stays flat and undistorted. */
   .media-block[data-playful-media="tilt"],
@@ -192,7 +199,7 @@ const youtubePoster = mediaPoster ?? (videoId ? `https://i.ytimg.com/vi/${videoI
     }
   }
 
-  /* Touch devices: no tilt, no hover shadow — clean static presentation */
+  /* Touch devices: no tilt, no hover shadow - clean static presentation */
   @media (hover: none), (pointer: coarse) {
     .media-block[data-playful-media="tilt"],
     .media-block[data-playful-media="expressive"]:hover {

@@ -1,6 +1,6 @@
 {
   "slug": "plans-after-pubcrawl-london",
-  "title": "Plans After — Pubcrawl London",
+  "title": "Plans After - Pubcrawl London",
   "discipline": "campaigns-events",
   "projectType": "client",
   "composition": "graphic-sequence",
@@ -39,5 +39,16 @@
   "compositionPreferences": {
     "layoutHint": "paired",
     "heroAspect": "4/3"
-  }
+  },
+  "seoTags": [
+    "campaign design",
+    "event visuals",
+    "creative direction",
+    "design",
+    "illustration",
+    "animation",
+    "festival visuals",
+    "music events",
+    "Plans After"
+  ]
 }

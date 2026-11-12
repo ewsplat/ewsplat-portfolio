@@ -1,6 +1,6 @@
 {
   "slug": "newground-product-renders-website-motion",
-  "title": "NewGround — Product Renders",
+  "title": "NewGround - Product Renders",
   "discipline": "animation-motion",
   "projectType": "client",
   "composition": "motion",
@@ -31,36 +31,42 @@
     {
       "type": "image",
       "src": "/media/coffee/NewGround_Coffee_ProductRenders/APNG/Box1.png",
-      "alt": "NewGround product render — box one"
+      "alt": "NewGround product render - box one"
     },
     {
       "type": "image",
       "src": "/media/coffee/NewGround_Coffee_ProductRenders/APNG/Box2.png",
-      "alt": "NewGround product render — box two"
+      "alt": "NewGround product render - box two"
     },
     {
       "type": "image",
       "src": "/media/coffee/NewGround_Coffee_ProductRenders/APNG/Can1.png",
-      "alt": "NewGround product render — can one"
+      "alt": "NewGround product render - can one"
     },
     {
       "type": "image",
       "src": "/media/coffee/NewGround_Coffee_ProductRenders/APNG/Can2.png",
-      "alt": "NewGround product render — can two"
+      "alt": "NewGround product render - can two"
     },
     {
       "type": "image",
       "src": "/media/coffee/NewGround_Coffee_ProductRenders/APNG/Jar1.png",
-      "alt": "NewGround product render — jar one"
+      "alt": "NewGround product render - jar one"
     },
     {
       "type": "image",
       "src": "/media/coffee/NewGround_Coffee_ProductRenders/APNG/Jar2.png",
-      "alt": "NewGround product render — jar two"
+      "alt": "NewGround product render - jar two"
     }
   ],
   "compositionPreferences": {
     "layoutHint": "hero-gallery",
     "heroAspect": "1/1"
-  }
+  },
+  "seoTags": [
+    "animation",
+    "motion design",
+    "product rendering",
+    "NewGround"
+  ]
 }

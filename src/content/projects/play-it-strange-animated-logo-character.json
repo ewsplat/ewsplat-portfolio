@@ -1,6 +1,6 @@
 {
   "slug": "play-it-strange-animated-logo-character",
-  "title": "Play It Strange — Animated Logo & Character",
+  "title": "Play It Strange - Animated Logo & Character",
   "discipline": "animation-motion",
   "projectType": "client",
   "composition": "motion",
@@ -31,5 +31,11 @@
   "compositionPreferences": {
     "layoutHint": "hero-gallery",
     "heroAspect": "1/1"
-  }
+  },
+  "seoTags": [
+    "animation",
+    "motion design",
+    "character animation",
+    "Play It Strange"
+  ]
 }

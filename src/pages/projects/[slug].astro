@@ -121,7 +121,11 @@ const projectLink = (item: (typeof previous) & object) => ({
 });
 ---
 
-<Layout title={`${data.title} — EWSPLAT`} description={data.description ?? `${data.title} — EWSPLAT project.`}>
+<Layout
+  title={`${data.title} | EWSPLAT - Nic Little`}
+  description={data.description ?? `${data.title}, a ${data.discipline?.replace('-', ' ') ?? 'creative'} project by Nic Little for EWSPLAT.`}
+  type="article"
+>
   <div class:list={['project-opening', 'container', `presentation-${presentation}`, { 'portrait-opening': portraitHero, 'no-hero': !data.hero }]}>
     {data.hero && (
       <section
@@ -190,7 +194,7 @@ const projectLink = (item: (typeof previous) & object) => ({
                 videoId={item.videoId}
                 aspect={item.aspect}
                 color={item.color}
-                alt={item.alt || `${data.title} — image ${i + 1}`}
+                alt={item.alt || `${data.title} - image ${i + 1}`}
                 poster={item.poster}
                 crop={item.crop}
               />

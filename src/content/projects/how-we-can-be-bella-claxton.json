@@ -1,6 +1,6 @@
 {
   "slug": "how-we-can-be-bella-claxton",
-  "title": "How We Can Be — Bella Claxton Animation",
+  "title": "How We Can Be - Bella Claxton Animation",
   "discipline": "animation-motion",
   "projectType": "client",
   "composition": "motion",
@@ -31,5 +31,11 @@
   "compositionPreferences": {
     "layoutHint": "hero-gallery",
     "heroAspect": "1/1"
-  }
+  },
+  "seoTags": [
+    "animation",
+    "motion design",
+    "personal illustration",
+    "How We Can Be"
+  ]
 }

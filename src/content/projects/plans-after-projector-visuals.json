@@ -1,6 +1,6 @@
 {
   "slug": "plans-after-projector-visuals",
-  "title": "Plans After — Projector Visuals",
+  "title": "Plans After - Projector Visuals",
   "discipline": "animation-motion",
   "projectType": "client",
   "composition": "motion",
@@ -34,5 +34,15 @@
   "compositionPreferences": {
     "layoutHint": "hero-gallery",
     "heroAspect": "16/9"
-  }
+  },
+  "seoTags": [
+    "animation",
+    "motion design",
+    "creative direction",
+    "design",
+    "illustration",
+    "festival visuals",
+    "music events",
+    "Plans After"
+  ]
 }

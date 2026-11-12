@@ -17,7 +17,7 @@
   "credits": [
     {
       "role": "Commissioned via",
-      "name": "Zac Suvalko — Studio 024"
+      "name": "Zac Suvalko - Studio 024"
     },
     {
       "role": "Isometric illustration supplied by",
@@ -41,5 +41,11 @@
   "compositionPreferences": {
     "layoutHint": "hero-gallery",
     "heroAspect": "1679/944"
-  }
+  },
+  "seoTags": [
+    "animation",
+    "motion design",
+    "2D and 3D animation",
+    "Studio 024"
+  ]
 }

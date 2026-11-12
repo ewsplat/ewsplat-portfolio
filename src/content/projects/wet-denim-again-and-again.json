@@ -1,6 +1,6 @@
 {
   "slug": "wet-denim-again-and-again",
-  "title": "Wet Denim — Again and Again",
+  "title": "Wet Denim - Again and Again",
   "discipline": "animation-motion",
   "projectType": "client",
   "composition": "motion",
@@ -26,7 +26,7 @@
     "type": "youtube",
     "videoId": "AUlziTbce8A",
     "poster": "https://img.youtube.com/vi/AUlziTbce8A/maxresdefault.jpg",
-    "alt": "Wet Denim — Again and Again poster",
+    "alt": "Wet Denim - Again and Again poster",
     "aspect": "16/9"
   },
   "hero": {
@@ -34,7 +34,7 @@
     "videoId": "AUlziTbce8A",
     "poster": "https://img.youtube.com/vi/AUlziTbce8A/maxresdefault.jpg",
     "aspect": "16/9",
-    "alt": "Wet Denim — Again and Again music video"
+    "alt": "Wet Denim - Again and Again music video"
   },
   "credits": [
     {
@@ -53,5 +53,13 @@
   "compositionPreferences": {
     "layoutHint": "hero-gallery",
     "heroAspect": "16/9"
-  }
+  },
+  "seoTags": [
+    "animation",
+    "motion design",
+    "direction",
+    "video",
+    "3D character design",
+    "Wet Denim"
+  ]
 }

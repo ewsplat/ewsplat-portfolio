@@ -1,6 +1,6 @@
 {
   "slug": "found-store",
-  "title": "Found Store — Garment Artwork",
+  "title": "Found Store - Garment Artwork",
   "discipline": "graphic-design",
   "projectType": "client",
   "composition": "graphic-sequence",
@@ -38,5 +38,11 @@
   "compositionPreferences": {
     "layoutHint": "paired",
     "heroAspect": "3/4"
-  }
+  },
+  "seoTags": [
+    "graphic design",
+    "apparel graphics",
+    "illustration",
+    "typography"
+  ]
 }

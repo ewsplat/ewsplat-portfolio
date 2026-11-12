@@ -3,14 +3,14 @@
   "title": "Motion project composition test",
   "discipline": "animation-motion",
   "projectType": "experiment",
-  "description": "Placeholder only — a restrained opener for a landscape moving-image project.",
+  "description": "Placeholder only - a restrained opener for a landscape moving-image project.",
   "composition": "motion",
   "compositionTest": true,
   "workType": "uncertain",
   "placeholder": true,
   "draft": true,
   "archiveOrder": 999,
-  "roles": ["Animation — placeholder metadata"],
+  "roles": ["Animation - placeholder metadata"],
   "hero": {
     "type": "video",
     "src": "/media/composition-motion-test.webm",
@@ -29,7 +29,7 @@
       },
       "layout": "half",
       "alignment": "left",
-      "caption": "Supporting still — placeholder media"
+      "caption": "Supporting still - placeholder media"
     },
     {
       "type": "text",
@@ -48,7 +48,7 @@
       },
       "layout": "half",
       "alignment": "right",
-      "caption": "Frame study — placeholder media"
+      "caption": "Frame study - placeholder media"
     },
     {
       "type": "media",
@@ -60,7 +60,7 @@
       },
       "layout": "narrow",
       "alignment": "left",
-      "caption": "Behind the scenes — placeholder media"
+      "caption": "Behind the scenes - placeholder media"
     }
   ]
 }

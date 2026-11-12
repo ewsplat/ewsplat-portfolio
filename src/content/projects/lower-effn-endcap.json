@@ -1,6 +1,6 @@
 {
   "slug": "lower-effn-endcap",
-  "title": "Lower × Effn — 3D Logo End-Cap",
+  "title": "Lower × Effn - 3D Logo End-Cap",
   "discipline": "animation-motion",
   "projectType": "client",
   "composition": "motion",
@@ -38,5 +38,12 @@
   "compositionPreferences": {
     "layoutHint": "hero-gallery",
     "heroAspect": "16/9"
-  }
+  },
+  "seoTags": [
+    "animation",
+    "motion design",
+    "3D animation",
+    "fashion graphics",
+    "Lower"
+  ]
 }

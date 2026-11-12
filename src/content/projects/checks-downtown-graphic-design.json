@@ -1,6 +1,6 @@
 {
   "slug": "checks-downtown-graphic-design",
-  "title": "Checks Downtown — Garment Graphics",
+  "title": "Checks Downtown - Garment Graphics",
   "discipline": "graphic-design",
   "projectType": "client",
   "composition": "standard",
@@ -49,5 +49,11 @@
   "compositionPreferences": {
     "layoutHint": "gallery",
     "heroAspect": "3/4"
-  }
+  },
+  "seoTags": [
+    "graphic design",
+    "illustration",
+    "apparel graphics",
+    "Checks Downtown"
+  ]
 }

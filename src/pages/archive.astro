@@ -1,13 +1,14 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import MediaBlock from '../components/MediaBlock.astro';
+import { getArchiveOrder } from '../data/archive-order';
 import { withBase } from '../utils/site';
 import { getCollection } from 'astro:content';
 
 const allProjects = await getCollection('projects');
 const projects = allProjects
   .filter((p) => !p.data.draft && !p.data.compositionTest && !p.data.placeholder)
-  .sort((a, b) => (a.data.archiveOrder ?? a.data.featuredOrder ?? 999) - (b.data.archiveOrder ?? b.data.featuredOrder ?? 999)
+  .sort((a, b) => getArchiveOrder(a.data.slug ?? a.id) - getArchiveOrder(b.data.slug ?? b.id)
     || a.data.title.localeCompare(b.data.title));
 
 const totalCount = projects.length;
@@ -49,47 +50,42 @@ const disciplineCategories = [
   count: projects.filter((p) => p.data.discipline === category.id).length,
 })).filter((c) => c.count > 0);
 
-// Assign each project a grid size for modular layout based on featured status and discipline
+// Archive cards preserve the artwork's declared proportion. The span changes by
+// aspect group, not by record index, so comparable work carries comparable weight.
 interface ProjectWithSize {
   project: typeof modeDerived[0];
-  gridSize: 'large' | 'medium' | 'small' | 'portrait' | 'square' | 'cinematic';
+  gridSize: 'panoramic' | 'landscape' | 'square' | 'portrait' | 'tall';
+  aspect: string;
 }
 
-const projectsWithSize: ProjectWithSize[] = modeDerived.map((item, index) => {
+const aspectValue = (aspect?: string) => {
+  const [width, height] = (aspect ?? '4/3').split('/').map(Number);
+  return width > 0 && height > 0 ? width / height : 4 / 3;
+};
+
+const projectsWithSize: ProjectWithSize[] = modeDerived.map((item) => {
   const project = item;
-  const isFeatured = project.data.featured === true;
-  const isVideo = project.data.thumbnail?.type === 'video' || project.data.thumbnail?.type === 'youtube';
-  const discipline = project.data.discipline;
-
-  let gridSize: ProjectWithSize['gridSize'] = 'medium';
-
-  // Featured projects get priority for larger fragments
-  if (isFeatured && project.data.thumbnail) {
-    gridSize = isVideo ? 'cinematic' : 'large';
-  }
-  // Video content gets larger treatment for motion showcase
-  else if (isVideo && project.data.thumbnail) {
-    gridSize = 'large';
-  }
-  // Personal work thumbnails - varied for rhythm
-  else if (project._mode === 'personal' && project.data.thumbnail) {
-    const personalVariants: ProjectWithSize['gridSize'][] = ['medium', 'portrait', 'square', 'medium'];
-    gridSize = personalVariants[index % personalVariants.length];
-  }
-  // Default thumbnail treatment
-  else if (project.data.thumbnail) {
-    const standardVariants: ProjectWithSize['gridSize'][] = ['medium', 'small', 'square', 'portrait'];
-    gridSize = standardVariants[index % standardVariants.length];
-  }
+  const aspect = project.data.thumbnail?.aspect ?? '4/3';
+  const ratio = aspectValue(aspect);
+  const gridSize: ProjectWithSize['gridSize'] = ratio >= 2.15
+    ? 'panoramic'
+    : ratio >= 1.35
+      ? 'landscape'
+      : ratio >= 0.85
+        ? 'square'
+        : ratio >= 0.6
+          ? 'portrait'
+          : 'tall';
 
   return {
     project,
     gridSize,
+    aspect,
   };
 });
 ---
 
-<Layout title="Archive — EWSPLAT" description="Complete archive of works, experiments, and visual projects.">
+<Layout title="Archive | EWSPLAT - Nic Little" description="Explore the complete EWSPLAT archive of illustration, animation, character design, graphic design and visual projects by Nic Little.">
   <div class="container archive-container" data-archive>
     <!-- Archive Header -->
     <header class="archive-header">
@@ -205,7 +201,10 @@ const projectsWithSize: ProjectWithSize[] = modeDerived.map((item, index) => {
             data-project-category={discipline}
             data-project-year={year}
             data-project-index={index}
-            data-layout={index % 6}
+            data-order-all={getArchiveOrder(project.data.slug ?? project.id, 'all')}
+            data-order-personal={getArchiveOrder(project.data.slug ?? project.id, 'personal')}
+            data-order-commissions={getArchiveOrder(project.data.slug ?? project.id, 'commissions')}
+            style={`--archive-aspect: ${item.aspect};`}
           >
             <a
               href={withBase(`/projects/${project.data.slug ?? project.id}`)}
@@ -227,7 +226,7 @@ const projectsWithSize: ProjectWithSize[] = modeDerived.map((item, index) => {
                   />
                 )}
               </div>
-              <div class="fragment-label" aria-hidden="true">
+              <div class="fragment-label">
                 <span class="fragment-label-title">{project.data.title}</span>
                 <span class="fragment-label-meta">{discipline}{year ? ` · ${year}` : ''}</span>
               </div>
@@ -546,6 +545,8 @@ const projectsWithSize: ProjectWithSize[] = modeDerived.map((item, index) => {
   /* Fragment Base */
   .archive-fragment {
     position: relative;
+    align-self: start;
+    aspect-ratio: var(--archive-aspect, 4 / 3);
     border: 1px solid var(--color-border);
     background-color: var(--color-surface);
     overflow: hidden;
@@ -574,12 +575,13 @@ const projectsWithSize: ProjectWithSize[] = modeDerived.map((item, index) => {
     background: transparent;
     width: 100%;
     height: 100%;
+    aspect-ratio: var(--archive-aspect, 4 / 3) !important;
   }
 
   .fragment-media :global(.media-block img),
   .fragment-media :global(.media-block video),
   .fragment-media :global(.media-block iframe) {
-    object-fit: cover;
+    object-fit: contain;
     width: 100%;
     height: 100%;
   }
@@ -589,43 +591,24 @@ const projectsWithSize: ProjectWithSize[] = modeDerived.map((item, index) => {
   }
 
   /* Grid Sizes - 12 column modular system */
-  .fragment-large {
+  .fragment-panoramic {
     grid-column: span 8;
-    aspect-ratio: 16 / 9;
   }
 
-  .fragment-cinematic {
-    grid-column: span 8;
-    aspect-ratio: 21 / 9;
+  .fragment-landscape {
+    grid-column: span 7;
   }
 
-  .fragment-medium {
-    grid-column: span 6;
-    aspect-ratio: 4 / 3;
-  }
-
-  .fragment-small {
-    grid-column: span 4;
-    aspect-ratio: 1 / 1;
+  .fragment-square {
+    grid-column: span 5;
   }
 
   .fragment-portrait {
     grid-column: span 4;
-    aspect-ratio: 3 / 4;
   }
 
-  .fragment-square {
-    grid-column: span 6;
-    aspect-ratio: 1 / 1;
-  }
-
-  @media (min-width: 901px) {
-    .archive-fragment[data-layout='0'] { grid-column: 1 / span 7; }
-    .archive-fragment[data-layout='1'] { grid-column: 7 / span 6; }
-    .archive-fragment[data-layout='2'] { grid-column: 2 / span 5; }
-    .archive-fragment[data-layout='3'] { grid-column: 8 / span 5; }
-    .archive-fragment[data-layout='4'] { grid-column: 1 / span 4; }
-    .archive-fragment[data-layout='5'] { grid-column: 6 / span 7; }
+  .fragment-tall {
+    grid-column: span 3;
   }
 
   /* Reduced motion - disable hover transforms */
@@ -654,21 +637,13 @@ const projectsWithSize: ProjectWithSize[] = modeDerived.map((item, index) => {
       gap: clamp(0.5rem, 1.2vw, 1rem);
     }
 
-    .fragment-large,
-    .fragment-cinematic,
-    .fragment-medium,
-    .fragment-small,
+    .fragment-panoramic,
+    .fragment-landscape,
     .fragment-portrait,
-    .fragment-square {
+    .fragment-square,
+    .fragment-tall {
       grid-column: 1 / -1;
     }
-
-    .fragment-large { aspect-ratio: 16 / 9; }
-    .fragment-cinematic { aspect-ratio: 21 / 9; }
-    .fragment-medium { aspect-ratio: 4 / 3; }
-    .fragment-small { aspect-ratio: 1 / 1; }
-    .fragment-portrait { aspect-ratio: 3 / 4; }
-    .fragment-square { aspect-ratio: 1 / 1; }
   }
 
   /* Mobile - Stack vertically, larger media */
@@ -726,11 +701,63 @@ const projectsWithSize: ProjectWithSize[] = modeDerived.map((item, index) => {
     }
 
     .archive-fragment {
-      aspect-ratio: 16 / 9 !important;
+      aspect-ratio: auto;
+      overflow: visible;
+    }
+
+    .fragment-link,
+    .fragment-media {
+      height: auto;
+    }
+
+    .fragment-media {
+      aspect-ratio: var(--archive-aspect, 4 / 3);
+      overflow: hidden;
+      border-bottom: 1px solid var(--color-border);
     }
 
     .project-tooltip {
       display: none;
+    }
+
+    .fragment-label {
+      display: grid;
+      gap: 0.25rem;
+      padding: 0.65rem 0.75rem 0.7rem;
+      background: var(--color-surface);
+      border-top: 1px solid var(--color-border);
+    }
+
+    .fragment-label-title {
+      font-family: var(--font-headline);
+      font-size: 0.95rem;
+      line-height: 1.05;
+    }
+
+    .fragment-label-meta {
+      color: var(--color-muted);
+      font-family: var(--font-mono);
+      font-size: 0.5625rem;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+    }
+  }
+
+  @media (hover: none), (pointer: coarse) {
+    .archive-fragment {
+      aspect-ratio: auto;
+      overflow: visible;
+    }
+
+    .fragment-link,
+    .fragment-media {
+      height: auto;
+    }
+
+    .fragment-media {
+      aspect-ratio: var(--archive-aspect, 4 / 3);
+      overflow: hidden;
+      border-bottom: 1px solid var(--color-border);
     }
 
     .fragment-label {
@@ -765,11 +792,12 @@ const projectsWithSize: ProjectWithSize[] = modeDerived.map((item, index) => {
     const filterNav = archive.querySelector<HTMLElement>('[data-archive-filters]');
     const buttons = Array.from(archive.querySelectorAll<HTMLButtonElement>('[data-filter]'));
     const items = Array.from(archive.querySelectorAll<HTMLElement>('[data-archive-item]'));
+    const grid = archive.querySelector<HTMLElement>('[data-archive-grid]');
     const resultCopy = archive.querySelector<HTMLElement>('[data-result-copy]');
     const stamp = archive.querySelector<HTMLElement>('[data-filter-stamp]');
     const emptyState = archive.querySelector<HTMLElement>('[data-archive-empty]');
 
-    if (!filterNav || !resultCopy || !stamp || !emptyState || buttons.length === 0 || items.length === 0) {
+    if (!filterNav || !grid || !resultCopy || !stamp || !emptyState || buttons.length === 0 || items.length === 0) {
       return;
     }
 
@@ -797,6 +825,19 @@ const projectsWithSize: ProjectWithSize[] = modeDerived.map((item, index) => {
     }
 
     const applyFilters = () => {
+      const orderKey = activeMode === 'personal'
+        ? 'orderPersonal'
+        : activeMode === 'commissions'
+          ? 'orderCommissions'
+          : 'orderAll';
+
+      // Move the actual elements, rather than only changing visual CSS order,
+      // so keyboard and screen-reader traversal matches every curated filter.
+      [...items]
+        .sort((a, b) => Number(a.dataset[orderKey] ?? Number.MAX_SAFE_INTEGER)
+          - Number(b.dataset[orderKey] ?? Number.MAX_SAFE_INTEGER))
+        .forEach((item) => grid.append(item));
+
       let visibleCount = 0;
       items.forEach((item) => {
         const categories = item.dataset.categories?.split(' ') ?? [];

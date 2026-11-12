@@ -1,3 +1,5 @@
+import { withBase } from '../utils/site';
+
 function setupAnimationControls() {
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   if (reducedMotion.matches) return;
@@ -55,6 +57,71 @@ function setupAnimationControls() {
   });
 }
 
+function setupPreviewVideos() {
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const videos = Array.from(document.querySelectorAll<HTMLVideoElement>('video[data-preview-video]'));
+  if (!videos.length) return;
+
+  const setPreviewState = (video: HTMLVideoElement, shouldPlay: boolean) => {
+    video.muted = true;
+    video.loop = true;
+    video.playsInline = true;
+    if (shouldPlay && !reducedMotion.matches) {
+      video.play().catch(() => {});
+    } else {
+      video.pause();
+    }
+  };
+
+  videos.forEach((video) => {
+    if (video.dataset.previewReady === 'true') return;
+    video.dataset.previewReady = 'true';
+    setPreviewState(video, false);
+  });
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => setPreviewState(entry.target as HTMLVideoElement, entry.isIntersecting));
+  }, { rootMargin: '180px 0px', threshold: 0.08 });
+  videos.forEach((video) => observer.observe(video));
+
+  reducedMotion.addEventListener('change', () => {
+    videos.forEach((video) => setPreviewState(video, !reducedMotion.matches));
+  });
+}
+
+function setupProjectVideos() {
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const videos = Array.from(document.querySelectorAll<HTMLVideoElement>('[data-project-video] video'));
+  if (!videos.length) return;
+
+  const setProjectVideoState = (video: HTMLVideoElement, shouldPlay: boolean) => {
+    video.muted = true;
+    video.defaultMuted = true;
+    video.loop = true;
+    video.playsInline = true;
+    if (shouldPlay && !reducedMotion.matches) {
+      video.play().catch(() => {});
+    } else {
+      video.pause();
+    }
+  };
+
+  videos.forEach((video) => {
+    if (video.dataset.projectVideoReady === 'true') return;
+    video.dataset.projectVideoReady = 'true';
+    setProjectVideoState(video, !reducedMotion.matches);
+  });
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => setProjectVideoState(entry.target as HTMLVideoElement, entry.isIntersecting));
+  }, { rootMargin: '220px 0px', threshold: 0.03 });
+  videos.forEach((video) => observer.observe(video));
+
+  reducedMotion.addEventListener('change', () => {
+    videos.forEach((video) => setProjectVideoState(video, !reducedMotion.matches));
+  });
+}
+
 function setupArtworkInteractions() {
   const canTrackPointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -101,7 +168,7 @@ function setupArtworkInteractions() {
    ========================================================================== */
 
 const WORDMARK_FRAME_COUNT = 60;
-const WORDMARK_FRAME_BASE = '/images/wordmark/frames/frame-';
+const WORDMARK_FRAME_BASE = withBase('/images/wordmark/frames/frame-');
 const WORDMARK_FRAME_DURATION_MS = 33.3; // ~30 fps (~50% slower than 60fps)
 
 let cachedWordmarkFrames: HTMLImageElement[] | null = null;
@@ -122,9 +189,10 @@ function setupWordmarkAnimation() {
   const isFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // Target exclusively the primary nav wordmark to prevent indiscriminate multi-instance execution
-  const navWordmark = document.querySelector<HTMLElement>('[data-wordmark-nav]');
-  if (!navWordmark) return;
+  const wordmarks = document.querySelectorAll<HTMLElement>('[data-wordmark-nav], [data-wordmark-footer]');
+  if (!wordmarks.length) return;
+
+  wordmarks.forEach((navWordmark) => {
 
   const targetImg = navWordmark.querySelector<HTMLImageElement>('img');
   if (!targetImg) return;
@@ -225,6 +293,7 @@ function setupWordmarkAnimation() {
       renderCurrentFrame();
     }
   });
+  });
 }
 
 /* ==========================================================================
@@ -321,6 +390,8 @@ function setupSpecimenPaletteEffects() {
 
 // Initial bootstrap
 setupAnimationControls();
+setupPreviewVideos();
+setupProjectVideos();
 setupArtworkInteractions();
 setupWordmarkAnimation();
 setupInteractiveEasterEggs();
@@ -329,6 +400,8 @@ setupSpecimenPaletteEffects();
 // Astro view transition rehydration
 document.addEventListener('astro:page-load', () => {
   setupAnimationControls();
+  setupPreviewVideos();
+  setupProjectVideos();
   setupArtworkInteractions();
   setupWordmarkAnimation();
   setupInteractiveEasterEggs();

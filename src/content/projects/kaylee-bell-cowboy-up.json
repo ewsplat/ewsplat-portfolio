@@ -1,6 +1,6 @@
 {
   "slug": "kaylee-bell-cowboy-up",
-  "title": "Kaylee Bell — Cowboy Up",
+  "title": "Kaylee Bell - Cowboy Up",
   "discipline": "animation-motion",
   "projectType": "client",
   "composition": "motion",
@@ -32,5 +32,11 @@
   "compositionPreferences": {
     "layoutHint": "hero-gallery",
     "heroAspect": "16/9"
-  }
+  },
+  "seoTags": [
+    "animation",
+    "motion design",
+    "visual design",
+    "Kaylee Bell"
+  ]
 }

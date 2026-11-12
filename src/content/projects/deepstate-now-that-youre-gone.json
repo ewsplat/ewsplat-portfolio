@@ -1,6 +1,6 @@
 {
   "slug": "deepstate-now-that-youre-gone",
-  "title": "deepState — Now That You're Gone",
+  "title": "deepState - Now That You're Gone",
   "discipline": "animation-motion",
   "projectType": "client",
   "composition": "motion",
@@ -25,7 +25,7 @@
     "type": "youtube",
     "videoId": "KI_552q_ZvY",
     "poster": "https://img.youtube.com/vi/KI_552q_ZvY/maxresdefault.jpg",
-    "alt": "deepState — Now That You're Gone poster",
+    "alt": "deepState - Now That You're Gone poster",
     "aspect": "16/9"
   },
   "hero": {
@@ -33,7 +33,7 @@
     "videoId": "KI_552q_ZvY",
     "poster": "https://img.youtube.com/vi/KI_552q_ZvY/maxresdefault.jpg",
     "aspect": "16/9",
-    "alt": "deepState — Now That You're Gone music video"
+    "alt": "deepState - Now That You're Gone music video"
   },
   "credits": [
     {
@@ -56,5 +56,11 @@
   "compositionPreferences": {
     "layoutHint": "hero-gallery",
     "heroAspect": "16/9"
-  }
+  },
+  "seoTags": [
+    "animation",
+    "motion design",
+    "direction",
+    "deepState"
+  ]
 }

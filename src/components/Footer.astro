@@ -5,7 +5,14 @@ import { withBase } from '../utils/site';
 <footer class="site-footer">
   <div class="footer-container container">
     <div class="footer-meta-block">
-      <span class="footer-brand">EWSPLAT</span>
+      <a href={withBase('/')} class="footer-brand" aria-label="EWSPLAT Homepage" data-wordmark-footer>
+        <img
+          src={withBase('/images/wordmark/frames/frame-000.png')}
+          alt="EWSPLAT"
+          width={200}
+          height={80}
+        />
+      </a>
       <span class="footer-tag">INDEPENDENT VISUAL PRACTICE // WLG NZ</span>
     </div>
 
@@ -23,6 +30,7 @@ import { withBase } from '../utils/site';
       <a href={withBase('/archive')}>ARCHIVE</a>
       <a href={withBase('/about')}>ABOUT</a>
       <a href={withBase('/contact')}>CONTACT</a>
+      <a href="https://www.instagram.com/ewsplat_/" target="_blank" rel="noopener noreferrer">INSTAGRAM</a>
       <a href="#main-content" class="top-anchor">Back to top</a>
     </div>
   </div>
@@ -42,6 +50,10 @@ import { withBase } from '../utils/site';
     align-items: center;
     gap: 1.5rem;
     flex-wrap: wrap;
+    width: 100%;
+    max-width: 1600px;
+    padding-right: clamp(1.5rem, 3vw, 3rem);
+    padding-left: clamp(1.5rem, 3vw, 3rem);
   }
 
   .footer-meta-block {
@@ -51,11 +63,18 @@ import { withBase } from '../utils/site';
   }
 
   .footer-brand {
-    font-family: var(--font-display);
-    font-size: 1.5rem;
+    display: inline-flex;
+    align-items: center;
+    height: 1.75rem;
+    overflow: hidden;
     line-height: 1;
-    letter-spacing: 0.02em;
-    color: var(--color-text);
+  }
+
+  .footer-brand img {
+    display: block;
+    width: auto;
+    height: 1.75rem;
+    user-select: none;
   }
 
   .footer-tag {

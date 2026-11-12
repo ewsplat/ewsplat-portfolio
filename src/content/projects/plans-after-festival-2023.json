@@ -1,6 +1,6 @@
 {
   "slug": "plans-after-festival-2023",
-  "title": "Plans After — Festival 2023",
+  "title": "Plans After - Festival 2023",
   "discipline": "animation-motion",
   "projectType": "client",
   "composition": "motion",
@@ -43,5 +43,15 @@
   "compositionPreferences": {
     "layoutHint": "hero-gallery",
     "heroAspect": "9/16"
-  }
+  },
+  "seoTags": [
+    "animation",
+    "motion design",
+    "creative direction",
+    "design",
+    "illustration",
+    "festival visuals",
+    "music events",
+    "Plans After"
+  ]
 }

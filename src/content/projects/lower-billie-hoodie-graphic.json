@@ -1,6 +1,6 @@
 {
   "slug": "lower-billie-hoodie-graphic",
-  "title": "Lower — Billie Hood Graphic",
+  "title": "Lower - Billie Hood Graphic",
   "discipline": "illustration",
   "projectType": "client",
   "composition": "graphic-sequence",
@@ -41,5 +41,11 @@
   "compositionPreferences": {
     "layoutHint": "single",
     "heroAspect": "3/4"
-  }
+  },
+  "seoTags": [
+    "illustration",
+    "apparel graphics",
+    "fashion graphics",
+    "Lower"
+  ]
 }

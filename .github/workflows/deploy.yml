@@ -1,6 +1,8 @@
 name: EWSPLAT Pages Artifact
 
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
     inputs:
       publish:
@@ -43,7 +45,7 @@ jobs:
           path: ./dist
 
   deploy:
-    if: ${{ inputs.publish == true }}
+    if: ${{ github.event_name == 'push' || inputs.publish == true }}
     needs: build
     environment:
       name: github-pages
